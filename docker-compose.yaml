@@ -39,6 +39,17 @@ services:
       timeout: 20s
       retries: 5
 
+  elasticsearch:
+    image: elasticsearch:8.8.0
+    ports:
+      - 9200:9200
+      - 9300:9300
+    environment:
+      - ELASTIC_PASSWORD=$ELASTIC_PASSWORD 
+      - "discovery.type=single-node" 
+      - "xpack.security.http.ssl.enabled=false" 
+      - "xpack.license.self_generated.type=trial"
+
 volumes:
   # to persist the database tables
   db-volume:

@@ -2,6 +2,8 @@ from flask import Flask
 import os
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import text
+from elasticsearch import ElasticSearch
+
 # init flask app
 app = Flask(__name__)
 #set up conn string for db
@@ -15,6 +17,15 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://{username}:{password}@{hos
 
 # connect the app to the database
 db = SQLAlchemy(app)
+
+#create the elasticsearch client
+username = 'elastic'
+password = os.getenv('ELASTIC_PASSWORD')
+
+elastic_client = ElasticSearch(
+    "http://localhost:9200",
+    basic_auth=(username, password)
+)
 
 @app.route('/', methods=['GET'])
 def welcome():
