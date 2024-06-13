@@ -1,0 +1,45 @@
+version: "3.8"
+#define and link the two service containers (db and flask api)
+services:
+  # define data layer api
+  dl_flask_api:
+    build: ./data-layer-api
+    container_name: dl_flask_api
+    ports:
+      - "4000:4000"
+    environment:
+      RDS_USERNAME: ${POSTGRES_USER}
+      RDS_PASSWORD: ${POSTGRES_PASSWORD}
+      RDS_HOSTNAME: v_s_db
+      RDS_PORT: 5432
+      RDS_DB_NAME: ${POSTGRES_DB}
+    depends_on:
+      v_s_db:
+        condition: service_healthy
+    
+
+  # define the db service
+  v_s_db:
+    # get postgres image
+    image: postgres
+    container_name: v_s_db
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - "5432:5432"
+    volumes:
+      - db-volume:/var/lib/postgresql/data
+      - ./data-dump/init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      # used in flask container depends_on condition to wait for the DB to be ready
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 20s
+      retries: 5
+
+volumes:
+  # to persist the database tables
+  db-volume:
+
