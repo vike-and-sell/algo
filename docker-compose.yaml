@@ -3,14 +3,14 @@ version: "3.8"
 services:
   # define data layer api
   dl_flask_api:
-    build: ./data-layer-api
-    container_name: dl_flask_api
+    build: ./elastic-layer
+    container_name: elastic-layer
     ports:
-      - "4000:4000"
+      - "4500:4500"
     environment:
       RDS_USERNAME: ${POSTGRES_USER}
       RDS_PASSWORD: ${POSTGRES_PASSWORD}
-      RDS_HOSTNAME: v_s_db
+      RDS_HOSTNAME: v_s_db-e
       RDS_PORT: 5432
       RDS_DB_NAME: ${POSTGRES_DB}
     depends_on:
@@ -19,10 +19,10 @@ services:
     
 
   # define the db service
-  v_s_db:
+  v_s_db-e:
     # get postgres image
     image: postgres
-    container_name: v_s_db
+    container_name: v_s_db-e
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
