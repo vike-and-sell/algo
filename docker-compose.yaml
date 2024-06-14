@@ -2,7 +2,7 @@ version: "3.8"
 #define and link the two service containers (db and flask api)
 services:
   # define data layer api
-  dl_flask_api:
+  elastic_layer:
     build: ./elastic-layer
     container_name: elastic-layer
     ports:
@@ -13,9 +13,14 @@ services:
       RDS_HOSTNAME: v_s_db-e
       RDS_PORT: 5432
       RDS_DB_NAME: ${POSTGRES_DB}
+      ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}
     depends_on:
-      v_s_db:
+      v_s_db-e:
         condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+    networks:
+      - elastic-net
     
 
   # define the db service
@@ -38,6 +43,9 @@ services:
       interval: 5s
       timeout: 20s
       retries: 5
+    networks:
+      - elastic-net
+
 
   elasticsearch:
     image: elasticsearch:8.8.0
@@ -49,8 +57,29 @@ services:
       - "discovery.type=single-node" 
       - "xpack.security.http.ssl.enabled=false" 
       - "xpack.license.self_generated.type=trial"
+    volumes:
+      - es-data:/usr/share/elasticsearch/data 
+    healthcheck:
+      test:     
+        [
+          "CMD-SHELL",
+          "curl -s --user elastic:${ELASTIC_PASSWORD} -X GET http://localhost:9200/_cluster/health?pretty | grep status | grep -q '\\(green\\|yellow\\)'"
+        ]
+      interval: 10s
+      timeout: 10s
+      retries: 24
+    deploy:
+      resources:
+        limits:
+          memory: 2g
+    networks:
+      - elastic-net
 
 volumes:
   # to persist the database tables
   db-volume:
+  # to persist Elasticsearch data
+  es-data:
 
+networks:
+  elastic-net:

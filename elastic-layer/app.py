@@ -2,7 +2,7 @@ from flask import Flask
 import os
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import text
-from elasticsearch import ElasticSearch
+from elasticsearch import Elasticsearch
 
 # init flask app
 app = Flask(__name__)
@@ -20,10 +20,10 @@ db = SQLAlchemy(app)
 
 #create the elasticsearch client
 username = 'elastic'
-password = os.getenv('ELASTIC_PASSWORD')
+password = os.environ['ELASTIC_PASSWORD']
 
-elastic_client = ElasticSearch(
-    "http://localhost:9200",
+elastic_client = Elasticsearch(
+    "http://elasticsearch:9200",
     basic_auth=(username, password)
 )
 
@@ -36,6 +36,12 @@ def test_sql():
     result = db.session.execute(text("SELECT * FROM Users WHERE username = 'john_doe'"))
     rows = result.fetchall()
     return str(rows)
+
+@app.route('/test-es', methods=['GET'])
+def test_es():
+    info = elastic_client.info()
+    return str(info)
+
 
 if __name__ == '__main__':
     app.run(debug=True)
