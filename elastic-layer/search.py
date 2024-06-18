@@ -17,7 +17,7 @@ elastic_client = Elasticsearch(
 ## Ping Elasticsearch to ensure it is up 
 #print(elastic_client.ping())
 
-##Delete old indices
+##Delete old indices, this will need to be removed in final version
 elastic_client.indices.delete(index = "listings")
 elastic_client.indices.delete(index = "users")
 
@@ -106,11 +106,15 @@ elastic_client.indices.refresh(index = "listings")
 
 
 #Search
-search_result = Search(using = elastic_client, index = 'listings', doc_type = 'doc') 
+context = Search(using = elastic_client, index = 'listings', doc_type = 'doc') 
 
-#prints title of all
-for hit in search_result:
+s = context.query('query_string', query = 'lamp')
+response = s.execute()
+
+if response.success():
+   for hit in response:
     print(hit.Title)
+
 
 #Add a listing document to the index
 #def add_listing_doc(listing):
