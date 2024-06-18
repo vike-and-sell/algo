@@ -1,5 +1,6 @@
 from elasticsearch import Elasticsearch
 from elasticsearch import helpers
+from elasticsearch_dsl import Search
 import os
 import json
 
@@ -18,24 +19,98 @@ elastic_client = Elasticsearch(
 
 ##Delete old indices
 elastic_client.indices.delete(index = "listings")
-##elastic_client.indices.delete(index = "users")
+elastic_client.indices.delete(index = "users")
 
 ## Create index for listings 
 elastic_client.indices.create(index = "listings")
-test_listing = { "SellerID": "User1", "ListingID": "123", "Title": "Blue Bike",  "Description": "Very good bike", "Price": "20", "Location": "48.46, -123.31",  "Status": "Available" }
-
-doc = elastic_client.index(index = 'listings', id = 1, body = test_listing)
-
-print(doc["result"])
 
 ## Create index for listings 
-#elastic_client.indices.create(index="users")
+elastic_client.indices.create(index="users")
 
 
+#Create test listing
+test_listing = { "SellerID": "User1", 
+                "ListingID": "123", 
+                "Title": "Blue Bike",  
+                "Description": "Very good bike", 
+                "Price": "20", 
+                "Location": "48.46, -123.31",  
+                "Status": "Available" }
 
-##Add single Entry
+#Add test listing to index listing
+doc = elastic_client.index(index = 'listings', id = 1, body = test_listing)
+
+#Create test listing
+test_listing = { "SellerID": "User1", 
+                "ListingID": "123", 
+                "Title": "Red Bike",  
+                "Description": "Very good bike", 
+                "Price": "20", 
+                "Location": "48.46, -123.31",  
+                "Status": "Available" }
+
+#Add test listing to index listing
+doc = elastic_client.index(index = 'listings', id = 2, body = test_listing)
+
+#Create test listing
+test_listing = { "SellerID": "User1", 
+                "ListingID": "123", 
+                "Title": "Yellow Bike",  
+                "Description": "Very good bike", 
+                "Price": "20", 
+                "Location": "48.46, -123.31",  
+                "Status": "Available" }
+
+#Add test listing to index listing
+doc = elastic_client.index(index = 'listings', id = 3, body = test_listing)
+
+#Create test listing
+test_listing = { "SellerID": "User1", 
+                "ListingID": "123", 
+                "Title": "Green Bike",  
+                "Description": "Very good bike", 
+                "Price": "20", 
+                "Location": "48.46, -123.31",  
+                "Status": "Available" }
+
+#Add test listing to index listing
+doc = elastic_client.index(index = 'listings', id = 4, body = test_listing)
+
+#Create test listing
+test_listing = { "SellerID": "User1", 
+                "ListingID": "123", 
+                "Title": "Green Lamp",  
+                "Description": "Very good lamp", 
+                "Price": "20", 
+                "Location": "48.46, -123.31",  
+                "Status": "Available" }
+
+#Add test listing to index listing
+doc = elastic_client.index(index = 'listings', id = 5, body = test_listing)
+
+elastic_client.indices.refresh(index = "listings")
+
+#Create test listing
+test_listing = { "SellerID": "User1", 
+                "ListingID": "123", 
+                "Title": "Yellow Lamp",  
+                "Description": "Very good lamp", 
+                "Price": "20", 
+                "Location": "48.46, -123.31",  
+                "Status": "Available" }
+
+#Add test listing to index listing
+doc = elastic_client.index(index = 'listings', id = 6, body = test_listing)
+
+elastic_client.indices.refresh(index = "listings")
 
 
+#Search
+search_result = Search(using = elastic_client, index = 'listings', doc_type = 'doc') 
+
+#prints title of all
+for hit in search_result:
+    print(hit.Title)
 
 #Add a listing document to the index
 #def add_listing_doc(listing):
