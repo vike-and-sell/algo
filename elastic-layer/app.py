@@ -52,7 +52,6 @@ def test_search(search_type, search_terms):
     #TODO:
     # get terms from /search call -> is cleanest way to do this? what do we support?
     # add lat, long if we are responsible for location
-
     # get listings data from db if needed (?) interact with data layer.
 
     results =  search.searchVikeandSell(search_type, search_terms)
@@ -63,10 +62,10 @@ def test_search(search_type, search_terms):
 # get recommendations call
 @app.route('/recommendations/<userId>',  methods=['GET'])
 def test_get_rec(userId):
-    # ask DB for information associated with userid
-    results = recommend.recommend(userId)
-    # return results in JSON format -> may not be viable
 
+    # TODO: ask DB for information associated with userid
+    results = recommend.recommend(userId)
+    # return results in JSON format
     return jsonify(results)
 
 
