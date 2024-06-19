@@ -1,8 +1,11 @@
-from flask import Flask
+from flask import Flask, jsonify
 import os
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import text
 from elasticsearch import Elasticsearch
+import search
+import recommend
+
 
 # init flask app
 app = Flask(__name__)
@@ -44,28 +47,27 @@ def test_es():
     return str(info)
 
 # search call
-@app.route('/search/<search_terms>', methods=['GET'])
-def test_search(search_terms):
+@app.route('/search/<search_type>/<search_terms>', methods=['GET'])
+def test_search(search_type, search_terms):
+    #TODO:
     # get terms from /search call -> is cleanest way to do this? what do we support?
-    # terms = 
-    # lat, long  = 
-    # get listings data from db if needed (?)
+    # add lat, long if we are responsible for location
 
-    # results = search.getResults(terms, type, lat, long) ((type == user or listing))
-    # 
-    # return results in JSON
-    return str(search_terms)
+    # get listings data from db if needed (?) interact with data layer.
+
+    results =  search.searchVikeandSell(search_type, search_terms)
+    # return results in JSON format
+    return jsonify(results)
 
 
 # get recommendations call
 @app.route('/recommendations/<userId>',  methods=['GET'])
-def test_get_rec(userid):
+def test_get_rec(userId):
     # ask DB for information associated with userid
-    ## lat, long??
-    # results = recommend(userid, userinfo)
-    # return results in JSON format
+    results = recommend.recommend(userId)
+    # return results in JSON format -> may not be viable
 
-    return "recommendations: N/A"
+    return jsonify(results)
 
 
 # TODO: SPRINT3:  update preferences call (block for now)
