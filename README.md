@@ -7,7 +7,6 @@ Team comprised of Larissa (Scrum Master), Haley, and Angus (Company Scrum Master
 Follow these steps to get started with local development:
 
 - Ensure that docker engine and docker-compose is installed.
-- Rename .env.dist to .env and fill it with data
 - Run `docker-compose up --build`
 
 ### NOTE
