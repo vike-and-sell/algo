@@ -50,7 +50,8 @@ CREATE TABLE IF NOT EXISTS Listing_Reviews (
 INSERT INTO Users (username, email, password, location, address, joining_date)
 VALUES
 ('john_doe', 'john_doe@uvic.ca', 'Password123!',  ll_to_earth(34.052235,118.243683), '123 Valley Lane', '2023-01-01'),
-('jane_smith', 'jane_smith@uvic.ca', 'SecurePass1$',  ll_to_earth(34.052235,-118.243683), '842 Boniface Dr', '2023-02-01');
+('jane_smith', 'jane_smith@uvic.ca', 'SecurePass1$',  ll_to_earth(34.052235,-118.243683), '842 Boniface Dr', '2023-02-01'),
+('ann_lawson', 'ann_law@uvic.ca', 'Password1234!',  ll_to_earth(48.468997, -123.329709) '1660 Mckenzie Ave', '2023-05-01');
 
 -- Insert dummy data into Listings table
 INSERT INTO Listings (seller_id, title, price, location, address, status)
