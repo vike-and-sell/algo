@@ -44,25 +44,27 @@ def test_es():
     return str(info)
 
 # search call
-@app.route('/search', methods=['GET'])
-def test_search():
-    # get terms from /search call
+@app.route('/search/<search_terms>', methods=['GET'])
+def test_search(search_terms):
+    # get terms from /search call -> is cleanest way to do this? what do we support?
     # terms = 
     # lat, long  = 
     # get listings data from db if needed (?)
+
     # results = search.getResults(terms, type, lat, long) ((type == user or listing))
+    # 
     # return results in JSON
-    return "search results: N/A"
+    return str(search_terms)
 
 
 # get recommendations call
-@app.route('/recommendations',  methods=['GET'])
-def test_get_rec():
-    # get userid 
+@app.route('/recommendations/<userId>',  methods=['GET'])
+def test_get_rec(userid):
     # ask DB for information associated with userid
     ## lat, long??
     # results = recommend(userid, userinfo)
     # return results in JSON format
+
     return "recommendations: N/A"
 
 
