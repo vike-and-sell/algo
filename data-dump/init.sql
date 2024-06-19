@@ -69,3 +69,5 @@ INSERT INTO Listing_Reviews (reviewed_listing_id, review_user_id, review_content
 VALUES
 (1, 2, 'The bicycle was in excellent condition, very happy with the purchase!', '2023-03-03 12:05:00'),
 (2, 1, 'The laptop works perfectly, very satisfied!', '2023-04-03 17:50:00');
+
+-- TODO: add table that includes information on clicks, search history, and blocked recommendations
