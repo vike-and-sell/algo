@@ -27,6 +27,7 @@ elastic_client = Elasticsearch(
     basic_auth=(username, password)
 )
 
+
 @app.route('/', methods=['GET'])
 def welcome():
     return "Hello World"
@@ -42,6 +43,33 @@ def test_es():
     info = elastic_client.info()
     return str(info)
 
+# search call
+@app.route('/search', methods=['GET'])
+def test_search():
+    # get terms from /search call
+    # terms = 
+    # lat, long  = 
+    # get listings data from db if needed (?)
+    # results = search.getResults(terms, type, lat, long) ((type == user or listing))
+    # return results in JSON
+    return "search results: N/A"
 
+
+# get recommendations call
+@app.route('/recommendations',  methods=['GET'])
+def test_get_rec():
+    # get userid 
+    # ask DB for information associated with userid
+    ## lat, long??
+    # results = recommend(userid, userinfo)
+    # return results in JSON format
+    return "recommendations: N/A"
+
+
+# TODO: SPRINT3:  update preferences call (block for now)
+# PATH: POST /recommendations/{listingId}/ignore
+
+
+#TODO: remove debug=True in Development
 if __name__ == '__main__':
     app.run(debug=True)
