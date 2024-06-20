@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 import os
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import text
@@ -46,18 +46,28 @@ def test_es():
     info = elastic_client.info()
     return str(info)
 
-# search call
-@app.route('/search/<search_type>/<search_terms>', methods=['GET'])
-def test_search(search_type, search_terms):
+
+
+
+
+# search path
+#sample call: "localhost:4500/search?q=here+are+some+terms&type=user"
+# NOTE: when calling this in command line with curl, may have to put url in " " to prevent zsh shell from thinking we're using special characters
+@app.route('/search', methods=['GET'])
+def test_search():
     #TODO:
-    # get terms from /search call -> is cleanest way to do this? what do we support?
     # add lat, long if we are responsible for location
     # get listings data from db if needed (?) interact with data layer.
-
-    results =  search.searchVikeandSell(search_type, search_terms)
+    query = request.args.get('q')
+    search_type = request.args.get('type')
+    
+    # Validate and process the query parameters
+    if search_type not in ['user', 'listing']:
+        return 'Invalid search type. Allowed types are "user" and "listing".', 400
+    
+    results =  search.searchVikeandSell(search_type, query)
     # return results in JSON format
     return jsonify(results)
-
 
 # get recommendations call
 @app.route('/recommendations/<userId>',  methods=['GET'])

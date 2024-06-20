@@ -26,6 +26,9 @@ def searchVikeandSell(search_type, search_terms):
                 "Location": "48.46, -123.31", 
                 "Status": "Available" }]
 
+    dummy_data = [{"searchType" : search_type,
+                "searchTerms" : str(search_terms)}]
+
     return dummy_data
 
 #Temp fix for authentication issues, will need to fix this later
