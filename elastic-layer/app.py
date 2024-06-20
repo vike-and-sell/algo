@@ -30,7 +30,31 @@ elastic_client = Elasticsearch(
     basic_auth=(username, password)
 )
 
+#load elastic client from database (untested)
+def loadElastic():
+    listings_index = 'listings'
+    if not elastic_client.indices.exists(index=listings_index):
+        elastic_client.indices.create(index=listings_index)
 
+    #get listings from db (TODO)
+    listings = db.session.execute(text("SELECT * FROM Listings"))
+    cur_id = 0
+
+    #load into listings index
+    for entry in listings:
+        cur_id  = cur_id + 1
+        elastic_client.index(index=listings_index, id=cur_id, body=entry) #CHECK unless id = listing id from DB
+
+
+    ## IF works, repeat for Users
+    #get users from db 
+    #users = db.session.execute(text("SELECT * FROM Users")
+
+
+
+
+
+##  Basic test paths 
 @app.route('/', methods=['GET'])
 def welcome():
     return "Hello World"
