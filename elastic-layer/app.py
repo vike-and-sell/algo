@@ -37,6 +37,19 @@ def test_sql():
     rows = result.fetchall()
     return str(rows)
 
+@app.route('/get_all_users', methods=['GET'])
+def test_get_all():
+    result = db.session.execute(text("SELECT * FROM Users"))
+    rows = result.fetchall()
+    return str(rows)
+
+
+@app.route('/get_listings', methods=['GET'])
+def test_getlisting():
+    result = db.session.execute(text("SELECT * FROM Listings WHERE seller_id = 1"))
+    rows = result.fetchall()
+    return str(rows)
+
 @app.route('/test-es', methods=['GET'])
 def test_es():
     info = elastic_client.info()
