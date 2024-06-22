@@ -1,8 +1,11 @@
-from flask import Flask
+from flask import Flask, jsonify, request
 import os
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import text
 from elasticsearch import Elasticsearch
+import search
+import recommend
+
 
 # init flask app
 app = Flask(__name__)
@@ -27,6 +30,31 @@ elastic_client = Elasticsearch(
     basic_auth=(username, password)
 )
 
+#load elastic client from database (untested)
+def loadElastic():
+    listings_index = 'listings'
+    if not elastic_client.indices.exists(index=listings_index):
+        elastic_client.indices.create(index=listings_index)
+
+    #get listings from db (TODO)
+    listings = db.session.execute(text("SELECT * FROM Listings"))
+    cur_id = 0
+
+    #load into listings index
+    for entry in listings:
+        cur_id  = cur_id + 1
+        elastic_client.index(index=listings_index, id=cur_id, body=entry) #CHECK unless id = listing id from DB
+
+
+    ## IF works, repeat for Users
+    #get users from db 
+    #users = db.session.execute(text("SELECT * FROM Users")
+
+
+
+
+
+##  Basic test paths 
 @app.route('/', methods=['GET'])
 def welcome():
     return "Hello World"
@@ -56,5 +84,42 @@ def test_es():
     return str(info)
 
 
+
+
+
+# search path
+#sample call: "localhost:4500/search?q=here+are+some+terms&type=user"
+# NOTE: when calling this in command line with curl, may have to put url in " " to prevent zsh shell from thinking we're using special characters
+@app.route('/search', methods=['GET'])
+def test_search():
+    #TODO:
+    # add lat, long if we are responsible for location
+    # get listings data from db if needed (?) interact with data layer.
+    query = request.args.get('q')
+    search_type = request.args.get('type')
+    
+    # Validate and process the query parameters
+    if search_type not in ['user', 'listing']:
+        return 'Invalid search type. Allowed types are "user" and "listing".', 400
+    
+    results =  search.searchVikeandSell(search_type, query)
+    # return results in JSON format
+    return jsonify(results)
+
+# get recommendations call
+@app.route('/recommendations/<userId>',  methods=['GET'])
+def test_get_rec(userId):
+
+    # TODO: ask DB for information associated with userid
+    results = recommend.recommend(userId)
+    # return results in JSON format
+    return jsonify(results)
+
+
+# TODO: SPRINT3:  update preferences call (block for now)
+# PATH: POST /recommendations/{listingId}/ignore
+
+
+#TODO: remove debug=True in Development
 if __name__ == '__main__':
     app.run(debug=True)

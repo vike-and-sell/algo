@@ -1,0 +1,27 @@
+[
+    {
+        "SellerID": "User1",
+        "ListingID": "123"
+    },
+
+    {
+        "SellerID": "User2",
+        "ListingID": "123"
+    },
+
+    {
+        "SellerID": "User3",
+        "ListingID": "125"
+    },
+
+    {
+        "SellerID": "User4",
+        "ListingID": "126"
+    },
+
+    {
+        "SellerID": "User5",
+        "ListingID": "127"
+    }
+
+]
