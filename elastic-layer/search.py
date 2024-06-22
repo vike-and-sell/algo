@@ -1,6 +1,9 @@
 from elasticsearch import Elasticsearch
 from elasticsearch import helpers
 from elasticsearch_dsl import Search
+
+from update import *
+
 import os
 import json
 
@@ -10,34 +13,126 @@ def searchVikeandSell(search_type, search_terms):
     print("searching Vike and sell..... ")
 
     # where the search magic will happen
+    #Search magic
+    context = Search(using = elastic_client, index = search_type) 
+    s = context.query('query_string', query = search_terms)
+    response = s.execute()
 
-    dummy_data = [{ "SellerID": "User2", 
-                "ListingID": "44", 
-                "Title": "Green Lamp",  
-                "Description": "Very good lamp", 
-                "Price": "20", 
-                "Location": "48.46, -123.31",  
-                "Status": "Available" },
-                { "SellerID": "User1", 
-                "ListingID": "123", 
-                "Title": "Yellow Lamp",  
-                "Description": "Very good lamp", 
-                "Price": "20", 
-                "Location": "48.46, -123.31", 
-                "Status": "Available" }]
+    if response.success():
+        for hit in response:
+            print(hit.Title)
 
-    dummy_data = [{"searchType" : search_type,
-                "searchTerms" : str(search_terms)}]
+    return response
 
-    return dummy_data
 
-#Temp fix for authentication issues, will need to fix this later
-username = "elastic"
-password = "ElasticUser123"
+def test_data():
+    #Create test listing
+    test_listing = { "SellerID": "User1", 
+                    "ListingID": "1", 
+                    "Title": "Blue Bike",  
+                    "Description": "Very good bike", 
+                    "Price": "20", 
+                    "Location": "48.46, -123.31",  
+                    "Status": "Available" }
 
-##Establish elasticsearch connection
-elastic_client = Elasticsearch(
-    "http://localhost:9200",
-    basic_auth=(username, password)
-)
+    ID = test_listing.get('ListingID')
+    #Add test listing to index listing
+    add_doc("listing", ID, test_listing)
+
+    #Create test listing
+    test_listing = { "SellerID": "User2", 
+                    "ListingID": "2", 
+                    "Title": "Red Bike",  
+                    "Description": "Very good bike", 
+                    "Price": "20", 
+                    "Location": "48.46, -123.31",  
+                    "Status": "Available" }
+
+    ID = test_listing.get('ListingID')
+    #Add test listing to index listing
+    add_doc("listing", ID, test_listing)
+
+    #Create test listing
+    test_listing = { "SellerID": "User3", 
+                    "ListingID": "3", 
+                    "Title": "Yellow Bike",  
+                    "Description": "Very good bike", 
+                    "Price": "20", 
+                    "Location": "48.46, -123.31",  
+                    "Status": "Available" }
+
+    ID = test_listing.get('ListingID')
+    #Add test listing to index listing
+    add_doc("listing", ID, test_listing)
+
+    #Create test listing
+    test_listing = { "SellerID": "User4", 
+                    "ListingID": "4", 
+                    "Title": "Green Bike",  
+                    "Description": "Very good bike", 
+                    "Price": "20", 
+                    "Location": "48.46, -123.31",  
+                    "Status": "Available" }
+
+    ID = test_listing.get('ListingID')
+    #Add test listing to index listing
+    add_doc("listing", ID, test_listing)
+
+    #Create test listing
+    test_listing = { "SellerID": "User5", 
+                    "ListingID": "5", 
+                    "Title": "Green Lamp",  
+                    "Description": "Very good lamp", 
+                    "Price": "20", 
+                    "Location": "48.46, -123.31",  
+                    "Status": "Available" }
+
+    ID = test_listing.get('ListingID')
+    #Add test listing to index listing
+    add_doc("listing", ID, test_listing)
+
+    #Create test listing
+    test_listing = { "SellerID": "User6", 
+                    "ListingID": "6", 
+                    "Title": "Yellow Lamp",  
+                    "Description": "Very good lamp", 
+                    "Price": "20", 
+                    "Location": "48.46, -123.31",  
+                    "Status": "Available" }
+
+    ID = test_listing.get('ListingID')
+    #Add test listing to index listing
+    add_doc("listing", ID, test_listing)
+
+    #Search
+    searchVikeandSell("listing", "lamp")
+
+    #Delete doc delete_doc(search_type, doc_ID, data)
+    delete_doc("listing", ID, test_listing)
+
+    #Search again after deleting
+    searchVikeandSell("listing", "lamp")
+
+
+    #Update a doc
+    #Test test listing
+    test_listing = { "SellerID": "User5", 
+                    "ListingID": "5", 
+                    "Title": "Green Lamp with flowers",  
+                    "Description": "Very very good lamp", 
+                    "Price": "20", 
+                    "Location": "48.46, -123.31",  
+                    "Status": "Available" }
+
+    ID = test_listing.get('ListingID')
+
+    #Update doc delete_doc(search_type, doc_ID, data)
+    update_doc("listing", ID, test_listing)
+
+    #Search again after deleting
+    searchVikeandSell("listing", "flowers")
+
+
+#Comment out if no test needed
+test_data()
 
