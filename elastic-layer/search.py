@@ -24,108 +24,114 @@ def searchVikeandSell(search_type, search_terms):
 
     return response
 
-#Create test listing
-test_listing = { "SellerID": "User1", 
-                "ListingID": "1", 
-                "Title": "Blue Bike",  
-                "Description": "Very good bike", 
-                "Price": "20", 
-                "Location": "48.46, -123.31",  
-                "Status": "Available" }
 
-ID = test_listing.get('ListingID')
-#Add test listing to index listing
-add_doc("listing", ID, test_listing)
+def test_data():
+    #Create test listing
+    test_listing = { "SellerID": "User1", 
+                    "ListingID": "1", 
+                    "Title": "Blue Bike",  
+                    "Description": "Very good bike", 
+                    "Price": "20", 
+                    "Location": "48.46, -123.31",  
+                    "Status": "Available" }
 
-#Create test listing
-test_listing = { "SellerID": "User2", 
-                "ListingID": "2", 
-                "Title": "Red Bike",  
-                "Description": "Very good bike", 
-                "Price": "20", 
-                "Location": "48.46, -123.31",  
-                "Status": "Available" }
+    ID = test_listing.get('ListingID')
+    #Add test listing to index listing
+    add_doc("listing", ID, test_listing)
 
-ID = test_listing.get('ListingID')
-#Add test listing to index listing
-add_doc("listing", ID, test_listing)
+    #Create test listing
+    test_listing = { "SellerID": "User2", 
+                    "ListingID": "2", 
+                    "Title": "Red Bike",  
+                    "Description": "Very good bike", 
+                    "Price": "20", 
+                    "Location": "48.46, -123.31",  
+                    "Status": "Available" }
 
-#Create test listing
-test_listing = { "SellerID": "User3", 
-                "ListingID": "3", 
-                "Title": "Yellow Bike",  
-                "Description": "Very good bike", 
-                "Price": "20", 
-                "Location": "48.46, -123.31",  
-                "Status": "Available" }
+    ID = test_listing.get('ListingID')
+    #Add test listing to index listing
+    add_doc("listing", ID, test_listing)
 
-ID = test_listing.get('ListingID')
-#Add test listing to index listing
-add_doc("listing", ID, test_listing)
+    #Create test listing
+    test_listing = { "SellerID": "User3", 
+                    "ListingID": "3", 
+                    "Title": "Yellow Bike",  
+                    "Description": "Very good bike", 
+                    "Price": "20", 
+                    "Location": "48.46, -123.31",  
+                    "Status": "Available" }
 
-#Create test listing
-test_listing = { "SellerID": "User4", 
-                "ListingID": "4", 
-                "Title": "Green Bike",  
-                "Description": "Very good bike", 
-                "Price": "20", 
-                "Location": "48.46, -123.31",  
-                "Status": "Available" }
+    ID = test_listing.get('ListingID')
+    #Add test listing to index listing
+    add_doc("listing", ID, test_listing)
 
-ID = test_listing.get('ListingID')
-#Add test listing to index listing
-add_doc("listing", ID, test_listing)
+    #Create test listing
+    test_listing = { "SellerID": "User4", 
+                    "ListingID": "4", 
+                    "Title": "Green Bike",  
+                    "Description": "Very good bike", 
+                    "Price": "20", 
+                    "Location": "48.46, -123.31",  
+                    "Status": "Available" }
 
-#Create test listing
-test_listing = { "SellerID": "User5", 
-                "ListingID": "5", 
-                "Title": "Green Lamp",  
-                "Description": "Very good lamp", 
-                "Price": "20", 
-                "Location": "48.46, -123.31",  
-                "Status": "Available" }
+    ID = test_listing.get('ListingID')
+    #Add test listing to index listing
+    add_doc("listing", ID, test_listing)
 
-ID = test_listing.get('ListingID')
-#Add test listing to index listing
-add_doc("listing", ID, test_listing)
+    #Create test listing
+    test_listing = { "SellerID": "User5", 
+                    "ListingID": "5", 
+                    "Title": "Green Lamp",  
+                    "Description": "Very good lamp", 
+                    "Price": "20", 
+                    "Location": "48.46, -123.31",  
+                    "Status": "Available" }
 
-#Create test listing
-test_listing = { "SellerID": "User6", 
-                "ListingID": "6", 
-                "Title": "Yellow Lamp",  
-                "Description": "Very good lamp", 
-                "Price": "20", 
-                "Location": "48.46, -123.31",  
-                "Status": "Available" }
+    ID = test_listing.get('ListingID')
+    #Add test listing to index listing
+    add_doc("listing", ID, test_listing)
 
-ID = test_listing.get('ListingID')
-#Add test listing to index listing
-add_doc("listing", ID, test_listing)
+    #Create test listing
+    test_listing = { "SellerID": "User6", 
+                    "ListingID": "6", 
+                    "Title": "Yellow Lamp",  
+                    "Description": "Very good lamp", 
+                    "Price": "20", 
+                    "Location": "48.46, -123.31",  
+                    "Status": "Available" }
 
-#Search
-searchVikeandSell("listing", "lamp")
+    ID = test_listing.get('ListingID')
+    #Add test listing to index listing
+    add_doc("listing", ID, test_listing)
 
-#Delete doc delete_doc(search_type, doc_ID, data)
-delete_doc("listing", ID, test_listing)
+    #Search
+    searchVikeandSell("listing", "lamp")
 
-#Search again after deleting
-searchVikeandSell("listing", "lamp")
+    #Delete doc delete_doc(search_type, doc_ID, data)
+    delete_doc("listing", ID, test_listing)
+
+    #Search again after deleting
+    searchVikeandSell("listing", "lamp")
 
 
-#Update a doc
-#Test test listing
-test_listing = { "SellerID": "User5", 
-                "ListingID": "5", 
-                "Title": "Green Lamp with flowers",  
-                "Description": "Very very good lamp", 
-                "Price": "20", 
-                "Location": "48.46, -123.31",  
-                "Status": "Available" }
+    #Update a doc
+    #Test test listing
+    test_listing = { "SellerID": "User5", 
+                    "ListingID": "5", 
+                    "Title": "Green Lamp with flowers",  
+                    "Description": "Very very good lamp", 
+                    "Price": "20", 
+                    "Location": "48.46, -123.31",  
+                    "Status": "Available" }
 
-ID = test_listing.get('ListingID')
+    ID = test_listing.get('ListingID')
 
-#Update doc delete_doc(search_type, doc_ID, data)
-update_doc("listing", ID, test_listing)
+    #Update doc delete_doc(search_type, doc_ID, data)
+    update_doc("listing", ID, test_listing)
 
-#Search again after deleting
-searchVikeandSell("listing", "flowers")
+    #Search again after deleting
+    searchVikeandSell("listing", "flowers")
+
+
+#Comment out if no test needed
+test_data()
