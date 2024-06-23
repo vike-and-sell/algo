@@ -1,32 +1,36 @@
 from elasticsearch import Elasticsearch
 from elasticsearch import helpers
 from elasticsearch_dsl import Search
-
-from update import *
-
 import os
 import json
 
+from update import *
+
 ## Search function called by app.py on search request.
 # returns a list of listings in JSON format
-def searchVikeandSell(search_type, search_terms):
+def searchVikeandSell(elastic_client, search_type, search_terms):
     print("searching Vike and sell..... ")
-
+    test_data_add(elastic_client)
     # where the search magic will happen
     #Search magic
+    results = []
+
     context = Search(using = elastic_client, index = search_type) 
     s = context.query('query_string', query = search_terms)
     response = s.execute()
 
     if response.success():
         for hit in response:
+            ##IN THE REAL SEARCH WILL USE LISTINGID!
+            results.append(hit.Title)
             print(hit.Title)
 
-    return response
+
+    return results
 
 
-def test_data():
-    #Create test listing
+def test_data_add(elastic_client):
+
     test_listing = { "SellerID": "User1", 
                     "ListingID": "1", 
                     "Title": "Blue Bike",  
@@ -37,7 +41,7 @@ def test_data():
 
     ID = test_listing.get('ListingID')
     #Add test listing to index listing
-    add_doc("listing", ID, test_listing)
+    add_doc(elastic_client, "listing", ID, test_listing)
 
     #Create test listing
     test_listing = { "SellerID": "User2", 
@@ -50,7 +54,7 @@ def test_data():
 
     ID = test_listing.get('ListingID')
     #Add test listing to index listing
-    add_doc("listing", ID, test_listing)
+    add_doc(elastic_client, "listing", ID, test_listing)
 
     #Create test listing
     test_listing = { "SellerID": "User3", 
@@ -63,8 +67,7 @@ def test_data():
 
     ID = test_listing.get('ListingID')
     #Add test listing to index listing
-    add_doc("listing", ID, test_listing)
-
+    add_doc(elastic_client, "listing", ID, test_listing)
     #Create test listing
     test_listing = { "SellerID": "User4", 
                     "ListingID": "4", 
@@ -76,7 +79,7 @@ def test_data():
 
     ID = test_listing.get('ListingID')
     #Add test listing to index listing
-    add_doc("listing", ID, test_listing)
+    add_doc(elastic_client, "listing", ID, test_listing)
 
     #Create test listing
     test_listing = { "SellerID": "User5", 
@@ -89,7 +92,7 @@ def test_data():
 
     ID = test_listing.get('ListingID')
     #Add test listing to index listing
-    add_doc("listing", ID, test_listing)
+    add_doc(elastic_client, "listing", ID, test_listing)
 
     #Create test listing
     test_listing = { "SellerID": "User6", 
@@ -102,37 +105,6 @@ def test_data():
 
     ID = test_listing.get('ListingID')
     #Add test listing to index listing
-    add_doc("listing", ID, test_listing)
+    add_doc(elastic_client, "listing", ID, test_listing)
 
-    #Search
-    searchVikeandSell("listing", "lamp")
-
-    #Delete doc delete_doc(search_type, doc_ID, data)
-    delete_doc("listing", ID, test_listing)
-
-    #Search again after deleting
-    searchVikeandSell("listing", "lamp")
-
-
-    #Update a doc
-    #Test test listing
-    test_listing = { "SellerID": "User5", 
-                    "ListingID": "5", 
-                    "Title": "Green Lamp with flowers",  
-                    "Description": "Very very good lamp", 
-                    "Price": "20", 
-                    "Location": "48.46, -123.31",  
-                    "Status": "Available" }
-
-    ID = test_listing.get('ListingID')
-
-    #Update doc delete_doc(search_type, doc_ID, data)
-    update_doc("listing", ID, test_listing)
-
-    #Search again after deleting
-    searchVikeandSell("listing", "flowers")
-
-
-#Comment out if no test needed
-test_data()
-
+#searchVikeandSell(elastic_client, "listing", "bike")
