@@ -29,3 +29,22 @@ def update_doc(elastic_client, search_type, doc_ID, data):
 def delete_doc(elastic_client, search_type, doc_ID, data):
     elastic_client.delete(index = search_type, id = doc_ID)
     elastic_client.indices.refresh(index = search_type)
+
+#load elastic client with listings
+# index_name = a string containing name of index
+# id_title = a string of the expected name associated with the id of the object (listing_id, user_id, etc.) within the JSON file
+# Json list = list of json objects to be added to elasticclient index as documents
+def loadElastic(elastic_client, index_name, id_title, json_list):
+    
+    #for now, delete the indices if already exists. this is to ensure no lingering old docs for now.
+    if elastic_client.indices.exists(index=index_name):
+        elastic_client.indices.delete(index=index_name)
+
+    elastic_client.indices.create(index=index_name)
+
+    #load into listings index
+    for entry in json_list:
+        cur_id = entry.get(id_title)
+        add_doc(elastic_client, index_name, cur_id, entry)
+        #elastic_client.index(index=index_name, id=cur_id, body=entry) #CHECK unless id = listing id from DB
+
