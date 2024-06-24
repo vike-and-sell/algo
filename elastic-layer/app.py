@@ -1,11 +1,13 @@
 from flask import Flask, jsonify, request
+#import requests
 import os
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import text
 from elasticsearch import Elasticsearch
+
 import search
 import recommend
-
+import update
 
 # init flask app
 app = Flask(__name__)
@@ -22,6 +24,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://{username}:{password}@{hos
 db = SQLAlchemy(app)
 
 #create the elasticsearch client
+
 username = 'elastic'
 password = os.environ['ELASTIC_PASSWORD']
 
@@ -30,26 +33,12 @@ elastic_client = Elasticsearch(
     basic_auth=(username, password)
 )
 
-#load elastic client from database (untested)
-def loadElastic():
-    listings_index = 'listings'
-    if not elastic_client.indices.exists(index=listings_index):
-        elastic_client.indices.create(index=listings_index)
+def loadListings():
+    listings = db.session.execute(text("SELECT * FROM Listings"))# get request from datalayer get_all_listings
+    users = db.session.execute(text("SELECT * FROM Users")) #get_all_users from datalayer
 
-    #get listings from db (TODO)
-    listings = db.session.execute(text("SELECT * FROM Listings"))
-    cur_id = 0
-
-    #load into listings index
-    for entry in listings:
-        cur_id  = cur_id + 1
-        elastic_client.index(index=listings_index, id=cur_id, body=entry) #CHECK unless id = listing id from DB
-
-
-    ## IF works, repeat for Users
-    #get users from db 
-    #users = db.session.execute(text("SELECT * FROM Users")
-
+    update.loadElastic('listing', 'listing_id', listings)
+    update.loadElastic('user', 'user_id', users)
 
 
 
@@ -82,8 +71,6 @@ def test_getlisting():
 def test_es():
     info = elastic_client.info()
     return str(info)
-
-
 
 
 
@@ -122,4 +109,5 @@ def test_get_rec(userId):
 
 #TODO: remove debug=True in Development
 if __name__ == '__main__':
+    loadListings()
     app.run(debug=True)
