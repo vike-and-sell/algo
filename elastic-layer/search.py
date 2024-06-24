@@ -29,6 +29,7 @@ def searchVikeandSell(elastic_client, search_type, search_terms):
                 results.append(hit.Title)
                 print(hit.Title)
 
+
     return results
 
 
