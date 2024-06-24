@@ -1,27 +1,112 @@
 [
     {
-        "SellerID": "User1",
-        "ListingID": "123"
+      "user_id": 1,
+      "username": "alice_wonder",
+      "email": "alice@uvic.ca",
+      "password": "Wonder123!",
+      "location": { "latitude": 48.4284, "longitude": -123.3656 },
+      "address": "1000 Wonderland Avenue, Victoria, BC",
+      "joining_date": "2024-01-15",
+      "items_sold": [101, 102],
+      "items_purchased": [201, 202]
     },
-
     {
-        "SellerID": "User2",
-        "ListingID": "123"
+      "user_id": 2,
+      "username": "bob_builder",
+      "email": "bob@uvic.ca",
+      "password": "Builder@2021",
+      "location": { "latitude": 48.4285, "longitude": -123.3655 },
+      "address": "2000 Builder Lane, Victoria, BC",
+      "joining_date": "2024-02-20",
+      "items_sold": [103],
+      "items_purchased": [203, 204]
     },
-
     {
-        "SellerID": "User3",
-        "ListingID": "125"
+      "user_id": 3,
+      "username": "charlie_brown",
+      "email": "charlie@uvic.ca",
+      "password": "CharlieBrown123!",
+      "location": { "latitude": 48.4286, "longitude": -123.3654 },
+      "address": "3000 Peanuts Street, Victoria, BC",
+      "joining_date": "2024-03-25",
+      "items_sold": [],
+      "items_purchased": [205]
     },
-
     {
-        "SellerID": "User4",
-        "ListingID": "126"
+      "user_id": 4,
+      "username": "daisy_duck",
+      "email": "daisy@uvic.ca",
+      "password": "DaisyDuck@456",
+      "location": { "latitude": 48.4287, "longitude": -123.3653 },
+      "address": "4000 Duck Avenue, Victoria, BC",
+      "joining_date": "2024-04-10",
+      "items_sold": [104, 105],
+      "items_purchased": [206, 207, 208]
     },
-
     {
-        "SellerID": "User5",
-        "ListingID": "127"
+      "user_id": 5,
+      "username": "edward_snow",
+      "email": "edward@uvic.ca",
+      "password": "Snow12345!",
+      "location": { "latitude": 48.4288, "longitude": -123.3652 },
+      "address": "5000 Snow Road, Victoria, BC",
+      "joining_date": "2024-05-15",
+      "items_sold": [106],
+      "items_purchased": [209]
+    },
+    {
+      "user_id": 6,
+      "username": "fiona_fair",
+      "email": "fiona@uvic.ca",
+      "password": "FairyTale@789",
+      "location": { "latitude": 48.4289, "longitude": -123.3651 },
+      "address": "6000 Fairy Lane, Victoria, BC",
+      "joining_date": "2024-06-20",
+      "items_sold": [107, 108, 109],
+      "items_purchased": []
+    },
+    {
+      "user_id": 7,
+      "username": "george_king",
+      "email": "george@uvic.ca",
+      "password": "KingGeorge1!",
+      "location": { "latitude": 48.4290, "longitude": -123.3650 },
+      "address": "7000 King Street, Victoria, BC",
+      "joining_date": "2024-07-25",
+      "items_sold": [110],
+      "items_purchased": [210, 211]
+    },
+    {
+      "user_id": 8,
+      "username": "harry_potter",
+      "email": "harry@uvic.ca",
+      "password": "Potter@123",
+      "location": { "latitude": 48.4291, "longitude": -123.3649 },
+      "address": "8000 Magic Alley, Victoria, BC",
+      "joining_date": "2024-08-30",
+      "items_sold": [],
+      "items_purchased": [212, 213, 214]
+    },
+    {
+      "user_id": 9,
+      "username": "irene_adler",
+      "email": "irene@uvic.ca",
+      "password": "Adler@321",
+      "location": { "latitude": 48.4292, "longitude": -123.3648 },
+      "address": "9000 Detective Road, Victoria, BC",
+      "joining_date": "2024-09-15",
+      "items_sold": [111, 112],
+      "items_purchased": []
+    },
+    {
+      "user_id": 10,
+      "username": "john_wick",
+      "email": "john@uvic.ca",
+      "password": "Wick@456",
+      "location": { "latitude": 48.4293, "longitude": -123.3647 },
+      "address": "10000 Action Street, Victoria, BC",
+      "joining_date": "2024-10-20",
+      "items_sold": [113],
+      "items_purchased": [215, 216]
     }
-
 ]

@@ -1,12 +1,15 @@
 from flask import Flask, jsonify, request
-#import requests
+
 import os
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import text
 from elasticsearch import Elasticsearch
+import requests
+##note requests does not support asynch http requests directly
 
 from search import *
 import update
+import recommend
 
 
 # init flask app
@@ -45,34 +48,85 @@ except:
     index_created = True
 
 
-#load elastic client from database (untested)
-def loadElastic():
-    listings_index = 'listings'
-    if not elastic_client.indices.exists(index=listings_index):
-        elastic_client.indices.create(index=listings_index)
-
-    #get listings from db (TODO)
-    listings = db.session.execute(text("SELECT * FROM Listings"))
-    cur_id = 0
-
-    #load into listings index
-    for entry in listings:
-        cur_id  = cur_id + 1
-        elastic_client.index(index=listings_index, id=cur_id, body=entry) #CHECK unless id = listing id from DB
+#TODO: Set urls to access backend endpoints 
+url_get_history = ""
+url_get_listings = ""
+url_get_users = ""
+#eventually add one for updating current listings
 
 
-    ## IF works, repeat for Users
-    #get users from db 
-    #users = db.session.execute(text("SELECT * FROM Users")
-
+# Helper functions
 def loadListings():
-    listings = db.session.execute(text("SELECT * FROM Listings"))# get request from datalayer get_all_listings
-    users = db.session.execute(text("SELECT * FROM Users")) #get_all_users from datalayer
+    #listings =  requests.get(url_get_listings)
 
-    update.loadElastic('listing', 'listing_id', listings)
-    update.loadElastic('user', 'user_id', users)
+    # for now use static test data
+    file = open('test_listings.json')
+    listings = json.load(file)
+    file.close
 
-##  Basic test paths 
+    update.loadElastic(elastic_client, 'listing', 'listing_id', listings)
+
+
+def loadUsers():
+    #users  = requests.get(url_get_users)
+
+    # until backend hooked up
+    file = open('test_users.json')
+    users = json.load(file)
+    file.close
+
+    update.loadElastic(elastic_client,'user', 'user_id', users)
+
+
+#Do not call this yet
+def loadRecs(userid):
+    search_history = requests.get(url_get_history)
+    update.loadElastic(elastic_client, 'search_history', 'id', search_history) # get specific name of id
+
+
+
+# search path
+#sample call: "localhost:4500/search?q=here+are+some+terms&type=user"
+# NOTE: when calling this in command line with curl, may have to put url in " " to prevent zsh shell from thinking we're using special characters
+@app.route('/search', methods=['GET'])
+def test_search():
+    #TODO:
+    # add lat, long if we are responsible for location
+    # get listings data from db if needed (?) interact with data layer.
+    query = request.args.get('q')
+    search_type = request.args.get('type')
+
+    # Validate and process the query parameters
+    if search_type not in ['user', 'listing']:
+        return 'Invalid search type. Allowed types are "user" and "listing".', 400
+    
+    if search_type == "user":
+        loadUsers()
+    else:
+        loadListings()
+
+    results =  searchVikeandSell(elastic_client, search_type, query)
+    
+    # return results in JSON format option: jsonify(results)
+    return results
+
+# get recommendations call
+@app.route('/rec/<userId>',  methods=['GET'])
+def test_get_rec(userId):
+
+    # TODO: ask DB for information associated with userid
+    #loadRecs(userId)
+    results = recommend.recommend(userId)
+    # return results in JSON format
+    return jsonify(results)
+
+
+# TODO: SPRINT3:  update preferences call (block for now)
+# PATH: POST /recommendations/{listingId}/ignore
+
+
+
+##  Basic test paths -------------------------------------------------
 @app.route('/', methods=['GET'])
 def welcome():
     return "Hello World"
@@ -101,41 +155,8 @@ def test_es():
     info = elastic_client.info()
     return str(info)
 
-# search path
-#sample call: "localhost:4500/search?q=here+are+some+terms&type=user"
-# NOTE: when calling this in command line with curl, may have to put url in " " to prevent zsh shell from thinking we're using special characters
-@app.route('/search', methods=['GET'])
-def test_search():
-    #TODO:
-    # add lat, long if we are responsible for location
-    # get listings data from db if needed (?) interact with data layer.
-    query = request.args.get('q')
-    search_type = request.args.get('type')
-
-    # Validate and process the query parameters
-    if search_type not in ['user', 'listing']:
-        return 'Invalid search type. Allowed types are "user" and "listing".', 400
-    
-    results =  searchVikeandSell(elastic_client, search_type, query)
-    # return results in JSON format
-    return results
-    #return jsonify(results)
-
-# get recommendations call
-@app.route('/recommendations/<userId>',  methods=['GET'])
-def test_get_rec(userId):
-
-    # TODO: ask DB for information associated with userid
-    results = recommend.recommend(userId)
-    # return results in JSON format
-    return jsonify(results)
-
-
-# TODO: SPRINT3:  update preferences call (block for now)
-# PATH: POST /recommendations/{listingId}/ignore
 
 
 #TODO: remove debug=True in Development
 if __name__ == '__main__':
-    loadListings()
     app.run(debug=True)

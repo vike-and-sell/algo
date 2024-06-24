@@ -34,7 +34,7 @@ def delete_doc(elastic_client, search_type, doc_ID, data):
 # index_name = a string containing name of index
 # id_title = a string of the expected name associated with the id of the object (listing_id, user_id, etc.) within the JSON file
 # Json list = list of json objects to be added to elasticclient index as documents
-def loadElastic(index_name, id_title, json_list):
+def loadElastic(elastic_client, index_name, id_title, json_list):
     
     #for now, delete the indices if already exists. this is to ensure no lingering old docs for now.
     if elastic_client.indices.exists(index=index_name):
@@ -45,43 +45,6 @@ def loadElastic(index_name, id_title, json_list):
     #load into listings index
     for entry in json_list:
         cur_id = entry.get(id_title)
-        print(entry)
-        add_doc(index_name, cur_id, entry)
+        add_doc(elastic_client, index_name, cur_id, entry)
         #elastic_client.index(index=index_name, id=cur_id, body=entry) #CHECK unless id = listing id from DB
 
-    elastic_client.indices.refresh(index = index_name)
-
-
-def getClient():
-    return elastic_client
-
-def test1():
-    file = open('test_listings.json')
-    test_listings = json.load(file)
-    file.close
-
-    name = 'test1'
-    idtitle = 'ListingID'
-
-    search_terms = "bike"
-
-    print("trying to load...")
-    loadElastic(name, idtitle, test_listings)
- 
-    print("searching...")
-    elastic_client.indices.refresh(index = name)
-    context = Search(using = elastic_client, index = name) 
-    s = context.query('query_string', query = search_terms)
-    response = s.execute()
-
-    if response.success():
-        for hit in response:
-            print(hit.Title)
-    else:
-        print("search failed")
-
-    print("exiting..")
-
-
-
-#test1()
