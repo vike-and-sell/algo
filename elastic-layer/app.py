@@ -5,6 +5,7 @@ from sqlalchemy import text
 from elasticsearch import Elasticsearch
 
 from search import *
+import recommend
 
 # init flask app
 app = Flask(__name__)
@@ -119,7 +120,7 @@ def test_search():
 def test_get_rec(userId):
 
     # TODO: ask DB for information associated with userid
-    results = recommend.recommend(userId)
+    results = recommend.recommend_algo(elastic_client, userId)
     # return results in JSON format
     return jsonify(results)
 
