@@ -1,10 +1,13 @@
 from flask import Flask, jsonify, request
+#import requests
 import os
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import text
 from elasticsearch import Elasticsearch
 
 from search import *
+import update
+
 
 # init flask app
 app = Flask(__name__)
@@ -21,6 +24,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://{username}:{password}@{hos
 db = SQLAlchemy(app)
 
 #create the elasticsearch client
+
 username = 'elastic'
 password = os.environ['ELASTIC_PASSWORD']
 
@@ -61,6 +65,12 @@ def loadElastic():
     #get users from db 
     #users = db.session.execute(text("SELECT * FROM Users")
 
+def loadListings():
+    listings = db.session.execute(text("SELECT * FROM Listings"))# get request from datalayer get_all_listings
+    users = db.session.execute(text("SELECT * FROM Users")) #get_all_users from datalayer
+
+    update.loadElastic('listing', 'listing_id', listings)
+    update.loadElastic('user', 'user_id', users)
 
 ##  Basic test paths 
 @app.route('/', methods=['GET'])
@@ -90,9 +100,6 @@ def test_getlisting():
 def test_es():
     info = elastic_client.info()
     return str(info)
-
-
-
 
 # search path
 #sample call: "localhost:4500/search?q=here+are+some+terms&type=user"
@@ -130,4 +137,5 @@ def test_get_rec(userId):
 
 #TODO: remove debug=True in Development
 if __name__ == '__main__':
+    loadListings()
     app.run(debug=True)
