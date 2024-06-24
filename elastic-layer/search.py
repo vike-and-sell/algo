@@ -22,9 +22,12 @@ def searchVikeandSell(elastic_client, search_type, search_terms):
     if response.success():
         for hit in response:
             ##IN THE REAL SEARCH WILL USE LISTINGID!
-            results.append(hit.Title)
-            print(hit.Title)
-
+            if search_type == "listing":
+                #append listingID
+                results.append(hit.ListingID)
+            else:
+                #append userID
+                results.append(hit.SellerID)
 
     return results
 
