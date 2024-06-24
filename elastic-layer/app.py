@@ -3,9 +3,8 @@ import os
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import text
 from elasticsearch import Elasticsearch
-import search
-import recommend
 
+from search import *
 
 # init flask app
 app = Flask(__name__)
@@ -30,6 +29,18 @@ elastic_client = Elasticsearch(
     basic_auth=(username, password)
 )
 
+#If no index user or listing created, create these
+try:
+    ## Create index for listing 
+    elastic_client.indices.create(index ="listing")
+    ## Create index for listings 
+    elastic_client.indices.create(index="user")
+
+except:
+    #index listing and user already exist.
+    index_created = True
+
+
 #load elastic client from database (untested)
 def loadElastic():
     listings_index = 'listings'
@@ -49,9 +60,6 @@ def loadElastic():
     ## IF works, repeat for Users
     #get users from db 
     #users = db.session.execute(text("SELECT * FROM Users")
-
-
-
 
 
 ##  Basic test paths 
@@ -86,7 +94,6 @@ def test_es():
 
 
 
-
 # search path
 #sample call: "localhost:4500/search?q=here+are+some+terms&type=user"
 # NOTE: when calling this in command line with curl, may have to put url in " " to prevent zsh shell from thinking we're using special characters
@@ -97,14 +104,15 @@ def test_search():
     # get listings data from db if needed (?) interact with data layer.
     query = request.args.get('q')
     search_type = request.args.get('type')
-    
+
     # Validate and process the query parameters
     if search_type not in ['user', 'listing']:
         return 'Invalid search type. Allowed types are "user" and "listing".', 400
     
-    results =  search.searchVikeandSell(search_type, query)
+    results =  searchVikeandSell(elastic_client, search_type, query)
     # return results in JSON format
-    return jsonify(results)
+    return results
+    #return jsonify(results)
 
 # get recommendations call
 @app.route('/recommendations/<userId>',  methods=['GET'])
