@@ -11,7 +11,6 @@ from search import *
 import update
 import recommend
 
-
 # init flask app
 app = Flask(__name__)
 #set up conn string for db
@@ -84,9 +83,13 @@ def loadUsers():
     update.loadElastic(elastic_client,'user', 'user_id', users)
 
 
-def loadRecs(userid):
+def getSearchHistory(userid):
     search_history = execute_data_request(f"/get_search_history?userId={userid}", 'GET',  None)
-    update.loadElastic(elastic_client, 'search_history', 'id', search_history) # get specific name of id
+
+    #search_history = ['bike']
+    #update.loadElastic(elastic_client, 'search_history', 'user_id', search_history) # get specific name of id
+    
+    return search_history
 
 
 
@@ -119,11 +122,11 @@ def test_search():
 @app.route('/rec/<userId>',  methods=['GET'])
 def test_get_rec(userId):
 
-    # TODO: ask DB for information associated with userid
-    #loadRecs(userId)
-    results = recommend.recommend(userId)
+    loadListings()
+    search_history = getSearchHistory(userId)
+    results = recommend.recommend_algo(elastic_client, search_history)
     # return results in JSON format
-    return jsonify(results)
+    return results
 
 
 # TODO: SPRINT3:  update preferences call (block for now)

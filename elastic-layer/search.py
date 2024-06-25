@@ -17,6 +17,7 @@ def searchVikeandSell(elastic_client, search_type, search_terms):
     s = context.query('query_string', query = search_terms)
     response = s.execute()
 
+
     if search_type == 'user':
         if response.success():
             for hit in response:
@@ -26,21 +27,20 @@ def searchVikeandSell(elastic_client, search_type, search_terms):
         if response.success():
             for hit in response:
                 ##IN THE REAL SEARCH WILL USE LISTINGID!
-                results.append(hit.Title)
-                print(hit.Title)
-
+                results.append(hit.title)
+                print(hit.title)
 
     return results
 
 
-def test_data_add(elastic_client):
+# def test_data_add(elastic_client):
 
 
-    file = open('test_listings.json')
-    test_listings = json.load(file)
-    file.close
+#     file = open('test_listings.json')
+#     test_listings = json.load(file)
+#     file.close
 
-    loadElastic(elastic_client, 'listing', 'listing_id', test_listings)
+#     loadElastic(elastic_client, 'listing', 'listing_id', test_listings)
 
 
     # test_listing = { "SellerID": "User1", 
