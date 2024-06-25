@@ -18,6 +18,10 @@ ENV PATH="/elastic-layer/env/bin:$PATH"
 
 ENV DATA_LAYER_URL="localhost:4500"
 
+ENV DATA_URL="helpme"
+ENV DATA_API_KEY="helpme"
+
+
 COPY . .
 
 EXPOSE 4000

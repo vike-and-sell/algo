@@ -4,8 +4,8 @@ import os
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import text
 from elasticsearch import Elasticsearch
-import requests
-##note requests does not support asynch http requests directly
+
+import urllib3
 
 from search import *
 import update
@@ -48,40 +48,44 @@ except:
     index_created = True
 
 
-#Set urls to access backend endpoints 
-url_get_history = os.environ['DATA_LAYER_URL'] + '/get_search_history/'
-url_get_listings = os.environ['DATA_LAYER_URL'] + '/get_all_listings'
-url_get_users = os.environ['DATA_LAYER_URL'] + '/get_all_users'
+#from backend gateway file
+DATA_URL = os.environ["DATA_URL"]
+DATA_API_KEY = os.environ["DATA_API_KEY"]
+
 #eventually add one for updating current listings
+
+def execute_data_request(http: urllib3.PoolManager, path, method, body):
+    headers = {
+        "X-Api-Key": DATA_API_KEY,
+    }
+    return http.request(method, f"http://{DATA_URL}{path}", json=body, headers=headers)
 
 
 # Helper functions
 def loadListings():
-    #listings =  requests.get(url_get_listings)
+    listings =  execute_data_request('/get_all_listings', "GET", None)
 
     # for now use static test data
-    file = open('test_listings.json')
-    listings = json.load(file)
-    file.close
+    # file = open('test_listings.json')
+    # listings = json.load(file)
+    # file.close
 
     update.loadElastic(elastic_client, 'listing', 'listing_id', listings)
 
 
 def loadUsers():
-    #users  = requests.get(url_get_users)
+    users  = execute_data_request('/get_all_users', "GET", None)
 
     # until backend hooked up
-    file = open('test_users.json')
-    users = json.load(file)
-    file.close
+    # file = open('test_users.json')
+    # users = json.load(file)
+    # file.close
 
     update.loadElastic(elastic_client,'user', 'user_id', users)
 
 
-#Do not call this yet
 def loadRecs(userid):
-
-    search_history = requests.get(url_get_history + str(userid))
+    search_history = execute_data_request(f"/get_search_history?userId={userid}", 'GET',  None)
     update.loadElastic(elastic_client, 'search_history', 'id', search_history) # get specific name of id
 
 
@@ -155,11 +159,6 @@ def test_getlisting():
 def test_es():
     info = elastic_client.info()
     return str(info)
-
-@app.route('/check_url', methods=['GET'])
-def test_url():
-    urls = [url_get_users, url_get_history, url_get_listings]
-    return urls
 
 #TODO: remove debug=True in Development
 if __name__ == '__main__':
