@@ -11,12 +11,12 @@ def recommend_algo(elastic_client, userId):
     return_data = [] 
     
     # From the userId feild that was provided get the users search history from the elastic db
-    search_history = get_search_history()
+    search_history = get_search_history(userId)
     # before looping through all search history results truncate it to the top 10 results
     for result in search_history:
         context = Search(using = elastic_client, index = "listing") 
         s = context.query('query_string', query = result)
-        response = s.execute() # This line is currently failing 8:16pm 06/24/24
+        response = s.execute()
 
         count = 0
         for hit in response:
@@ -29,9 +29,9 @@ def recommend_algo(elastic_client, userId):
     if return_data is not []:
         return return_data
     else:
-        return False
+        return ("No recommendations can be made at this time")
     
-def get_search_history():
+def get_search_history(userId):
     return["bike"]
     
 def test_data():
