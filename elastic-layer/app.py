@@ -4,8 +4,8 @@ import os
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import text
 from elasticsearch import Elasticsearch
-import requests
-##note requests does not support asynch http requests directly
+
+import urllib3
 
 from search import *
 import update
@@ -47,41 +47,48 @@ except:
     index_created = True
 
 
-#TODO: Set urls to access backend endpoints 
-url_get_history = ""
-url_get_listings = ""
-url_get_users = ""
+#from backend gateway file
+DATA_URL = os.environ["DATA_URL"]
+DATA_API_KEY = os.environ["DATA_API_KEY"]
+
 #eventually add one for updating current listings
+
+def execute_data_request(http: urllib3.PoolManager, path, method, body):
+    headers = {
+        "X-Api-Key": DATA_API_KEY,
+    }
+    return http.request(method, f"http://{DATA_URL}{path}", json=body, headers=headers)
 
 
 # Helper functions
 def loadListings():
-    #listings =  requests.get(url_get_listings)
+    listings =  execute_data_request('/get_all_listings', "GET", None)
 
     # for now use static test data
-    file = open('test_listings2.json')
-    listings = json.load(file)
-    file.close
+    # file = open('test_listings.json')
+    # listings = json.load(file)
+    # file.close
 
     update.loadElastic(elastic_client, 'listing', 'listing_id', listings)
 
 
 def loadUsers():
-    #users  = requests.get(url_get_users)
+    users  = execute_data_request('/get_all_users', "GET", None)
 
     # until backend hooked up
-    file = open('test_users.json')
-    users = json.load(file)
-    file.close
+    # file = open('test_users.json')
+    # users = json.load(file)
+    # file.close
 
     update.loadElastic(elastic_client,'user', 'user_id', users)
 
 
 def getSearchHistory(userid):
-    #search_history = requests.get(url_get_history)
-    #update.loadElastic(elastic_client, 'search_history', 'user_id', search_history) # get specific name of id
+    search_history = execute_data_request(f"/get_search_history?userId={userid}", 'GET',  None)
 
-    search_history = ['bike']
+    #search_history = ['bike']
+    #update.loadElastic(elastic_client, 'search_history', 'user_id', search_history) # get specific name of id
+    
     return search_history
 
 
@@ -97,9 +104,9 @@ def test_search():
     query = request.args.get('q')
     search_type = request.args.get('type')
 
-    # Validate and process the query parameters
-    if search_type not in ['user', 'listing']:
-        return 'Invalid search type. Allowed types are "user" and "listing".', 400
+    # hard code to assume listing if not user
+    if search_type != 'user':
+        search_type = 'listing'
     
     if search_type == "user":
         loadUsers()
@@ -155,8 +162,6 @@ def test_getlisting():
 def test_es():
     info = elastic_client.info()
     return str(info)
-
-
 
 #TODO: remove debug=True in Development
 if __name__ == '__main__':
