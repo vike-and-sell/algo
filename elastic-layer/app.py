@@ -119,9 +119,11 @@ def test_search():
     return results
 
 # get recommendations call
-@app.route('/rec/<userId>',  methods=['GET'])
-def test_get_rec(userId):
+# samplecall:  "localhost:4500/recommendations?userId=123"
+@app.route('/recommendations',  methods=['GET'])
+def test_get_rec():
 
+    userId = request.args.get('userId')
     loadListings()
     search_history = getSearchHistory(userId)
     results = recommend.recommend_algo(elastic_client, search_history)
