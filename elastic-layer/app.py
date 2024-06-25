@@ -11,7 +11,6 @@ from search import *
 import update
 import recommend
 
-
 # init flask app
 app = Flask(__name__)
 #set up conn string for db
@@ -114,11 +113,11 @@ def test_search():
 @app.route('/rec/<userId>',  methods=['GET'])
 def test_get_rec(userId):
 
-    # TODO: ask DB for information associated with userid
-    #loadRecs(userId)
-    results = recommend.recommend(userId)
-    # return results in JSON format
-    return jsonify(results)
+    # TODO: load from db
+    results = recommend.recommend_algo(elastic_client, userId)
+    # return results 
+    return results
+    #return jsonify(results)
 
 
 # TODO: SPRINT3:  update preferences call (block for now)

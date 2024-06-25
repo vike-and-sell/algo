@@ -17,6 +17,7 @@ def searchVikeandSell(elastic_client, search_type, search_terms):
     s = context.query('query_string', query = search_terms)
     response = s.execute()
 
+
     if search_type == 'user':
         if response.success():
             for hit in response:
@@ -28,7 +29,6 @@ def searchVikeandSell(elastic_client, search_type, search_terms):
                 ##IN THE REAL SEARCH WILL USE LISTINGID!
                 results.append(hit.Title)
                 print(hit.Title)
-
 
     return results
 
