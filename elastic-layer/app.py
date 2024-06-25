@@ -48,10 +48,10 @@ except:
     index_created = True
 
 
-#TODO: Set urls to access backend endpoints 
-url_get_history = ""
-url_get_listings = ""
-url_get_users = ""
+#Set urls to access backend endpoints 
+url_get_history = os.environ['DATA_LAYER_URL'] + '/get_search_history/'
+url_get_listings = os.environ['DATA_LAYER_URL'] + '/get_all_listings'
+url_get_users = os.environ['DATA_LAYER_URL'] + '/get_all_users'
 #eventually add one for updating current listings
 
 
@@ -80,7 +80,8 @@ def loadUsers():
 
 #Do not call this yet
 def loadRecs(userid):
-    search_history = requests.get(url_get_history)
+
+    search_history = requests.get(url_get_history + str(userid))
     update.loadElastic(elastic_client, 'search_history', 'id', search_history) # get specific name of id
 
 
@@ -96,9 +97,9 @@ def test_search():
     query = request.args.get('q')
     search_type = request.args.get('type')
 
-    # Validate and process the query parameters
-    if search_type not in ['user', 'listing']:
-        return 'Invalid search type. Allowed types are "user" and "listing".', 400
+    # hard code to assume listing if not user
+    if search_type != 'user':
+        search_type = 'listing'
     
     if search_type == "user":
         loadUsers()
@@ -155,7 +156,10 @@ def test_es():
     info = elastic_client.info()
     return str(info)
 
-
+@app.route('/check_url', methods=['GET'])
+def test_url():
+    urls = [url_get_users, url_get_history, url_get_listings]
+    return urls
 
 #TODO: remove debug=True in Development
 if __name__ == '__main__':
