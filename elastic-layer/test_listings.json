@@ -1,52 +1,57 @@
 [
     {
         "SellerID": "User1",
-        "ListingID": "123",
-        "Title": "Blue Bike", 
+        "ListingID": "1",
+        "Title": "Blue Bike",
         "Description": "Very good bike",
         "Price": "20",
-        "Location": "48.46, -123.31", 
+        "Location": "48.46, -123.31",
         "Status": "Available"
     },
-
     {
         "SellerID": "User2",
-        "ListingID": "123",
-        "Title": "Table", 
-        "Description": "Very good table",
-        "Price": "10",
-        "Location": "48.46, -123.31", 
-        "Status": "Available"
-    },
-
-    {
-        "SellerID": "User3",
-        "ListingID": "125",
-        "Title": "Lamp", 
-        "Description": "Very good lamp",
+        "ListingID": "2",
+        "Title": "Red Bike",
+        "Description": "Very good bike",
         "Price": "20",
-        "Location": "48.46, -123.31", 
+        "Location": "48.46, -123.31",
+        "Status": "Available"
+     },
+     {
+        "SellerID": "User3",
+        "ListingID": "3",
+        "Title": "Yellow Bike",
+        "Description": "Very good bike",
+        "Price": "20",
+        "Location": "48.46, -123.31",
         "Status": "Available"
     },
-
     {
         "SellerID": "User4",
-        "ListingID": "126",
-        "Title": "Shoes", 
-        "Description": "Very good shoes",
-        "Price": "15",
-        "Location": "48.46, -123.31", 
+        "ListingID": "4",
+        "Title": "Green Bike",
+        "Description": "Very good bike",
+        "Price": "20",
+        "Location": "48.46, -123.31",
         "Status": "Available"
     },
-
-    {
+    { 
         "SellerID": "User5",
-        "ListingID": "127",
-        "Title": "Toaster", 
-        "Description": "Very good toaster",
-        "Price": "25",
-        "Location": "48.46, -123.31", 
+        "ListingID": "5",
+        "Title": "Green Lamp",
+        "Description": "Very good lamp",
+        "Price": "20",
+        "Location": "48.46, -123.31",
+        "Status": "Available"
+    },
+    {
+        "SellerID": "User6",
+        "ListingID": "6",
+        "Title": "Yellow Lamp",
+        "Description": "Very good lamp",
+        "Price": "20",
+        "Location": "48.46, -123.31",
         "Status": "Available"
     }
-
 ]
+
