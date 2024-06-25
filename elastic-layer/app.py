@@ -121,8 +121,9 @@ def test_get_rec(userId):
 
     # TODO: ask DB for information associated with userid
     results = recommend.recommend_algo(elastic_client, userId)
-    # return results in JSON format
+    # return results 
     return results
+    #return jsonify(results)
 
 
 # TODO: SPRINT3:  update preferences call (block for now)

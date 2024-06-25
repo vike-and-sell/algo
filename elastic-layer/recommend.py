@@ -1,4 +1,9 @@
+from elasticsearch import Elasticsearch
+from elasticsearch import helpers
 from elasticsearch_dsl import Search
+import os
+import json
+from search import *
 from update import *
 
 ## Recommend function called by app.py on reccomend request.
@@ -6,24 +11,28 @@ from update import *
 def recommend_algo(elastic_client, userId):
     print("recommending from Vike and sell..... ")
     test_data(elastic_client)
-
+   
     ## Where the recommender magic will happen
     ## Preload with invalid data for the backend to compare against
     return_data = [] 
     
     # From the userId feild that was provided get the users search history from the elastic db
     search_history = get_search_history(userId)
+    # Remove duplicates (like items) from search history
+
+
     # before looping through all search history results truncate it to the top 10 results
     for result in search_history:
-        context = Search(using = elastic_client, index = "listing") 
-        s = context.query('query_string', query = result)
-        response = s.execute()
-
+        response = searchVikeandSell(elastic_client, "listing", result)
+        
         count = 0
         for hit in response:
             if count <= 5:
+                # Don't add duplicate item to the list
                 return_data.append(hit)
                 count = count + 1
+            else:
+                continue
 
     # This makes sure that if data is returned then it is a propper reccomendation
     # if False is returned then an error occured
@@ -33,7 +42,7 @@ def recommend_algo(elastic_client, userId):
         return ("No recommendations can be made at this time")
     
 def get_search_history(userId):
-    return["bike"]
+    return ["bike"] # list of one item
     
 def test_data(elastic_client):
     #Create test listing
@@ -88,34 +97,34 @@ def test_data(elastic_client):
     #Add test listing to index listing
     add_doc(elastic_client, "listing", ID, test_listing)
 
-    test_user = {   "UserID": "User1",
-                    "Location": "48.46, -123.31",
-                    "Age": "20",
-                    "SearchHistory": "Bike"
-    }
-    ID = test_user.get("UserID")
-    add_doc(elastic_client, "user", ID, test_user)
+    # test_user = {   "UserID": "User1",
+    #                 "Location": "48.46, -123.31",
+    #                 "Age": "20",
+    #                 "SearchHistory": "Bike"
+    # }
+    # ID = test_user.get("UserID")
+    # add_doc(elastic_client, "user", ID, test_user)
 
-    test_user = {   "UserID": "User2",
-                    "Location": "48.46, -123.31",
-                    "Age": "20",
-                    "SearchHistory": "Bike"
-    }
-    ID = test_user.get("UserID")
-    add_doc(elastic_client, "user", ID, test_user)
+    # test_user = {   "UserID": "User2",
+    #                 "Location": "48.46, -123.31",
+    #                 "Age": "20",
+    #                 "SearchHistory": "Bike"
+    # }
+    # ID = test_user.get("UserID")
+    # add_doc(elastic_client, "user", ID, test_user)
 
-    test_user = {   "UserID": "User3",
-                    "Location": "48.46, -123.31",
-                    "Age": "20",
-                    "SearchHistory": "Bike"
-    }
-    ID = test_user.get("UserID")
-    add_doc(elastic_client, "user", ID, test_user)
+    # test_user = {   "UserID": "User3",
+    #                 "Location": "48.46, -123.31",
+    #                 "Age": "20",
+    #                 "SearchHistory": "Bike"
+    # }
+    # ID = test_user.get("UserID")
+    # add_doc(elastic_client, "user", ID, test_user)
 
-    test_user = {   "UserID": "User4",
-                    "Location": "48.46, -123.31",
-                    "Age": "20",
-                    "SearchHistory": "Bike"
-    }
-    ID = test_user.get("UserID")
-    add_doc(elastic_client, "user", ID, test_user)
+    # test_user = {   "UserID": "User4",
+    #                 "Location": "48.46, -123.31",
+    #                 "Age": "20",
+    #                 "SearchHistory": "Bike"
+    # }
+    # ID = test_user.get("UserID")
+    # add_doc(elastic_client, "user", ID, test_user)
