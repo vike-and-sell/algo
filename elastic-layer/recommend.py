@@ -8,18 +8,13 @@ from update import *
 
 ## Recommend function called by app.py on reccomend request.
 # returns a list of listings in JSON format
-def recommend_algo(elastic_client, userId):
+def recommend_algo(elastic_client, search_history):
     print("recommending from Vike and sell..... ")
-    test_data(elastic_client)
+    #test_data(elastic_client)
    
     ## Where the recommender magic will happen
     ## Preload with invalid data for the backend to compare against
     return_data = [] 
-    
-    # From the userId feild that was provided get the users search history from the elastic db
-    search_history = get_search_history(userId)
-    # Remove duplicates (like items) from search history
-
 
     # before looping through all search history results truncate it to the top 10 results
     for result in search_history:
@@ -44,58 +39,58 @@ def recommend_algo(elastic_client, userId):
 def get_search_history(userId):
     return ["bike"] # list of one item
     
-def test_data(elastic_client):
-    #Create test listing
-    test_listing = { "SellerID": "User1", 
-                    "ListingID": "1", 
-                    "Title": "Blue Bike",  
-                    "Description": "Very good bike", 
-                    "Price": "20", 
-                    "Location": "48.46, -123.31",  
-                    "Status": "Available" }
+# def test_data(elastic_client):
+#     #Create test listing
+#     test_listing = { "SellerID": "User1", 
+#                     "ListingID": "1", 
+#                     "Title": "Blue Bike",  
+#                     "Description": "Very good bike", 
+#                     "Price": "20", 
+#                     "Location": "48.46, -123.31",  
+#                     "Status": "Available" }
 
-    ID = test_listing.get('ListingID')
-    #Add test listing to index listing
-    add_doc(elastic_client, "listing", ID, test_listing)
+#     ID = test_listing.get('ListingID')
+#     #Add test listing to index listing
+#     add_doc(elastic_client, "listing", ID, test_listing)
 
-    #Create test listing
-    test_listing = { "SellerID": "User2", 
-                    "ListingID": "2", 
-                    "Title": "Red Bike",  
-                    "Description": "Very good bike", 
-                    "Price": "20", 
-                    "Location": "48.46, -123.31",  
-                    "Status": "Available" }
+#     #Create test listing
+#     test_listing = { "SellerID": "User2", 
+#                     "ListingID": "2", 
+#                     "Title": "Red Bike",  
+#                     "Description": "Very good bike", 
+#                     "Price": "20", 
+#                     "Location": "48.46, -123.31",  
+#                     "Status": "Available" }
 
-    ID = test_listing.get('ListingID')
-    #Add test listing to index listing
-    add_doc(elastic_client, "listing", ID, test_listing)
+#     ID = test_listing.get('ListingID')
+#     #Add test listing to index listing
+#     add_doc(elastic_client, "listing", ID, test_listing)
 
-    #Create test listing
-    test_listing = { "SellerID": "User3", 
-                    "ListingID": "3", 
-                    "Title": "Yellow Bike",  
-                    "Description": "Very good bike", 
-                    "Price": "20", 
-                    "Location": "48.46, -123.31",  
-                    "Status": "Available" }
+#     #Create test listing
+#     test_listing = { "SellerID": "User3", 
+#                     "ListingID": "3", 
+#                     "Title": "Yellow Bike",  
+#                     "Description": "Very good bike", 
+#                     "Price": "20", 
+#                     "Location": "48.46, -123.31",  
+#                     "Status": "Available" }
 
-    ID = test_listing.get('ListingID')
-    #Add test listing to index listing
-    add_doc(elastic_client, "listing", ID, test_listing)
+#     ID = test_listing.get('ListingID')
+#     #Add test listing to index listing
+#     add_doc(elastic_client, "listing", ID, test_listing)
 
-    #Create test listing
-    test_listing = { "SellerID": "User4", 
-                    "ListingID": "4", 
-                    "Title": "Green Bike",  
-                    "Description": "Very good bike", 
-                    "Price": "20", 
-                    "Location": "48.46, -123.31",  
-                    "Status": "Available" }
+#     #Create test listing
+#     test_listing = { "SellerID": "User4", 
+#                     "ListingID": "4", 
+#                     "Title": "Green Bike",  
+#                     "Description": "Very good bike", 
+#                     "Price": "20", 
+#                     "Location": "48.46, -123.31",  
+#                     "Status": "Available" }
 
-    ID = test_listing.get('ListingID')
-    #Add test listing to index listing
-    add_doc(elastic_client, "listing", ID, test_listing)
+#     ID = test_listing.get('ListingID')
+#     #Add test listing to index listing
+#     add_doc(elastic_client, "listing", ID, test_listing)
 
     # test_user = {   "UserID": "User1",
     #                 "Location": "48.46, -123.31",

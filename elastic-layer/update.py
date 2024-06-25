@@ -38,7 +38,7 @@ def loadElastic(elastic_client, index_name, id_title, json_list):
     
     #for now, delete the indices if already exists. this is to ensure no lingering old docs for now.
     if elastic_client.indices.exists(index=index_name):
-        elastic_client.indices.delete(index=index_name)
+        elastic_client.indices.delete(index=index_name, ignore=[400,404])
 
     elastic_client.indices.create(index=index_name)
 
