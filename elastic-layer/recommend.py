@@ -8,21 +8,7 @@ def recommend_algo(elastic_client, userId):
 
     ## Where the recommender magic will happen
     ## Preload with invalid data for the backend to compare against
-    return_data = []
-    '''[{ "SellerID": "InvalidUser", 
-                "ListingID": "44", 
-                "Title": "Green Lamp",  
-                "Description": "Very good lamp", 
-                "Price": "20", 
-                "Location": "48.46, -123.31",  
-                "Status": "Available" },
-        { "SellerID": "User1", 
-                "ListingID": "123", 
-                "Title": "Yellow Lamp",  
-                "Description": "Very good lamp", 
-                "Price": "20", 
-                "Location": "48.46, -123.31",  
-                "Status": "Available" }]'''
+    return_data = [] 
     
     # From the userId feild that was provided get the users search history from the elastic db
     search_history = get_search_history()
@@ -37,7 +23,6 @@ def recommend_algo(elastic_client, userId):
             if count <= 5:
                 return_data.append(hit)
                 count = count + 1
-
 
     # This makes sure that if data is returned then it is a propper reccomendation
     # if False is returned then an error occured

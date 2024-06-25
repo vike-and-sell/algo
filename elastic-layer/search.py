@@ -19,12 +19,14 @@ def searchVikeandSell(elastic_client, search_type, search_terms):
     s = context.query('query_string', query = search_terms)
     response = s.execute()
 
-    if response.success():
-        for hit in response:
-            ##IN THE REAL SEARCH WILL USE LISTINGID!
-            results.append(hit.Title)
-            print(hit.Title)
-
+    try:
+        if response.success():
+            for hit in response:
+                ##IN THE REAL SEARCH WILL USE LISTINGID!
+                results.append(hit.Title)
+                print(hit.Title)
+    except:
+        return("The search had zero results")
 
     return results
 
