@@ -76,10 +76,10 @@ def loadUsers():
 
 
 def getSearchHistory(userid):
-    search_history = execute_data_request(http, path=f"/get_search_history?userId={userid}", method="GET",  body=None)
+    #TODO:  re-implement
+    # search_history = execute_data_request(http, path=f"/get_search_history?userId={userid}", method="GET",  body=None)
 
-    #search_history = ['bike']
-    #update.loadElastic(elastic_client, 'search_history', 'user_id', search_history) # get specific name of id  
+    search_history = ['bike']
     
     return search_history
 

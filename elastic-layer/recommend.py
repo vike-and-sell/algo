@@ -20,6 +20,9 @@ def recommend_algo(elastic_client, search_history):
     for result in search_history:
         response = searchVikeandSell(elastic_client, "listing", result)
         
+        #bandaid fix by haley so it doesn't break when recommendations are made
+        return response
+
         count = 0
         for hit in response:
             if count <= 5:
