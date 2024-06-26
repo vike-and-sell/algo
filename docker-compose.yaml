@@ -8,43 +8,45 @@ services:
     ports:
       - "4500:4500"
     environment:
-      RDS_USERNAME: ${POSTGRES_USER}
-      RDS_PASSWORD: ${POSTGRES_PASSWORD}
-      RDS_HOSTNAME: v_s_db-e
-      RDS_PORT: 5432
-      RDS_DB_NAME: ${POSTGRES_DB}
+      # RDS_USERNAME: ${POSTGRES_USER}
+      # RDS_PASSWORD: ${POSTGRES_PASSWORD}
+      # RDS_HOSTNAME: v_s_db-e
+      # RDS_PORT: 5432
+      # RDS_DB_NAME: ${POSTGRES_DB}
       ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}
+      DATA_URL: "serber.ddns.net:30000"
+      DATA_API_KEY: "P7xD+OvKr+QxURCgpfiadhyhjappbSuiFs505SljASA="
     depends_on:
-      v_s_db-e:
-        condition: service_healthy
+      # v_s_db-e:
+      #   condition: service_healthy
       elasticsearch:
         condition: service_healthy
     networks:
       - elastic-net
     
 
-  # define the db service
-  v_s_db-e:
-    # get postgres image
-    image: postgres
-    container_name: v_s_db-e
-    environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
-    ports:
-      - "5432:5432"
-    volumes:
-      - db-volume:/var/lib/postgresql/data
-      - ./data-dump/init.sql:/docker-entrypoint-initdb.d/init.sql
-    healthcheck:
-      # used in flask container depends_on condition to wait for the DB to be ready
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
-      interval: 5s
-      timeout: 20s
-      retries: 5
-    networks:
-      - elastic-net
+  # # define the db service
+  # v_s_db-e:
+  #   # get postgres image
+  #   image: postgres
+  #   container_name: v_s_db-e
+  #   environment:
+  #     POSTGRES_USER: ${POSTGRES_USER}
+  #     POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+  #     POSTGRES_DB: ${POSTGRES_DB}
+  #   ports:
+  #     - "5432:5432"
+  #   volumes:
+  #     - db-volume:/var/lib/postgresql/data
+  #     - ./data-dump/init.sql:/docker-entrypoint-initdb.d/init.sql
+  #   healthcheck:
+  #     # used in flask container depends_on condition to wait for the DB to be ready
+  #     test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+  #     interval: 5s
+  #     timeout: 20s
+  #     retries: 5
+  #   networks:
+  #     - elastic-net
 
 
   elasticsearch:

@@ -2,6 +2,7 @@ from flask import Flask, jsonify, request
 import os
 from elasticsearch import Elasticsearch
 import urllib3
+import json
 from search import *
 import update
 import recommend
@@ -44,7 +45,11 @@ def execute_data_request(http: urllib3.PoolManager, path, method, body):
     headers = {
         "X-Api-Key": DATA_API_KEY,
     }
-    return http.request(method, f"http://{DATA_URL}{path}", body=body, headers=headers)
+    result =  http.request(method, f"http://{DATA_URL}{path}", body=body, headers=headers)
+    #response.data ##gives us something
+    return json.loads(result.data.decode('utf-8'))
+
+
 
 
 # Helper functions
@@ -74,7 +79,7 @@ def getSearchHistory(userid):
     search_history = execute_data_request(http, path=f"/get_search_history?userId={userid}", method="GET",  body=None)
 
     #search_history = ['bike']
-    #update.loadElastic(elastic_client, 'search_history', 'user_id', search_history) # get specific name of id
+    #update.loadElastic(elastic_client, 'search_history', 'user_id', search_history) # get specific name of id  
     
     return search_history
 
@@ -83,6 +88,7 @@ def getSearchHistory(userid):
 # search path
 #sample call: "localhost:4500/search?q=here+are+some+terms&type=user"
 # NOTE: when calling this in command line with curl, may have to put url in " " to prevent zsh shell from thinking we're using special characters
+# will need to add to search history eventually
 @app.route('/search', methods=['GET'])
 def test_search():
     #TODO:
