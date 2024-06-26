@@ -46,7 +46,7 @@ def execute_data_request(http: urllib3.PoolManager, path, method, body):
 
 # Helper functions
 def loadListings():
-    listings =  execute_data_request('/get_all_listings', "GET", None)
+    listings =  execute_data_request(path='/get_all_listings', method="GET", body=None)
 
     # for now use static test data
     # file = open('test_listings.json')
@@ -57,7 +57,7 @@ def loadListings():
 
 
 def loadUsers():
-    users  = execute_data_request('/get_all_users', "GET", None)
+    users  = execute_data_request(path='/get_all_users', method="GET", body=None)
 
     # until backend hooked up
     # file = open('test_users.json')
@@ -68,7 +68,7 @@ def loadUsers():
 
 
 def getSearchHistory(userid):
-    search_history = execute_data_request(f"/get_search_history?userId={userid}", 'GET',  None)
+    search_history = execute_data_request(path=f"/get_search_history?userId={userid}", method="GET",  body=None)
 
     #search_history = ['bike']
     #update.loadElastic(elastic_client, 'search_history', 'user_id', search_history) # get specific name of id
