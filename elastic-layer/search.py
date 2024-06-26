@@ -21,15 +21,17 @@ def searchVikeandSell(elastic_client, search_type, search_terms):
     if search_type == 'user':
         if response.success():
             for hit in response:
-                ##IN THE REAL SEARCH WILL USE userid?
-                results.append(hit.username)
+                #Frontend needs list of seller_id
+                results.append(hit.user_id)
     else:
         if response.success():
             for hit in response:
-                ##IN THE REAL SEARCH WILL USE LISTINGID!
-                results.append(hit.title)
-                print(hit.title)
+                ##Frontend needs list of user_id
+                ID = hit.listing_id
+                doc = elastic_client.get(index = "listing", id = ID)
+                results.append(doc["_source"])
 
+    #Returns the results in JSON format
     return results
 
 
