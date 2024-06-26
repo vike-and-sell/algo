@@ -11,14 +11,15 @@ from update import *
 def recommend_algo(elastic_client, search_history):
     print("recommending from Vike and sell..... ")
     #test_data(elastic_client)
-   
+    # #search history now has format of: {"search_date":"2024-01-01T00:00:00","search_text":"Hot Wheels"},{"search_date":"2024-01-02T00:00:00","search_text":"iPod touch 5th Gen"}]
+
     ## Where the recommender magic will happen
     ## Preload with invalid data for the backend to compare against
     return_data = [] 
 
     # before looping through all search history results truncate it to the top 10 results
     for result in search_history:
-        response = searchVikeandSell(elastic_client, "listing", result)
+        response = searchVikeandSell(elastic_client, "listing", result.get("search_text"))
         
         #bandaid fix by haley so it doesn't break when recommendations are made
         return response
