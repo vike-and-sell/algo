@@ -7,7 +7,7 @@
       "location": { "latitude": 48.4284, "longitude": -123.3656 },
       "address": "123 Bicycle Lane, Victoria, BC",
       "status": "AVAILABLE",
-      "created_on": "2024-01-10T08:30:00",
+      "listed_at": "2024-01-10T08:30:00",
       "last_updated_at": "2024-01-10T08:30:00"
     },
     {
@@ -18,7 +18,7 @@
       "location": { "latitude": 48.4285, "longitude": -123.3655 },
       "address": "456 Tech Street, Victoria, BC",
       "status": "SOLD",
-      "created_on": "2024-02-15T09:00:00",
+      "listed_at": "2024-02-15T09:00:00",
       "last_updated_at": "2024-03-01T10:00:00"
     },
     {
@@ -29,7 +29,7 @@
       "location": { "latitude": 48.4286, "longitude": -123.3654 },
       "address": "789 Music Avenue, Victoria, BC",
       "status": "AVAILABLE",
-      "created_on": "2024-03-20T11:00:00",
+      "listed_at": "2024-03-20T11:00:00",
       "last_updated_at": "2024-03-20T11:00:00"
     },
     {
@@ -40,7 +40,7 @@
       "location": { "latitude": 48.4287, "longitude": -123.3653 },
       "address": "321 Furniture Lane, Victoria, BC",
       "status": "REMOVED",
-      "created_on": "2024-04-25T12:00:00",
+      "listed_at": "2024-04-25T12:00:00",
       "last_updated_at": "2024-05-05T13:00:00"
     },
     {
@@ -51,7 +51,7 @@
       "location": { "latitude": 48.4288, "longitude": -123.3652 },
       "address": "654 Gadget Road, Victoria, BC",
       "status": "AVAILABLE",
-      "created_on": "2024-05-30T14:00:00",
+      "listed_at": "2024-05-30T14:00:00",
       "last_updated_at": "2024-05-30T14:00:00"
     },
     {
@@ -62,7 +62,7 @@
       "location": { "latitude": 48.4289, "longitude": -123.3651 },
       "address": "987 Office Park, Victoria, BC",
       "status": "SOLD",
-      "created_on": "2024-06-05T15:00:00",
+      "listed_at": "2024-06-05T15:00:00",
       "last_updated_at": "2024-06-10T16:00:00"
     },
     {
@@ -73,7 +73,7 @@
       "location": { "latitude": 48.4290, "longitude": -123.3650 },
       "address": "123 Bike Trail, Victoria, BC",
       "status": "AVAILABLE",
-      "created_on": "2024-07-15T17:00:00",
+      "listed_at": "2024-07-15T17:00:00",
       "last_updated_at": "2024-07-15T17:00:00"
     },
     {
@@ -84,7 +84,7 @@
       "location": { "latitude": 48.4291, "longitude": -123.3649 },
       "address": "456 Fashion Street, Victoria, BC",
       "status": "AVAILABLE",
-      "created_on": "2024-08-20T18:00:00",
+      "listed_at": "2024-08-20T18:00:00",
       "last_updated_at": "2024-08-20T18:00:00"
     },
     {
@@ -95,7 +95,7 @@
       "location": { "latitude": 48.4292, "longitude": -123.3648 },
       "address": "789 Gamer Lane, Victoria, BC",
       "status": "AVAILABLE",
-      "created_on": "2024-09-25T19:00:00",
+      "listed_at": "2024-09-25T19:00:00",
       "last_updated_at": "2024-09-25T19:00:00"
     },
     {
@@ -106,7 +106,7 @@
         "location": { "latitude": 48.46, "longitude": -123.31 },
         "address": "123 Bike Lane, Victoria, BC",
         "status": "AVAILABLE",
-        "created_on": "2024-01-01T08:00:00",
+        "listed_at": "2024-01-01T08:00:00",
         "last_updated_at": "2024-01-01T08:00:00"
     },
     {
@@ -117,7 +117,7 @@
         "location": { "latitude": 48.46, "longitude": -123.31 },
         "address": "456 Cycle Street, Victoria, BC",
         "status": "AVAILABLE",
-        "created_on": "2024-01-01T08:00:00",
+        "listed_at": "2024-01-01T08:00:00",
         "last_updated_at": "2024-01-01T08:00:00"
     },
     {
@@ -128,7 +128,7 @@
         "location": { "latitude": 48.46, "longitude": -123.31 },
         "address": "789 Pedal Avenue, Victoria, BC",
         "status": "AVAILABLE",
-        "created_on": "2024-01-01T08:00:00",
+        "listed_at": "2024-01-01T08:00:00",
         "last_updated_at": "2024-01-01T08:00:00"
     },
     {
@@ -139,7 +139,7 @@
         "location": { "latitude": 48.46, "longitude": -123.31 },
         "address": "321 Gear Road, Victoria, BC",
         "status": "AVAILABLE",
-        "created_on": "2024-01-01T08:00:00",
+        "listed_at": "2024-01-01T08:00:00",
         "last_updated_at": "2024-01-01T08:00:00"
     },
     {
@@ -150,7 +150,7 @@
         "location": { "latitude": 48.46, "longitude": -123.31 },
         "address": "654 Light Street, Victoria, BC",
         "status": "AVAILABLE",
-        "created_on": "2024-01-01T08:00:00",
+        "listed_at": "2024-01-01T08:00:00",
         "last_updated_at": "2024-01-01T08:00:00"
     },
     {
@@ -161,7 +161,7 @@
         "location": { "latitude": 48.46, "longitude": -123.31 },
         "address": "987 Shine Avenue, Victoria, BC",
         "status": "AVAILABLE",
-        "created_on": "2024-01-01T08:00:00",
+        "listed_at": "2024-01-01T08:00:00",
         "last_updated_at": "2024-01-01T08:00:00"
     }
 
