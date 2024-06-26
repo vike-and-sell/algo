@@ -77,9 +77,9 @@ def loadUsers():
 
 def getSearchHistory(userid):
     #TODO:  re-implement once data has been added to backend
-    #search_history = execute_data_request(http, path=f"/get_search_history?userId={userid}", method="GET",  body=None)
+    search_history = execute_data_request(http, path=f"/get_search_history?userId={userid}", method="GET",  body=None)
     
-    search_history = [{"search_date":"2024-01-01T00:00:00","search_text":"bike"}]
+    #search_history = [{"search_date":"2024-01-01T00:00:00","search_text":"bike"}]
     
     return search_history
 
