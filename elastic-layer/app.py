@@ -76,10 +76,10 @@ def loadUsers():
 
 
 def getSearchHistory(userid):
-    #TODO:  re-implement once data has been added to backend
-    #search_history = execute_data_request(http, path=f"/get_search_history?userId={userid}", method="GET",  body=None)
+
+    search_history = execute_data_request(http, path=f"/get_search_history?userId={userid}", method="GET",  body=None)
     
-    search_history = [{"search_date":"2024-01-01T00:00:00","search_text":"bike"}]
+    #search_history = [{"search_date":"2024-01-01T00:00:00","search_text":"bike"}]
     
     return search_history
 
@@ -126,6 +126,21 @@ def test_get_rec():
 
 # TODO: SPRINT3:  update preferences call (block for now)
 # PATH: POST /recommendations/ignore?listingId=123&userId=1
+@app.route('recommendations/ignore?', methods=['POST'])
+def ignore_rec():
+
+    userId = request.args.get('userId')
+    listingId = request.args.get('listingId')
+    
+    #insert error message if none fonud
+
+    #add listing to  "ignore" field for user in db
+
+    results = recommend.ignore(userId, listingId)
+    # make new set of recommendations, send to front end? 
+
+    return results
+
 
 
 
