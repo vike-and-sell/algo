@@ -4,10 +4,10 @@ from elasticsearch import Elasticsearch
 import urllib3
 from search import *
 import update
-import recommend
+from recommend import *
 
 
-http = urllib3.PoolManager()
+#http = urllib3.PoolManager()
 
 # init flask app
 app = Flask(__name__)
@@ -18,7 +18,7 @@ username = 'elastic'
 password = os.environ['ELASTIC_PASSWORD']
 
 elastic_client = Elasticsearch(
-    "http://elasticsearch-master:9200",
+    "http://elasticsearch:9200",
     basic_auth=(username, password)
 )
 
@@ -35,8 +35,8 @@ except:
 
 
 #from backend gateway file
-DATA_URL = os.environ["DATA_URL"]
-DATA_API_KEY = os.environ["DATA_API_KEY"]
+#DATA_URL = os.environ["DATA_URL"]
+#DATA_API_KEY = os.environ["DATA_API_KEY"]
 
 #eventually add one for updating current listings
 
@@ -49,23 +49,23 @@ def execute_data_request(http: urllib3.PoolManager, path, method, body):
 
 # Helper functions
 def loadListings():
-    listings =  execute_data_request(http, path='/get_all_listings', method="GET", body=None)
-
+    #listings =  execute_data_request(http, path='/get_all_listings', method="GET", body=Non
+    
     # for now use static test data
-    # file = open('test_listings.json')
-    # listings = json.load(file)
-    # file.close
+    file = open('test_listings2.json')
+    listings = json.load(file)
+    file.close
 
     update.loadElastic(elastic_client, 'listing', 'listing_id', listings)
 
 
 def loadUsers():
-    users  = execute_data_request(http, path='/get_all_users', method="GET", body=None)
+    #users  = execute_data_request(http, path='/get_all_users', method="GET", body=None)
 
     # until backend hooked up
-    # file = open('test_users.json')
-    # users = json.load(file)
-    # file.close
+    file = open('test_users.json')
+    users = json.load(file)
+    file.close
 
     update.loadElastic(elastic_client,'user', 'user_id', users)
 
@@ -73,7 +73,10 @@ def loadUsers():
 def getSearchHistory(userid):
     search_history = execute_data_request(http, path=f"/get_search_history?userId={userid}", method="GET",  body=None)
 
-    #search_history = ['bike']
+    #Cold Start when User has no History
+    if search_history == []:
+        search_history = ['bike', 'lamp']
+
     #update.loadElastic(elastic_client, 'search_history', 'user_id', search_history) # get specific name of id
     
     return search_history
@@ -112,8 +115,13 @@ def test_get_rec():
 
     userId = request.args.get('userId')
     loadListings()
-    search_history = getSearchHistory(userId)
-    results = recommend.recommend_algo(elastic_client, search_history)
+    #UNCOMMENT THIS WHEN integrating
+    #search_history = getSearchHistory(userId)
+    
+    search_history = ['bike', 'lamp']
+
+    results = recommend_algo(elastic_client, search_history)
+
     # return results in JSON format
     return results
 

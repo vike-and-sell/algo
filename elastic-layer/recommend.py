@@ -17,17 +17,16 @@ def recommend_algo(elastic_client, search_history):
     return_data = [] 
 
     # before looping through all search history results truncate it to the top 10 results
-    for result in search_history:
-        response = searchVikeandSell(elastic_client, "listing", result)
+    for s in search_history:
+        response = searchVikeandSell(elastic_client, "listing", s)
         
         count = 0
         for hit in response:
-            if count <= 5:
+            if count < 3:
                 # Don't add duplicate item to the list
                 return_data.append(hit)
                 count = count + 1
-            else:
-                continue
+            
 
     # This makes sure that if data is returned then it is a propper reccomendation
     # if False is returned then an error occured
@@ -39,87 +38,3 @@ def recommend_algo(elastic_client, search_history):
 def get_search_history(userId):
     return ["bike"] # list of one item
     
-# def test_data(elastic_client):
-#     #Create test listing
-#     test_listing = { "SellerID": "User1", 
-#                     "ListingID": "1", 
-#                     "Title": "Blue Bike",  
-#                     "Description": "Very good bike", 
-#                     "Price": "20", 
-#                     "Location": "48.46, -123.31",  
-#                     "Status": "Available" }
-
-#     ID = test_listing.get('ListingID')
-#     #Add test listing to index listing
-#     add_doc(elastic_client, "listing", ID, test_listing)
-
-#     #Create test listing
-#     test_listing = { "SellerID": "User2", 
-#                     "ListingID": "2", 
-#                     "Title": "Red Bike",  
-#                     "Description": "Very good bike", 
-#                     "Price": "20", 
-#                     "Location": "48.46, -123.31",  
-#                     "Status": "Available" }
-
-#     ID = test_listing.get('ListingID')
-#     #Add test listing to index listing
-#     add_doc(elastic_client, "listing", ID, test_listing)
-
-#     #Create test listing
-#     test_listing = { "SellerID": "User3", 
-#                     "ListingID": "3", 
-#                     "Title": "Yellow Bike",  
-#                     "Description": "Very good bike", 
-#                     "Price": "20", 
-#                     "Location": "48.46, -123.31",  
-#                     "Status": "Available" }
-
-#     ID = test_listing.get('ListingID')
-#     #Add test listing to index listing
-#     add_doc(elastic_client, "listing", ID, test_listing)
-
-#     #Create test listing
-#     test_listing = { "SellerID": "User4", 
-#                     "ListingID": "4", 
-#                     "Title": "Green Bike",  
-#                     "Description": "Very good bike", 
-#                     "Price": "20", 
-#                     "Location": "48.46, -123.31",  
-#                     "Status": "Available" }
-
-#     ID = test_listing.get('ListingID')
-#     #Add test listing to index listing
-#     add_doc(elastic_client, "listing", ID, test_listing)
-
-    # test_user = {   "UserID": "User1",
-    #                 "Location": "48.46, -123.31",
-    #                 "Age": "20",
-    #                 "SearchHistory": "Bike"
-    # }
-    # ID = test_user.get("UserID")
-    # add_doc(elastic_client, "user", ID, test_user)
-
-    # test_user = {   "UserID": "User2",
-    #                 "Location": "48.46, -123.31",
-    #                 "Age": "20",
-    #                 "SearchHistory": "Bike"
-    # }
-    # ID = test_user.get("UserID")
-    # add_doc(elastic_client, "user", ID, test_user)
-
-    # test_user = {   "UserID": "User3",
-    #                 "Location": "48.46, -123.31",
-    #                 "Age": "20",
-    #                 "SearchHistory": "Bike"
-    # }
-    # ID = test_user.get("UserID")
-    # add_doc(elastic_client, "user", ID, test_user)
-
-    # test_user = {   "UserID": "User4",
-    #                 "Location": "48.46, -123.31",
-    #                 "Age": "20",
-    #                 "SearchHistory": "Bike"
-    # }
-    # ID = test_user.get("UserID")
-    # add_doc(elastic_client, "user", ID, test_user)
