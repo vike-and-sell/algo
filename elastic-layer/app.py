@@ -76,12 +76,21 @@ def loadUsers():
 
 
 def getSearchHistory(userid):
+
     search_history = execute_data_request(http, path=f"/get_search_history?userId={userid}", method="GET",  body=None)
     
     #search_history = [{"search_date":"2024-01-01T00:00:00","search_text":"bike"}]
-    
     return search_history
 
+
+def addIgnoredListing(userId, listingId):
+    execute_data_request(http, path=f"/ignore_listing?userId={userId}", method="POST",  body=listingId)
+    return
+
+
+def addSearchHistory(userId, search):
+    execute_data_request(http, path=f"/add_search_history?userId={userId}", method="POST",  body=search)
+    return
 
 
 # search path
@@ -130,16 +139,14 @@ def test_get_rec():
 def ignore_rec(listingId):
 
     userId = request.args.get('userId')
-    #print("hello there " + userId + ". Ignoring: " + listingId, flush=True)
-    
     #insert error message if none found 
 
     # add listing to "ignore" field for user in db
-    addIgnoredListing(userId, userId)
+    # addIgnoredListing(userId, userId)
     # update local copy
     recommend.ignore(userId, listingId)
     # make new set of recommendations, send to front end?
-    
+
     return
     
 
