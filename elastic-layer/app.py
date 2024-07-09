@@ -105,6 +105,7 @@ def test_search():
     else:
         loadListings()
 
+    #TODO: add to searchHistory
     results =  searchVikeandSell(elastic_client, search_type, query)
     
     # return results in JSON format option: jsonify(results)
@@ -123,24 +124,24 @@ def test_get_rec():
     return results
 
 
-# TODO: SPRINT3:  update preferences call (block for now)
-# PATH: POST /recommendations/ignore?listingId=123&userId=1
-@app.route('recommendations/ignore?', methods=['POST'])
-def ignore_rec():
+# PATH: POST /recommendations/1/ignore?userId=1
+# sample call: curl -X POST "http://localhost:4500/recommendations/5/ignore?userId=1"
+@app.route('/recommendations/<listingId>/ignore', methods=['POST'])
+def ignore_rec(listingId):
 
     userId = request.args.get('userId')
-    listingId = request.args.get('listingId')
+    #print("hello there " + userId + ". Ignoring: " + listingId, flush=True)
     
-    #insert error message if none fonud
+    #insert error message if none found 
 
-    #add listing to  "ignore" field for user in db
-
-    results = recommend.ignore(userId, listingId)
-    # make new set of recommendations, send to front end? 
-
-    return results
-
-
+    # add listing to "ignore" field for user in db
+    addIgnoredListing(userId, userId)
+    # update local copy
+    recommend.ignore(userId, listingId)
+    # make new set of recommendations, send to front end?
+    
+    return
+    
 
 
 ##  Basic test paths -------------------------------------------------

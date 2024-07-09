@@ -41,3 +41,9 @@ def recommend_algo(elastic_client, search_history):
         return ("No recommendations can be made at this time")
 
 
+def ignore(userId, listingId):
+
+    # TODO: ignore the listing given in recommendations.
+
+    # adjust recommendations given based on ignore
+    return
