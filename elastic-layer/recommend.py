@@ -6,13 +6,12 @@ import json
 from search import *
 from update import *
 
+
 ## Recommend function called by app.py on reccomend request.
 # returns a list of listings in JSON format
 def recommend_algo(elastic_client, search_history):
-    print("recommending from Vike and sell..... ")
     #test_data(elastic_client)
    
-    ## Where the recommender magic will happen
     ## Preload with invalid data for the backend to compare against
     return_data = [] 
 
@@ -30,10 +29,31 @@ def recommend_algo(elastic_client, search_history):
 
     # This makes sure that if data is returned then it is a propper reccomendation
     # if False is returned then an error occured
-    if return_data is not []:
+
+    if (len(return_data) > 25): #10 for now but should be more when we have more test listings
         return return_data
+
     else:
-        return ("No recommendations can be made at this time")
+        #return ("No recommendations can be made at this time")
+        num_recs = len(return_data)
+        
+        #No listing match the Users search history, so will use cold start data\
+        cold_start_rec = ['bike', 'lamp', 'table', 'chair', 'clothes', 'Sale', 'Vintage'] #TBD on what will be listed here
+        for s in cold_start_rec:
+            response = searchVikeandSell(elastic_client, "listing", s)
+        
+            count = 0
+            for hit in response:
+                if count < 3:
+                    # Don't add duplicate item to the list
+                    return_data.append(hit)
+                    count = count + 1
+
+                
+            if (len(return_data) > 25):
+                return return_data
+
+        return return_data
     
 def get_search_history(userId):
     return ["bike"] # list of one item

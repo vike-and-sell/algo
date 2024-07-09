@@ -118,7 +118,7 @@ def test_get_rec():
     #UNCOMMENT THIS WHEN integrating
     #search_history = getSearchHistory(userId)
     
-    search_history = ['bike', 'lamp']
+    search_history = ['pants']
 
     results = recommend_algo(elastic_client, search_history)
 
