@@ -18,7 +18,7 @@ username = 'elastic'
 password = os.environ['ELASTIC_PASSWORD']
 
 elastic_client = Elasticsearch(
-    "http://elasticsearch:9200",
+    "http://elasticsearch:9200", ##TODO: revert
     basic_auth=(username, password)
 )
 
