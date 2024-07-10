@@ -21,6 +21,9 @@ def recommend_algo(elastic_client, search_history):
     for s in search_history:
         response = searchVikeandSell(elastic_client, "listing", s)
         
+        #bandaid fix by haley so it doesn't break when recommendations are made
+        return response
+
         count = 0
         for hit in response:
             if count < NUM_HISTORY_RECS:
