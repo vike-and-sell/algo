@@ -93,12 +93,22 @@ def addSearchHistory(userId, search):
     return
 
 
+
+
+# Update all Path. Called by Cron job to periodically update the local listings and users tables
+@app.route('/update_elastic', methods=['GET'])
+def route_update_elastic():
+    loadListings()
+    loadUsers()
+    #TODO: pull whole search history table. No endpoint available for this, not currently included in users table.
+
+
 # search path
-#sample call: "localhost:4500/search?q=here+are+some+terms&type=user"
+# sample call: "localhost:4500/search?q=here+are+some+terms&type=user"
 # NOTE: when calling this in command line with curl, may have to put url in " " to prevent zsh shell from thinking we're using special characters
 # will need to add to search history eventually
 @app.route('/search', methods=['GET'])
-def test_search():
+def route_search():
     #TODO:
     # add lat, long if we are responsible for location
     # get listings data from db if needed (?) interact with data layer.
@@ -115,16 +125,15 @@ def test_search():
         loadListings()
 
     #TODO: add to searchHistory
+
     results =  searchVikeandSell(elastic_client, search_type, query)
-    
     # return results in JSON format option: jsonify(results)
     return results
 
 # get recommendations call
 # samplecall:  "localhost:4500/recommendations?userId=123"
 @app.route('/recommendations',  methods=['GET'])
-def test_get_rec():
-
+def route_recommendations():
     userId = request.args.get('userId')
     loadListings()
     search_history = getSearchHistory(userId)
@@ -136,15 +145,16 @@ def test_get_rec():
 # PATH: POST /recommendations/1/ignore?userId=1
 # sample call: curl -X POST "http://localhost:4500/recommendations/5/ignore?userId=1"
 @app.route('/recommendations/<listingId>/ignore', methods=['POST'])
-def ignore_rec(listingId):
+def route_ignore_rec(listingId):
 
     userId = request.args.get('userId')
-    #insert error message if none found 
+    #insert error message if none found
+
 
     # add listing to "ignore" field for user in db
     # addIgnoredListing(userId, userId)
     # update local copy
-    recommend.ignore(userId, listingId)
+    recommend.ignore(elastic_client, userId, listingId)
     # make new set of recommendations, send to front end?
 
     return
