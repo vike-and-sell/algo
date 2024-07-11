@@ -93,11 +93,9 @@ def addSearchHistory(userId, search):
     return
 
 
-
-
 # Update all Path. Called by Cron job to periodically update the local listings and users tables
 @app.route('/update_elastic', methods=['GET'])
-def route_update_elastic():
+def update_elastic():
     loadListings()
     loadUsers()
     #TODO: pull whole search history table. No endpoint available for this, not currently included in users table.
@@ -109,25 +107,17 @@ def route_update_elastic():
 # will need to add to search history eventually
 @app.route('/search', methods=['GET'])
 def route_search():
-    #TODO:
-    # add lat, long if we are responsible for location
-    # get listings data from db if needed (?) interact with data layer.
+
     query = request.args.get('q')
     search_type = request.args.get('type')
 
     # hard code to assume listing if not user
     if search_type != 'user':
         search_type = 'listing'
-    
-    if search_type == "user":
-        loadUsers()
-    else:
-        loadListings()
 
-    #TODO: add to searchHistory
-
+    # addSearchHistory(userId, query)  ##TODO ASK BACKEND
     results =  searchVikeandSell(elastic_client, search_type, query)
-    # return results in JSON format option: jsonify(results)
+    # return results in JSON format
     return results
 
 # get recommendations call
@@ -135,7 +125,6 @@ def route_search():
 @app.route('/recommendations',  methods=['GET'])
 def route_recommendations():
     userId = request.args.get('userId')
-    loadListings()
     search_history = getSearchHistory(userId)
     results = recommend.recommend_algo(elastic_client, search_history)
     # return results in JSON format
@@ -152,13 +141,12 @@ def route_ignore_rec(listingId):
 
 
     # add listing to "ignore" field for user in db
-    # addIgnoredListing(userId, userId)
+    # addIgnoredListing(userId, listingId)
     # update local copy
     recommend.ignore(elastic_client, userId, listingId)
     # make new set of recommendations, send to front end?
 
     return
-    
 
 
 ##  Basic test paths -------------------------------------------------
@@ -173,4 +161,6 @@ def test_es():
 
 #TODO: remove debug=True in Development
 if __name__ == '__main__':
+    #on start up, pull data in for elastic
+    update_elastic()
     app.run(debug=True)
