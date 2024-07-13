@@ -76,21 +76,10 @@ def loadUsers():
 
 
 def getSearchHistory(userid):
-
     search_history = execute_data_request(http, path=f"/get_search_history?userId={userid}", method="GET",  body=None)
     
     #search_history = [{"search_date":"2024-01-01T00:00:00","search_text":"bike"}]
     return search_history
-
-
-def addIgnoredListing(userId, listingId):
-    execute_data_request(http, path=f"/ignore_listing?userId={userId}", method="POST",  body=listingId)
-    return
-
-
-def addSearchHistory(userId, search):
-    execute_data_request(http, path=f"/add_search_history?userId={userId}", method="POST",  body=search)
-    return
 
 
 # Update all Path. Called by Cron job to periodically update the local listings and users tables
@@ -111,6 +100,9 @@ def route_search():
     query = request.args.get('q')
     search_type = request.args.get('type')
 
+    if query == None:
+        return []
+
     # hard code to assume listing if not user
     if search_type != 'user':
         search_type = 'listing'
@@ -125,6 +117,10 @@ def route_search():
 @app.route('/recommendations',  methods=['GET'])
 def route_recommendations():
     userId = request.args.get('userId')
+
+    if userId == None:
+        return "Error: userId required"
+
     search_history = getSearchHistory(userId)
     results = recommend.recommend_algo(elastic_client, search_history)
     # return results in JSON format
@@ -138,15 +134,26 @@ def route_ignore_rec(listingId):
 
     userId = request.args.get('userId')
     #insert error message if none found
-
+    if userId == None:
+        return "Error: userId required"
 
     # add listing to "ignore" field for user in db
     # addIgnoredListing(userId, listingId)
     # update local copy
-    recommend.ignore(elastic_client, userId, listingId)
+    result = recommend.ignore(elastic_client, userId, listingId)
     # make new set of recommendations, send to front end?
 
-    return
+    return result
+
+
+@app.route('/recommendations/ignore_charity', methods=['POST'])
+def route_ignore_charity_rec():
+    userId = request.args.get('userId')
+
+    #TODO: 
+
+    return "Not implemented"
+
 
 
 ##  Basic test paths -------------------------------------------------
