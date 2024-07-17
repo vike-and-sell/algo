@@ -1,0 +1,38 @@
+[
+    {
+        "database": "Listings",   //are you actually the db name?
+        "index": "listings",
+        "nodes": {
+            "table": "Listings",
+            "columns": [
+                "listing_id",
+                "seller_id",
+                "title",
+                "price",
+                "location",
+                "address",
+                "status",
+                "created_on",
+                "last_updated_at"
+            ]
+        }
+    }
+,
+    {
+        "database": "Users",   //are you actually the db name?
+        "index": "users",
+        "nodes": {
+            "table": "Users",
+            "columns": [
+                "user_id",
+                "username",
+                "email",
+                "price",
+                "password",
+                "location",
+                "address",
+                "joining_date"
+            ]
+        }
+    }
+]
