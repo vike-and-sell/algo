@@ -4,7 +4,6 @@ from elasticsearch import Elasticsearch
 import urllib3
 import json
 from search import *
-import update
 import recommend
 
 
@@ -50,45 +49,11 @@ def execute_data_request(http: urllib3.PoolManager, path, method, body):
     return json.loads(result.data.decode('utf-8'))
 
 
-
-
-# Helper functions
-def loadListings():
-    listings =  execute_data_request(http, path='/get_all_listings', method="GET", body=None)
-
-    # for now use static test data
-    # file = open('test_listings.json')
-    # listings = json.load(file)
-    # file.close
-
-    update.loadElastic(elastic_client, 'listing', 'listing_id', listings)
-
-
-def loadUsers():
-    users  = execute_data_request(http, path='/get_all_users', method="GET", body=None)
-
-    # until backend hooked up
-    # file = open('test_users.json')
-    # users = json.load(file)
-    # file.close
-
-    update.loadElastic(elastic_client,'user', 'user_id', users)
-
-
 def getSearchHistory(userid):
     search_history = execute_data_request(http, path=f"/get_search_history?userId={userid}", method="GET",  body=None)
     
     #search_history = [{"search_date":"2024-01-01T00:00:00","search_text":"bike"}]
     return search_history
-
-
-# Update all Path. Called by Cron job to periodically update the local listings and users tables
-@app.route('/update_elastic', methods=['GET'])
-def update_elastic():
-    loadListings()
-    loadUsers()
-    #TODO: pull whole search history table. No endpoint available for this, not currently included in users table.
-
 
 # search path
 # sample call: "localhost:4500/search?q=here+are+some+terms&type=user"
@@ -168,6 +133,4 @@ def test_es():
 
 #TODO: remove debug=True in Development
 if __name__ == '__main__':
-    #on start up, pull data in for elastic
-    update_elastic()
     app.run(debug=True)
