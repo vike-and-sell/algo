@@ -1,7 +1,7 @@
 [
     {
         "database": "Listings",   //are you actually the db name?
-        "index": "listings",
+        "index": "listing",
         "nodes": {
             "table": "Listings",
             "columns": [
@@ -20,7 +20,7 @@
 ,
     {
         "database": "Users",   //are you actually the db name?
-        "index": "users",
+        "index": "user",
         "nodes": {
             "table": "Users",
             "columns": [
