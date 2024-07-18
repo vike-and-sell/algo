@@ -1,7 +1,7 @@
 [
     {
-        "database": "Listings",   //are you actually the db name?
-        "index": "listing",
+        "database": "postgres",
+        "index": "listings",
         "nodes": {
             "table": "Listings",
             "columns": [
@@ -14,13 +14,26 @@
                 "status",
                 "created_on",
                 "last_updated_at"
+            ],
+            "children" : [
+                {
+                    "table" : "Ignored",
+                    "columns" : [
+                        "user_id",
+                        "listing_id"
+                    ],
+                    "relationship" : {
+                        "type" : "one_to_many",
+                        "variant" : "object"
+                    }
+                }
             ]
         }
     }
 ,
     {
-        "database": "Users",   //are you actually the db name?
-        "index": "user",
+        "database": "postgres",
+        "index": "users",
         "nodes": {
             "table": "Users",
             "columns": [
@@ -32,7 +45,22 @@
                 "location",
                 "address",
                 "joining_date"
+            ],
+            "children" : [
+                {
+                    "table" : "Searches",
+                    "columns" : [
+                        "user_id",
+                        "search_text",
+                        "search_date"
+                    ],
+                    "relationship" : {
+                        "type" : "one_to_many",
+                        "variant" : "object"
+                    }
+                }
             ]
         }
     }
+
 ]
