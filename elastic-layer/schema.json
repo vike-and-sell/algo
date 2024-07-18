@@ -1,5 +1,6 @@
 [
     {
+
         "database": "postgres",
         "index": "listing",
         "nodes": {
@@ -61,5 +62,4 @@
             ]
         }
     }
-
 ]

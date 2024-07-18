@@ -4,7 +4,6 @@ from elasticsearch import Elasticsearch
 import urllib3
 import json
 from search import *
-import update
 import recommend
 
 
@@ -50,81 +49,75 @@ def execute_data_request(http: urllib3.PoolManager, path, method, body):
     return json.loads(result.data.decode('utf-8'))
 
 
-
-
-# Helper functions
-def loadListings():
-    listings =  execute_data_request(http, path='/get_all_listings', method="GET", body=None)
-
-    # for now use static test data
-    # file = open('test_listings.json')
-    # listings = json.load(file)
-    # file.close
-
-    update.loadElastic(elastic_client, 'listing', 'listing_id', listings)
-
-
-def loadUsers():
-    users  = execute_data_request(http, path='/get_all_users', method="GET", body=None)
-
-    # until backend hooked up
-    # file = open('test_users.json')
-    # users = json.load(file)
-    # file.close
-
-    update.loadElastic(elastic_client,'user', 'user_id', users)
-
-
 def getSearchHistory(userid):
     search_history = execute_data_request(http, path=f"/get_search_history?userId={userid}", method="GET",  body=None)
     
     #search_history = [{"search_date":"2024-01-01T00:00:00","search_text":"bike"}]
-    
     return search_history
 
-
-
 # search path
-#sample call: "localhost:4500/search?q=here+are+some+terms&type=user"
+# sample call: "localhost:4500/search?q=here+are+some+terms&type=user"
 # NOTE: when calling this in command line with curl, may have to put url in " " to prevent zsh shell from thinking we're using special characters
 # will need to add to search history eventually
 @app.route('/search', methods=['GET'])
-def test_search():
-    #TODO:
-    # add lat, long if we are responsible for location
-    # get listings data from db if needed (?) interact with data layer.
+def route_search():
+
     query = request.args.get('q')
     search_type = request.args.get('type')
+
+    if query == None:
+        return []
 
     # hard code to assume listing if not user
     if search_type != 'user':
         search_type = 'listing'
-    
-    if search_type == "user":
-        loadUsers()
-    else:
-        loadListings()
 
+    # addSearchHistory(userId, query)  ##TODO ASK BACKEND
     results =  searchVikeandSell(elastic_client, search_type, query)
-    
-    # return results in JSON format option: jsonify(results)
+    # return results in JSON format
     return results
 
 # get recommendations call
 # samplecall:  "localhost:4500/recommendations?userId=123"
 @app.route('/recommendations',  methods=['GET'])
-def test_get_rec():
-
+def route_recommendations():
     userId = request.args.get('userId')
-    loadListings()
+
+    if userId == None:
+        return "Error: userId required"
+
     search_history = getSearchHistory(userId)
     results = recommend.recommend_algo(elastic_client, search_history)
     # return results in JSON format
     return results
 
 
-# TODO: SPRINT3:  update preferences call (block for now)
-# PATH: POST /recommendations/ignore?listingId=123&userId=1
+# PATH: POST /recommendations/1/ignore?userId=1
+# sample call: curl -X POST "http://localhost:4500/recommendations/5/ignore?userId=1"
+@app.route('/recommendations/<listingId>/ignore', methods=['POST'])
+def route_ignore_rec(listingId):
+
+    userId = request.args.get('userId')
+    #insert error message if none found
+    if userId == None:
+        return "Error: userId required"
+
+    # add listing to "ignore" field for user in db
+    # addIgnoredListing(userId, listingId)
+    # update local copy
+    result = recommend.ignore(elastic_client, userId, listingId)
+    # make new set of recommendations, send to front end?
+
+    return result
+
+
+@app.route('/recommendations/ignore_charity', methods=['POST'])
+def route_ignore_charity_rec():
+    userId = request.args.get('userId')
+
+    #TODO: 
+
+    return "Not implemented"
 
 
 

@@ -76,3 +76,9 @@ def recommend_algo(elastic_client, search_history): # need to add "do_not_show"
 def get_search_history(userId):
     return ["bike"] # list of one item
     
+def ignore(elastic_client, userId, listingId):
+
+    # TODO: ignore the listing given in recommendations.
+
+    # adjust recommendations given based on ignore? 
+    return "not implemented"
