@@ -9,27 +9,60 @@ from update import *
 ## Search function called by app.py on search request.
 # returns a list of listings in JSON format
 def searchVikeandSell(elastic_client, search_type, search_terms):
-    print("searching Vike and sell..... ")
-
     results = []
+    for each in search_terms:
+        each = each + '*'
 
-    context = Search(using = elastic_client, index = search_type) 
-    s = context.query('query_string', query = search_terms)
-    response = s.execute()
-
-
+#SEARCH USERS
     if search_type == 'user':
-        if response.success():
-            for hit in response:
-                #Frontend needs list of seller_id
-                results.append(hit.user_id)
+    #User Search Query
+        query = { 
+	        "query": {
+                "bool": {
+                    "must": [
+                        {   
+                        "match": {"username": search_terms}
+                        }
+                    ]
+                } 
+	        }
+        }
+
+        #Search for documents
+        response = elastic_client.search(index=search_type, body=query)
+        hits = response["hits"]["hits"]
+
+        #Format the search results to return as a JSON
+        for hit in hits:
+            #Ensures no duplicates are added
+            if hit not in results:
+                user_hit = hit["_source"]
+                results.append(user_hit.get('user_id'))
+
+#SEARCH LISTINGS
     else:
-        if response.success():
-            for hit in response:
-                ##Frontend needs list of user_id
-                ID = hit.listing_id
-                doc = elastic_client.get(index = "listing", id = ID)
-                results.append(doc["_source"])
+    #Listing Search Query
+        query = { 
+	        "query": {
+                "bool": {
+                    "must": [
+                        {   
+                        "match": {"title": search_terms}
+                        }
+                    ]
+                } 
+	        }
+        }
+
+        #Search for documents
+        response = elastic_client.search(index=search_type, body=query)
+        hits = response["hits"]["hits"]
+
+        #Format the search results to return as a JSON
+        for hit in hits:
+            #Ensures no duplicates are added
+            if hit not in results:
+                results.append(hit["_source"])
 
     #Returns the results in JSON format
     return results
