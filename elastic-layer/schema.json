@@ -1,7 +1,8 @@
 [
     {
-        "database": "Listings",
-        "index": "listings",
+
+        "database": "postgres",
+        "index": "listing",
         "nodes": {
             "table": "Listings",
             "columns": [
@@ -32,15 +33,14 @@
     }
 ,
     {
-        "database": "Users",
-        "index": "users",
+        "database": "postgres",
+        "index": "user",
         "nodes": {
             "table": "Users",
             "columns": [
                 "user_id",
                 "username",
                 "email",
-                "price",
                 "password",
                 "location",
                 "address",
@@ -62,5 +62,4 @@
             ]
         }
     }
-
 ]
