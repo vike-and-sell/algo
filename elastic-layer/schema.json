@@ -1,0 +1,65 @@
+[
+    {
+        "database": "postgres",
+        "index": "listing",
+        "nodes": {
+            "table": "Listings",
+            "columns": [
+                "listing_id",
+                "seller_id",
+                "title",
+                "price",
+                "location",
+                "address",
+                "status",
+                "created_on",
+                "last_updated_at"
+            ],
+            "children" : [
+                {
+                    "table" : "Ignored",
+                    "columns" : [
+                        "user_id",
+                        "listing_id"
+                    ],
+                    "relationship" : {
+                        "type" : "one_to_many",
+                        "variant" : "object"
+                    }
+                }
+            ]
+        }
+    }
+,
+    {
+        "database": "postgres",
+        "index": "user",
+        "nodes": {
+            "table": "Users",
+            "columns": [
+                "user_id",
+                "username",
+                "email",
+                "password",
+                "location",
+                "address",
+                "joining_date"
+            ],
+            "children" : [
+                {
+                    "table" : "Searches",
+                    "columns" : [
+                        "user_id",
+                        "search_text",
+                        "search_date"
+                    ],
+                    "relationship" : {
+                        "type" : "one_to_many",
+                        "variant" : "object"
+                    }
+                }
+            ]
+        }
+    }
+
+]
