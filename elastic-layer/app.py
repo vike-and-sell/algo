@@ -111,6 +111,9 @@ def route_search():
     query = request.args.get('q')
     search_type = request.args.get('type')
 
+    if query == None:
+        return []
+
     # hard code to assume listing if not user
     if search_type != 'user':
         search_type = 'listing'
@@ -125,6 +128,10 @@ def route_search():
 @app.route('/recommendations',  methods=['GET'])
 def route_recommendations():
     userId = request.args.get('userId')
+
+    if userId == None:
+        return "Error: userId required"
+
     search_history = getSearchHistory(userId)
     results = recommend.recommend_algo(elastic_client, search_history)
     # return results in JSON format
@@ -138,15 +145,26 @@ def route_ignore_rec(listingId):
 
     userId = request.args.get('userId')
     #insert error message if none found
-
+    if userId == None:
+        return "Error: userId required"
 
     # add listing to "ignore" field for user in db
     # addIgnoredListing(userId, listingId)
     # update local copy
-    recommend.ignore(elastic_client, userId, listingId)
+    result = recommend.ignore(elastic_client, userId, listingId)
     # make new set of recommendations, send to front end?
 
-    return
+    return result
+
+
+@app.route('/recommendations/ignore_charity', methods=['POST'])
+def route_ignore_charity_rec():
+    userId = request.args.get('userId')
+
+    #TODO: 
+
+    return "Not implemented"
+
 
 
 ##  Basic test paths -------------------------------------------------
@@ -161,6 +179,4 @@ def test_es():
 
 #TODO: remove debug=True in Development
 if __name__ == '__main__':
-    #on start up, pull data in for elastic
-    update_elastic()
     app.run(debug=True)

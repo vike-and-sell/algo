@@ -46,4 +46,4 @@ def ignore(elastic_client, userId, listingId):
     # TODO: ignore the listing given in recommendations.
 
     # adjust recommendations given based on ignore? 
-    return
+    return "not implemented"
