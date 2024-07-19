@@ -10,7 +10,6 @@
                 "seller_id",
                 "title",
                 "price",
-                "location",
                 "address",
                 "status",
                 "created_on",
@@ -42,7 +41,6 @@
                 "username",
                 "email",
                 "password",
-                "location",
                 "address",
                 "joining_date"
             ],
