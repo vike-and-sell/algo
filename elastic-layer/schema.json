@@ -4,7 +4,7 @@
         "database": "postgres",
         "index": "listing",
         "nodes": {
-            "table": "Listings",
+            "table": "listings",
             "columns": [
                 "listing_id",
                 "seller_id",
@@ -18,7 +18,7 @@
             ],
             "children" : [
                 {
-                    "table" : "Ignored",
+                    "table" : "ignored",
                     "columns" : [
                         "user_id",
                         "listing_id"
@@ -36,7 +36,7 @@
         "database": "postgres",
         "index": "user",
         "nodes": {
-            "table": "Users",
+            "table": "users",
             "columns": [
                 "user_id",
                 "username",
@@ -48,7 +48,7 @@
             ],
             "children" : [
                 {
-                    "table" : "Searches",
+                    "table" : "searches",
                     "columns" : [
                         "user_id",
                         "search_text",
