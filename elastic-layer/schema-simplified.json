@@ -1,0 +1,19 @@
+[ 
+    {
+        "database": "postgres",
+        "index": "listing",
+        "nodes": {
+            "table": "listings",
+            "columns": [
+                "listing_id",
+                "seller_id",
+                "title",
+                "price",
+                "address",
+                "status",
+                "created_on",
+                "last_updated_at"
+            ]
+        }
+    }
+]
