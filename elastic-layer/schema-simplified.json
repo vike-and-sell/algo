@@ -16,4 +16,18 @@
             ]
         }
     }
+    ,
+    {
+        "database": "postgres",
+        "index": "user",
+        "nodes": {
+            "table": "Users",
+            "columns": [
+                "user_id",
+                "username",
+                "email",
+                "password",
+                "address",
+                "joining_date"
+            ]
 ]
