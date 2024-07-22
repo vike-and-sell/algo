@@ -108,5 +108,16 @@
       "joining_date": "2024-10-20",
       "items_sold": [113],
       "items_purchased": [215, 216]
+    },
+    {
+      "user_id": 11,
+      "username": "bike_boi",
+      "email": "bikeboi@uvic.ca",
+      "password": "boi@456",
+      "location": { "latitude": 48.4293, "longitude": -123.3647 },
+      "address": "10000 Action Street, Victoria, BC",
+      "joining_date": "2024-10-20",
+      "items_sold": [113],
+      "items_purchased": [215, 216]
     }
 ]

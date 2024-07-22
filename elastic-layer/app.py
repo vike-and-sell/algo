@@ -92,19 +92,19 @@ def update_elastic():
 def route_search():
 
     query = request.args.get('q')
-    search_type = request.args.get('type')
 
     if query == None:
         return []
 
-    # hard code to assume listing if not user
-    if search_type != 'user':
-        search_type = 'listing'
-
-    # addSearchHistory(userId, query)  ##TODO ASK BACKEND
-    results =  searchVikeandSell(elastic_client, search_type, query)
+    # addSearchHistory(userId, query)
+    user_results = searchVikeandSell(elastic_client, "user", query)
+    listing_results =  searchVikeandSell(elastic_client, "listing", query)
+    results = {
+        'users' : user_results,
+        'listings' : listing_results
+    }
     # return results in JSON format
-    return results
+    return jsonify(results)
 
 # get recommendations call
 # samplecall:  "localhost:4500/recommendations?userId=123"
