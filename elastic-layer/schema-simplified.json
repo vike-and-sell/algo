@@ -3,7 +3,7 @@
         "database": "postgres",
         "index": "listing",
         "nodes": {
-            "table": "listings",
+            "table": "Listings",
             "columns": [
                 "listing_id",
                 "seller_id",
