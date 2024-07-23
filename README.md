@@ -18,4 +18,5 @@ Follow these steps to get started with local development:
 
 ### URLS:
 - to use local version, ensure elastic_client is intialized using `http://elasticsearch-master:9200` in app.py. Then use `curl http://localhost:4500/` as base url.
-- to perform curl requests on the deployed version (running on cluster) please ensure elastic_client is intialized using `http://elasticsearch-master:9200` in app.py, and use `http://serber.ddns.net:32500/` as  base-url
+- to perform curl requests on the deployed version (running on cluster) please ensure elastic_client is intialized using `http://elasticsearch-master:9200` in app.py, and use `http://serber.ddns.net:32500/` as  base-url. **NOTE** Changes must be deployed by Charlie to be reflected here
+
