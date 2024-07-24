@@ -16,7 +16,7 @@ do_not_show = [7, 10] # This will be list of listing IDS???
 
 ## Recommend function called by app.py on reccomend request.
 ## Returns a list of listings in JSON format
-def recommend_algo(elastic_client, search_history): # need to add "do_not_show"
+def recommend_algo(elastic_client, search_history, do_not_show): # need to add "do_not_show"
    
     ## Preload with invalid data for the backend to compare against
     return_data = [] 
