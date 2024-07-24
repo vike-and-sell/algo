@@ -12,10 +12,8 @@ NUM_SIMILAR_RECS = 20
 
 
 
-def recommend_algo(elastic_client, search_history, userId):
+def recommend_algo(elastic_client, userId, search_history, do_not_rec):
     return_data = [] 
-
-    do_not_rec = [10] #need to remove
     
     #Check if user has Charity items enabled
     see_charity = get_charity_value(elastic_client, userId)
