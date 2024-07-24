@@ -10,22 +10,20 @@ from update import *
 # returns a list of listings in JSON format
 def searchVikeandSell(elastic_client, search_type, search_terms):
     results = []
-    for each in search_terms:
-        each = each + '*'
 
 #SEARCH USERS
     if search_type == 'user':
     #User Search Query
+        search_terms = '*' + search_terms + '*'
         query = { 
-	        "query": {
-                "bool": {
-                    "must": [
-                        {   
-                        "match": {"username": search_terms}
-                        }
-                    ]
-                } 
-	        }
+            "query": {
+                "wildcard": {
+                    "username": {
+                        "value": search_terms,
+                        "case_insensitive": True
+                    }
+                }
+            }
         }
 
         #Search for documents
