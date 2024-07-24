@@ -38,22 +38,60 @@ except:
 DATA_URL = os.environ["DATA_URL"]
 DATA_API_KEY = os.environ["DATA_API_KEY"]
 
-#eventually add one for updating current listings
+
+#Responses
+def make_invalid_request_response(message: str = ""):
+    return {
+        "statusCode": 400,
+        "body": json.dumps({
+            "message": message
+        })
+    }
+
+def make_not_found_response(message: str = ""):
+    return {
+        "statusCode": 404,
+        "body": json.dumps({
+            "message": message
+        }),
+    }
+
+
+def make_internal_error_response():
+    return {
+        "statusCode": 500,
+    }
+
+def make_ok_response(body=None, headers: dict = None, auth: dict = None):
+    result = {
+        "statusCode": 200,
+    }
+
+    if auth is not None:
+        result["auth"] = auth
+
+    if body is not None:
+        result["body"] = json.dumps(body)
+
+    return result
+
 
 def execute_data_request(http: urllib3.PoolManager, path, method, body):
     headers = {
         "X-Api-Key": DATA_API_KEY,
     }
-    result =  http.request(method, f"http://{DATA_URL}{path}", body=body, headers=headers)
-    #response.data ##gives us something
-    return json.loads(result.data.decode('utf-8'))
+    return http.request(method, f"http://{DATA_URL}{path}", body=body, headers=headers)
+
+
+def getUserRecInfo(userId):
+    return execute_data_request(http, path=f"/get_user_recommendation_info?userId={userId}", method="GET",  body=None)
 
 
 def getSearchHistory(userid):
-    search_history = execute_data_request(http, path=f"/get_search_history?userId={userid}", method="GET",  body=None)
-    
-    #search_history = [{"search_date":"2024-01-01T00:00:00","search_text":"bike"}]
+    result = execute_data_request(http, path=f"/get_search_history?userId={userid}", method="GET",  body=None)
+    search_history = json.loads(result.data.decode('utf-8'))
     return search_history
+
 
 # search path
 # sample call: "localhost:4500/search?q=here+are+some+terms&type=user"
@@ -64,16 +102,11 @@ def route_search():
 
     query = request.args.get('q')
     if query == None:
-        return []
+        return make_invalid_request_response()
 
     user_results = searchVikeandSell(elastic_client, "user", query)
     listing_results =  searchVikeandSell(elastic_client, "listing", query)
-    results = {
-        'users' : user_results,
-        'listings' : listing_results
-    }
-    # return results in JSON format
-    return jsonify(results)
+    return make_ok_response(body={"listings": listing_results, "users": user_results})
 
 # get recommendations call
 # samplecall:  "localhost:4500/recommendations?userId=123"
@@ -82,41 +115,21 @@ def route_recommendations():
     userId = request.args.get('userId')
 
     if userId == None:
-        return "Error: userId required"
+        return make_invalid_request_response("userId required")
 
-    search_history = getSearchHistory(userId)
-    results = recommend.recommend_algo(elastic_client, search_history)
-    # return results in JSON format
-    return results
+    response =  getUserRecInfo(userId)
+    if response.status == 200:
+        info = json.loads(response.data.decode('utf-8'))
 
+        search_history = info["searches"]
+        ignored = info["ignored"]
+        results = recommend.recommend_algo(elastic_client, userId, search_history, ignored)
+        return make_ok_response(body=results)
 
-# PATH: POST /recommendations/1/ignore?userId=1
-# sample call: curl -X POST "http://localhost:4500/recommendations/5/ignore?userId=1"
-@app.route('/recommendations/<listingId>/ignore', methods=['POST'])
-def route_ignore_rec(listingId):
-
-    userId = request.args.get('userId')
-    #insert error message if none found
-    if userId == None:
-        return "Error: userId required"
-
-    # add listing to "ignore" field for user in db
-    # addIgnoredListing(userId, listingId)
-    # update local copy
-    result = recommend.ignore(elastic_client, userId, listingId)
-    # make new set of recommendations, send to front end?
-
-    return result
-
-
-@app.route('/recommendations/ignore_charity', methods=['POST'])
-def route_ignore_charity_rec():
-    userId = request.args.get('userId')
-
-    #TODO: 
-
-    return "Not implemented"
-
+    elif response.status == 404:
+        return make_not_found_response()
+    else:
+        return make_internal_error_response()
 
 
 ##  Basic test paths -------------------------------------------------
