@@ -1,0 +1,35 @@
+[ 
+    {
+        "database": "postgres",
+        "index": "listing",
+        "nodes": {
+            "table": "Listings",
+            "columns": [
+                "listing_id",
+                "seller_id",
+                "title",
+                "price",
+                "address",
+                "status",
+                "created_on",
+                "last_updated_at"
+            ]
+        }
+    }
+    ,
+    {
+        "database": "postgres",
+        "index": "user",
+        "nodes": {
+            "table": "Users",
+            "columns": [
+                "user_id",
+                "username",
+                "email",
+                "password",
+                "address",
+                "joining_date"
+            ]
+        }
+    }
+]

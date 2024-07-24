@@ -11,8 +11,10 @@ TOTAL_REC_RETURN = 200
 NUM_SIMILAR_RECS = 20
 
 
-
+## Recommend function called by app.py on reccomend request.
+## Returns a list of listings in JSON format
 def recommend_algo(elastic_client, userId, search_history, do_not_rec):
+   
     return_data = [] 
     
     #Check if user has Charity items enabled
@@ -30,6 +32,9 @@ def recommend_algo(elastic_client, userId, search_history, do_not_rec):
     for s in search_history:
         response = rec_search(elastic_client, 'listing', s, see_charity)
         
+        #bandaid fix by haley so it doesn't break when recommendations are made
+        return response
+
         count = 0
         for hit in response:
             if count < NUM_HISTORY_RECS:
@@ -216,3 +221,4 @@ def do_not_recommend_type(elastic_client, do_not_rec):
                 count = count + 1
  
     return do_not_show
+
