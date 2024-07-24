@@ -123,7 +123,7 @@ def route_recommendations():
 
         search_history = info["searches"]
         ignored = info["ignored"]
-        results = recommend.recommend_algo(elastic_client, search_history, ignored)
+        results = recommend.recommend_algo(elastic_client, userId, search_history, ignored)
         return make_ok_response(body=results)
 
     elif response.status == 404:
