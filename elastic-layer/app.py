@@ -102,7 +102,7 @@ def route_search():
 
     query = request.args.get('q')
     if query == None:
-        return []
+        return make_invalid_request_response()
 
     user_results = searchVikeandSell(elastic_client, "user", query)
     listing_results =  searchVikeandSell(elastic_client, "listing", query)
