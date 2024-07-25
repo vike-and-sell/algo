@@ -4,18 +4,26 @@ import json
 import os
 import sys
 import inspect
+from elasticsearch import Elasticsearch
 
 # This is needed so that we can import files from the parent directory
 currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 parentdir = os.path.dirname(currentdir)
 sys.path.insert(0, parentdir) 
 
-import app
+import update
 
 '''# Helper functions'''
 # just define a global variable
-elastic_client = app.elastic_client
+username = 'elastic'
+password = 'ElasticUser123'
+
+elastic_client = Elasticsearch(
+    "http://elasticsearch-master:9200",
+    basic_auth=(username, password)
+)
 def loadListings():
+    print("LoadListings", Flush=True)
     # listings =  execute_data_request(http, path='/get_all_listings', method="GET", body=None)
     
     # for now use static test data
@@ -23,7 +31,7 @@ def loadListings():
     listings = json.load(file)
     file.close
 
-    app.update.loadElastic(elastic_client, 'listing', 'listing_id', listings)
+    update.loadElastic(elastic_client, 'listing', 'listing_id', listings)
 
 def loadUsers():
     # users  = execute_data_request(http, path='/get_all_users', method="GET", body=None)
@@ -33,7 +41,7 @@ def loadUsers():
     users = json.load(file)
     file.close
 
-    app.update.loadElastic(elastic_client,'user', 'user_id', users)
+    update.loadElastic(elastic_client,'user', 'user_id', users)
 
 '''Test Functions'''
 def test_noSearchHistoryRecommendation():
