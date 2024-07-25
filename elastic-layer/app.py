@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, Response
 import os
 from elasticsearch import Elasticsearch
 import urllib3
@@ -37,6 +37,16 @@ except:
 #from backend gateway file
 DATA_URL = os.environ["DATA_URL"]
 DATA_API_KEY = os.environ["DATA_API_KEY"]
+
+ALGO_API_KEY = os.environ["ALGO_API_KEY"]
+
+
+@app.before_request
+def check_api_key():
+    api_key = request.headers.get("X-Api-Key")
+    if api_key != ALGO_API_KEY:
+        return Response(status=401)
+
 
 
 #Responses
