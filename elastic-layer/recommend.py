@@ -85,7 +85,7 @@ def rec_search(elastic_client, search_type, search_terms, see_charity):
     for hit in hits:
         #Check if listing is marked for charity
         listing_hit = hit["_source"]
-        marked_for_charity = listing_hit.get('for_charity') 
+        marked_for_charity = listing_hit.get('charity') 
 
         if (marked_for_charity == True):
             if(see_charity == True):
@@ -119,7 +119,7 @@ def cold_start(elastic_client, search_history, userId, return_data, see_charity)
         if hit not in return_data:
             #Check if listing is marked for charity
             listing_hit = hit["_source"]
-            marked_for_charity = listing_hit.get('for_charity') 
+            marked_for_charity = listing_hit.get('charity') 
 
             if (marked_for_charity == True):
                 if(see_charity == True):
