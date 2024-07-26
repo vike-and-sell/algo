@@ -41,11 +41,17 @@ DATA_API_KEY = os.environ["DATA_API_KEY"]
 
 #Responses
 def make_invalid_request_response(message: str = ""):
-    return Response(json.dumps(message), status=400)
+    body = json.dumps({
+        "message": message
+    })
+    return Response(body, status=400)
 
 
 def make_not_found_response(message: str = ""):
-    return Response(json.dumps(message), status=404)
+    body = json.dumps({
+            "message": message
+        })
+    return Response(body, status=404)
 
 
 
