@@ -36,15 +36,13 @@ except:
 
 #from backend gateway file
 DATA_URL = os.environ["DATA_URL"]
-DATA_API_KEY = os.environ["DATA_API_KEY"]
-
-ALGO_API_KEY = os.environ["ALGO_API_KEY"]
+API_KEY = os.environ["DATA_API_KEY"]
 
 
 @app.before_request
 def check_api_key():
     api_key = request.headers.get("X-Api-Key")
-    if api_key != ALGO_API_KEY:
+    if api_key != API_KEY:
         return Response(status=401)
 
 
@@ -88,7 +86,7 @@ def make_ok_response(body=None, headers: dict = None, auth: dict = None):
 
 def execute_data_request(http: urllib3.PoolManager, path, method, body):
     headers = {
-        "X-Api-Key": DATA_API_KEY,
+        "X-Api-Key": API_KEY,
     }
     return http.request(method, f"http://{DATA_URL}{path}", body=body, headers=headers)
 
