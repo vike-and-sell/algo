@@ -41,11 +41,17 @@ DATA_API_KEY = os.environ["DATA_API_KEY"]
 
 #Responses
 def make_invalid_request_response(message: str = ""):
-    return Response(message, status=400)
+    body = json.dumps({
+        "message": message
+    })
+    return Response(body, status=400)
 
 
 def make_not_found_response(message: str = ""):
-    return Response(message, status=404)
+    body = json.dumps({
+            "message": message
+        })
+    return Response(body, status=404)
 
 
 
@@ -53,9 +59,11 @@ def make_internal_error_response():
     return Response(status=500)
 
 def make_ok_response(body=None, headers: dict = None, auth: dict = None):
-    response = Response(str(body), status=200)
+    if body != None:
+        body = json.dumps(body)
 
-    return response
+    return Response(str(body), status=200)
+
 
 def execute_data_request(http: urllib3.PoolManager, path, method, body):
     headers = {
