@@ -12,6 +12,7 @@ parentdir = os.path.dirname(currentdir)
 sys.path.insert(0, parentdir) 
 
 import update
+import recommend
 
 '''# Helper functions'''
 # just define a global variable
@@ -23,20 +24,16 @@ elastic_client = Elasticsearch(
     basic_auth=(username, password)
 )
 def loadListings():
-    print("LoadListings", Flush=True)
     # listings =  execute_data_request(http, path='/get_all_listings', method="GET", body=None)
     
     # for now use static test data
-    file = open('..\\test_listings2.json')
+    file = open(os.path.dirname(__file__) + '\\..\\test_listings2.json')
     listings = json.load(file)
     file.close
 
     update.loadElastic(elastic_client, 'listing', 'listing_id', listings)
 
 def loadUsers():
-    # users  = execute_data_request(http, path='/get_all_users', method="GET", body=None)
-
-    # until backend hooked up
     file = open('..\\test_users.json')
     users = json.load(file)
     file.close
@@ -46,47 +43,92 @@ def loadUsers():
 '''Test Functions'''
 def test_noSearchHistoryRecommendation():
     # Load the test data
+    loadListings()
+    loadUsers()
     
-    # Given a user
-
+    # Given a user. user_id = 1
     # Get the recommendations for that user based on their search history
     # Since the user has no search history ensure that the results are the default values we want for a cold start
-
-    # Remove the test data to ensure test is self contained
-
-    # If they are the default results
-        # Assert true
-    # else
-        # Assert False
-
+    recommended_results = recommend.recommend_algo(elastic_client, "")
     
-    assert False
+    # Remove the test data to ensure test is self contained
+    elastic_client.delete()
+
+    # Check to see if all the returned resluts are what we expect to be getting
+    testPassed = 1
+    for result in recommended_results:
+        if result not in (): # TODO fill this in with the expected results
+            testPassed = 0
+
+    if testPassed is not 0:
+        assert True
+    else:
+        assert False
 
 def test_searchHistoryRecommendation():
-    # Given a userId
+    # Load the test data
+    loadListings()
+    loadUsers()
+
+    # Given a user. user_id = 1
     # Get the recommendations for that user based on their search history
         # Ensure that a testing user is used with a defined search history
     # Since the user has a defined search history, ensure that the results are what has been defined in the code
-    # If the results are correct
-        # Assert True
-    # else
-        # Assert False
-    return False
+    search_history = [] #TODO fill in the search history
+    recommended_results = recommend.recommend_algo(elastic_client, search_history)
+
+    testPassed = 1
+    for result in recommended_results:
+        if result not in (): # TODO fill this in with the expected results
+            testPassed = 0
+
+    if testPassed is not 0:
+        assert True
+    else:
+        assert False
 
 def test_noDuplicateItemsInRecommendation():
     # Given a userId (with no search history)
     # Get the recommendations for that user based on their search history
     # Assert that none of the listing IDs returned are the same
+    recommended_results = recommend.recommend_algo(elastic_client, "")
+    while recommended_results is not []:
+        result1 = recommended_results.pop()
+        for result2 in recommended_results:
+            if result1 is result2:
+                assert False
 
     # Given a userId (with a search history)
     # Get the recommendations for that user based on their search history
     # Assert that none of the listing IDs return are the same
-    return False # No return should be needed depending on the testing framework used
+    search_history = [] #TODO fill in the search history
+    recommended_results = recommend.recommend_algo(elastic_client, search_history)
+    while recommended_results is not []:
+        result1 = recommended_results.pop()
+        for result2 in recommended_results:
+            if result1 is result2:
+                assert False
+
+    assert True
 
 def test_charityItemsFirst():
     # For a userId (with no search history)
     # Get the recommendation for that usesr
     # Assert that no charity listings are returned after the first non-charity listing
+    recommended_results = recommend.recommend_algo(elastic_client, "")
+    while recommended_results is not []:
+        result1 = recommended_results.pop()
+        for result2 in recommended_results:
+            if result1.for_charity is False and result2.for_charity is True:
+                assert False
 
     # Repeete above for user with a search history
+    
+    search_history = [] #TODO fill in the search history
+    recommended_results = recommend.recommend_algo(elastic_client, search_history)
+    while recommended_results is not []:
+        result1 = recommended_results.pop()
+        for result2 in recommended_results:
+            if result1.for_charity is False and result2.for_charity is True:
+                assert False
     return False
