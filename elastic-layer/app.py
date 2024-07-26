@@ -53,9 +53,11 @@ def make_internal_error_response():
     return Response(status=500)
 
 def make_ok_response(body=None, headers: dict = None, auth: dict = None):
-    response = Response(str(body), status=200)
+    if body != None:
+        body = json.dumps(body)
 
-    return response
+    return Response(str(body), status=200)
+
 
 def execute_data_request(http: urllib3.PoolManager, path, method, body):
     headers = {
