@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, Response
 import os
 from elasticsearch import Elasticsearch
 import urllib3
@@ -41,40 +41,21 @@ DATA_API_KEY = os.environ["DATA_API_KEY"]
 
 #Responses
 def make_invalid_request_response(message: str = ""):
-    return {
-        "statusCode": 400,
-        "body": json.dumps({
-            "message": message
-        })
-    }
+    return Response(message, status=400)
+
 
 def make_not_found_response(message: str = ""):
-    return {
-        "statusCode": 404,
-        "body": json.dumps({
-            "message": message
-        }),
-    }
+    return Response(message, status=404)
+
 
 
 def make_internal_error_response():
-    return {
-        "statusCode": 500,
-    }
+    return Response(status=500)
 
 def make_ok_response(body=None, headers: dict = None, auth: dict = None):
-    result = {
-        "statusCode": 200,
-    }
+    response = Response(str(body), status=200)
 
-    if auth is not None:
-        result["auth"] = auth
-
-    if body is not None:
-        result["body"] = json.dumps(body)
-
-    return result
-
+    return response
 
 def execute_data_request(http: urllib3.PoolManager, path, method, body):
     headers = {
