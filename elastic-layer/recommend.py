@@ -20,40 +20,40 @@ def recommend_algo(elastic_client, userId, search_history, do_not_rec):
     #Check if user has Charity items enabled
     see_charity = get_charity_value(elastic_client, userId)
 
-    #If user has no search history, cold start
-    if len(search_history) == 0:
-         return cold_start(elastic_client, search_history, userId, return_data, see_charity)
-
-
     #Find similar listing to the do_not_rec lists
     do_not_show = do_not_recommend_type(elastic_client, do_not_rec)
+
+    #If user has no search history, cold start
+    if len(search_history) == 0:
+         return cold_start(elastic_client, userId, return_data, see_charity, do_not_show)
     
     #Recommender logic
     for s in search_history:
         response = rec_search(elastic_client, 'listing', s, see_charity)
-        
-        #bandaid fix by haley so it doesn't break when recommendations are made
-        return response
 
         count = 0
         for hit in response:
             if count < NUM_HISTORY_RECS:
 
-                # Need to get listing_ID in order to compare
-                listing_id = hit.get('listing_id')
+                #Check for duplicates
+                if hit not in return_data:
 
-                #Only add to results if listing is not in the do not recommend user list
-                if listing_id not in do_not_show:
-                    return_data.append(hit)
+                    # Need to get listing_ID in order to compare
+                    listing_id = hit.get('listing_id')
+
+                    #Only add to results if listing is not in the do not recommend user list
+                    if listing_id not in do_not_show:
+                        return_data.append(hit)
                 
-                count = count + 1
+                    count = count + 1
 
-            if (len(return_data) > TOTAL_REC_RETURN): 
-                return return_data   
+                if (len(return_data) > TOTAL_REC_RETURN): 
+                    return return_data   
     
     #If we do not have enough recomendations, call cold_start
     if (len(return_data) < TOTAL_REC_RETURN): 
-        return cold_start(elastic_client, search_history, userId, return_data, see_charity)  
+        results = cold_start(elastic_client, userId, return_data, see_charity, do_not_show)
+        return results 
 
     return return_data
     
@@ -66,6 +66,7 @@ def rec_search(elastic_client, search_type, search_terms, see_charity):
 
     #Listing Search Query
     query = { 
+        "size" : NUM_SIMILAR_RECS,
 	    "query": {
             "bool": {
                 "must": [
@@ -101,9 +102,10 @@ def rec_search(elastic_client, search_type, search_terms, see_charity):
 
 
 
-def cold_start(elastic_client, search_history, userId, return_data, see_charity):
+def cold_start(elastic_client, userId, return_data, see_charity, do_not_show):
 
     query = { 
+        "size" : TOTAL_REC_RETURN,
         "query": {
             "match_all": {}
         }
@@ -113,21 +115,26 @@ def cold_start(elastic_client, search_history, userId, return_data, see_charity)
     response = elastic_client.search(index="listing", body=query)
     hits = response["hits"]["hits"]
 
-    #Format the search results to return as a JSON
     for hit in hits:
         #Ensures no duplicates are added
-        if hit not in return_data:
+        listing_hit = hit["_source"]
+        if listing_hit not in return_data:
             #Check if listing is marked for charity
-            listing_hit = hit["_source"]
             marked_for_charity = listing_hit.get('charity') 
 
-            if (marked_for_charity == True):
-                if(see_charity == True):
-                    return_data.append(hit["_source"])
+            #Get listingId for do not rec compare
+            listing_id = listing_hit.get('listing_id')
 
-            else:
-                #item is not marked for charity can can be added
-                return_data.append(hit["_source"])
+            #Only add to results if listing is not in the do not recommend user list
+            if listing_id not in do_not_show:
+                #Only add if user wants to see charity items
+                if (marked_for_charity == True):
+                    if(see_charity == True):
+                        return_data.append(hit["_source"])
+
+                else:
+                    #item is not marked for charity and can be added
+                    return_data.append(hit["_source"])
 
         if (len(return_data) > TOTAL_REC_RETURN): 
             return return_data   
@@ -198,6 +205,7 @@ def do_not_recommend_type(elastic_client, do_not_rec):
     #Based on the title, get the top rec similar to this listing and add to do not recommend
     for t in titles:
         query = { 
+            "size" : TOTAL_REC_RETURN,
             "query": {
                 "bool": {
                     "must": [

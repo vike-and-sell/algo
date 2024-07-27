@@ -8,7 +8,8 @@
       "address": "1000 Wonderland Avenue, Victoria, BC",
       "joining_date": "2024-01-15",
       "items_sold": [101, 102],
-      "items_purchased": [201, 202]
+      "items_purchased": [201, 202],
+      "charity": true
     },
     {
       "user_id": 2,
@@ -19,7 +20,8 @@
       "address": "2000 Builder Lane, Victoria, BC",
       "joining_date": "2024-02-20",
       "items_sold": [103],
-      "items_purchased": [203, 204]
+      "items_purchased": [203, 204],
+      "charity": false
     },
     {
       "user_id": 3,
@@ -30,7 +32,8 @@
       "address": "3000 Peanuts Street, Victoria, BC",
       "joining_date": "2024-03-25",
       "items_sold": [],
-      "items_purchased": [205]
+      "items_purchased": [205],
+      "charity": false
     },
     {
       "user_id": 4,
@@ -41,7 +44,8 @@
       "address": "4000 Duck Avenue, Victoria, BC",
       "joining_date": "2024-04-10",
       "items_sold": [104, 105],
-      "items_purchased": [206, 207, 208]
+      "items_purchased": [206, 207, 208],
+      "charity": true
     },
     {
       "user_id": 5,
@@ -52,7 +56,8 @@
       "address": "5000 Snow Road, Victoria, BC",
       "joining_date": "2024-05-15",
       "items_sold": [106],
-      "items_purchased": [209]
+      "items_purchased": [209],
+      "charity": true
     },
     {
       "user_id": 6,
@@ -63,7 +68,8 @@
       "address": "6000 Fairy Lane, Victoria, BC",
       "joining_date": "2024-06-20",
       "items_sold": [107, 108, 109],
-      "items_purchased": []
+      "items_purchased": [],
+      "charity": true
     },
     {
       "user_id": 7,
@@ -74,7 +80,8 @@
       "address": "7000 King Street, Victoria, BC",
       "joining_date": "2024-07-25",
       "items_sold": [110],
-      "items_purchased": [210, 211]
+      "items_purchased": [210, 211],
+      "charity": true
     },
     {
       "user_id": 8,
@@ -85,7 +92,8 @@
       "address": "8000 Magic Alley, Victoria, BC",
       "joining_date": "2024-08-30",
       "items_sold": [],
-      "items_purchased": [212, 213, 214]
+      "items_purchased": [212, 213, 214],
+      "charity": true
     },
     {
       "user_id": 9,
@@ -96,7 +104,8 @@
       "address": "9000 Detective Road, Victoria, BC",
       "joining_date": "2024-09-15",
       "items_sold": [111, 112],
-      "items_purchased": []
+      "items_purchased": [],
+      "charity": true
     },
     {
       "user_id": 10,
@@ -107,7 +116,8 @@
       "address": "10000 Action Street, Victoria, BC",
       "joining_date": "2024-10-20",
       "items_sold": [113],
-      "items_purchased": [215, 216]
+      "items_purchased": [215, 216],
+      "charity": true
     },
     {
       "user_id": 11,
@@ -118,7 +128,8 @@
       "address": "10000 Action Street, Victoria, BC",
       "joining_date": "2024-10-20",
       "items_sold": [113],
-      "items_purchased": [215, 216]
+      "items_purchased": [215, 216],
+      "charity": true
     },
     {
       "user_id": 12,
@@ -129,7 +140,8 @@
       "address": "1234 Maple Avenue, Victoria, BC",
       "joining_date": "2024-01-15",
       "items_sold": [101],
-      "items_purchased": [201, 202]
+      "items_purchased": [201, 202],
+      "charity": true
     },
     {
       "user_id": 13,
@@ -140,7 +152,8 @@
       "address": "5678 Oak Street, Victoria, BC",
       "joining_date": "2024-02-20",
       "items_sold": [102],
-      "items_purchased": [203, 204]
+      "items_purchased": [203, 204],
+      "charity": true
     },
     {
       "user_id": 14,
@@ -151,7 +164,8 @@
       "address": "9101 Pine Road, Victoria, BC",
       "joining_date": "2024-03-25",
       "items_sold": [103],
-      "items_purchased": [205, 206]
+      "items_purchased": [205, 206],
+      "charity": true
     },
     {
       "user_id": 15,
@@ -162,7 +176,8 @@
       "address": "1213 Cedar Lane, Victoria, BC",
       "joining_date": "2024-04-30",
       "items_sold": [104],
-      "items_purchased": [207, 208]
+      "items_purchased": [207, 208],
+      "charity": true
     },
     {
       "user_id": 16,
@@ -173,7 +188,8 @@
       "address": "1415 Birch Circle, Victoria, BC",
       "joining_date": "2024-05-05",
       "items_sold": [105],
-      "items_purchased": [209, 210]
+      "items_purchased": [209, 210],
+      "charity": true
     },
     {
       "user_id": 17,
@@ -184,7 +200,8 @@
       "address": "1617 Elm Street, Victoria, BC",
       "joining_date": "2024-06-10",
       "items_sold": [106],
-      "items_purchased": [211, 212]
+      "items_purchased": [211, 212],
+      "charity": true
     },
     {
       "user_id": 18,
@@ -195,7 +212,8 @@
       "address": "1819 Fir Road, Victoria, BC",
       "joining_date": "2024-07-15",
       "items_sold": [107],
-      "items_purchased": [213, 214]
+      "items_purchased": [213, 214],
+      "charity": true
     },
     {
       "user_id": 19,
@@ -206,7 +224,8 @@
       "address": "2021 Palm Avenue, Victoria, BC",
       "joining_date": "2024-08-20",
       "items_sold": [108],
-      "items_purchased": [215, 216]
+      "items_purchased": [215, 216],
+      "charity": true
     },
     {
       "user_id": 20,
@@ -217,7 +236,8 @@
       "address": "2223 Maple Drive, Victoria, BC",
       "joining_date": "2024-09-25",
       "items_sold": [109],
-      "items_purchased": [217, 218]
+      "items_purchased": [217, 218],
+      "charity": true
     },
     {
       "user_id": 21,
@@ -228,7 +248,8 @@
       "address": "2425 Oak Lane, Victoria, BC",
       "joining_date": "2024-10-30",
       "items_sold": [110],
-      "items_purchased": [219, 220]
+      "items_purchased": [219, 220],
+      "charity": true
     },
     {
       "user_id": 22,
@@ -239,7 +260,8 @@
       "address": "2627 Cedar Circle, Victoria, BC",
       "joining_date": "2024-11-05",
       "items_sold": [111],
-      "items_purchased": [221, 222]
+      "items_purchased": [221, 222],
+      "charity": true
     },
     {
       "user_id": 23,
@@ -250,7 +272,8 @@
       "address": "2829 Birch Road, Victoria, BC",
       "joining_date": "2024-12-10",
       "items_sold": [112],
-      "items_purchased": [223, 224]
+      "items_purchased": [223, 224],
+      "charity": true
     },
     {
       "user_id": 24,
@@ -261,7 +284,8 @@
       "address": "3031 Elm Lane, Victoria, BC",
       "joining_date": "2024-01-15",
       "items_sold": [113],
-      "items_purchased": [225, 226]
+      "items_purchased": [225, 226],
+      "charity": true
     },
     {
       "user_id": 25,
@@ -272,7 +296,8 @@
       "address": "3233 Fir Circle, Victoria, BC",
       "joining_date": "2024-02-20",
       "items_sold": [114],
-      "items_purchased": [227, 228]
+      "items_purchased": [227, 228],
+      "charity": true
     },
     {
       "user_id": 26,
@@ -283,7 +308,8 @@
       "address": "3435 Palm Drive, Victoria, BC",
       "joining_date": "2024-03-25",
       "items_sold": [115],
-      "items_purchased": [229, 230]
+      "items_purchased": [229, 230],
+      "charity": true
     },
     {
       "user_id": 27,
@@ -294,7 +320,8 @@
       "address": "3637 Maple Lane, Victoria, BC",
       "joining_date": "2024-04-30",
       "items_sold": [116],
-      "items_purchased": [231, 232]
+      "items_purchased": [231, 232],
+      "charity": true
     },
     {
       "user_id": 28,
@@ -305,7 +332,8 @@
       "address": "3839 Oak Circle, Victoria, BC",
       "joining_date": "2024-05-05",
       "items_sold": [117],
-      "items_purchased": [233, 234]
+      "items_purchased": [233, 234],
+      "charity": true
     },
     {
       "user_id": 29,
@@ -316,7 +344,8 @@
       "address": "4041 Cedar Road, Victoria, BC",
       "joining_date": "2024-06-10",
       "items_sold": [118],
-      "items_purchased": [235, 236]
+      "items_purchased": [235, 236],
+      "charity": true
     },
     {
       "user_id": 30,
@@ -327,7 +356,8 @@
       "address": "4243 Birch Lane, Victoria, BC",
       "joining_date": "2024-07-15",
       "items_sold": [119],
-      "items_purchased": [237, 238]
+      "items_purchased": [237, 238],
+      "charity": true
     },
     {
       "user_id": 31,
@@ -338,6 +368,7 @@
       "address": "4445 Elm Circle, Victoria, BC",
       "joining_date": "2024-08-20",
       "items_sold": [120],
-      "items_purchased": [237, 238]
+      "items_purchased": [237, 238],
+      "charity": true
     }
 ]
