@@ -6,7 +6,9 @@ import json
 
 from update import *
 
-SEARCH_SIZE = 200
+SEARCH_SIZE = 10000
+# This is the maximum size allowed by elastic search
+
 ## Search function called by app.py on search request.
 # returns a list of listings in JSON format
 def searchVikeandSell(elastic_client, search_type, search_terms):
