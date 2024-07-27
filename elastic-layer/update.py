@@ -9,8 +9,8 @@ import json
 
 #Add doc to index listings or users
 def add_doc(elastic_client, search_type, doc_ID, data):
-    print(search_type)
-    print(data)
+    # print(search_type)
+    # print(data)
     try:
         elastic_client.index(index = search_type, id = doc_ID, body = data)
         elastic_client.indices.refresh(index = search_type)

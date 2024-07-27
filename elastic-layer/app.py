@@ -5,6 +5,7 @@ import urllib3
 import json
 from search import *
 import recommend
+import update
 
 
 http = urllib3.PoolManager()
@@ -80,6 +81,28 @@ def getSearchHistory(userid):
     result = execute_data_request(http, path=f"/get_search_history?userId={userid}", method="GET",  body=None)
     search_history = json.loads(result.data.decode('utf-8'))
     return search_history
+
+# Helper functions for local testing
+def loadListings():
+    # listings =  execute_data_request(http, path='/get_all_listings', method="GET", body=None)
+    
+    # for now use static test data
+    file = open('test_listings2.json')
+    listings = json.load(file)
+    file.close
+
+    update.loadElastic(elastic_client, 'listing', 'listing_id', listings)
+
+def loadUsers():
+    # users  = execute_data_request(http, path='/get_all_users', method="GET", body=None)
+
+    # until backend hooked up
+    file = open('test_users.json')
+    users = json.load(file)
+    file.close
+
+    update.loadElastic(elastic_client,'user', 'user_id', users)
+
 
 
 # search path
