@@ -6,6 +6,7 @@ import json
 
 from update import *
 
+SEARCH_SIZE = 200
 ## Search function called by app.py on search request.
 # returns a list of listings in JSON format
 def searchVikeandSell(elastic_client, search_type, search_terms):
@@ -16,6 +17,7 @@ def searchVikeandSell(elastic_client, search_type, search_terms):
     #User Search Query
         search_terms = '*' + search_terms + '*'
         query = { 
+            "size" : SEARCH_SIZE,
             "query": {
                 "wildcard": {
                     "username": {
@@ -44,6 +46,7 @@ def searchVikeandSell(elastic_client, search_type, search_terms):
     else:
     #Listing Search Query
         query = { 
+            "size" : SEARCH_SIZE,
 	        "query": {
                 "bool": {
                     "must": [
