@@ -37,7 +37,7 @@ def searchVikeandSell(elastic_client, search_type, search_terms):
                 user_hit = hit["_source"]
                 name = user_hit.get('username')
                 id = user_hit.get('user_id')
-                body={"user_name": name, "user_id": id }
+                body={"username": name, "user_id": id }
                 results.append(body)
 
 #SEARCH LISTINGS
