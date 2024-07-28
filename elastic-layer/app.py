@@ -1,10 +1,11 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, Response
 import os
 from elasticsearch import Elasticsearch
 import urllib3
 import json
 from search import *
 import recommend
+import update
 
 
 http = urllib3.PoolManager()
@@ -38,22 +39,71 @@ except:
 DATA_URL = os.environ["DATA_URL"]
 DATA_API_KEY = os.environ["DATA_API_KEY"]
 
-#eventually add one for updating current listings
+
+#Responses
+def make_invalid_request_response(message: str = ""):
+    body = json.dumps({
+        "message": message
+    })
+    return Response(body, status=400)
+
+
+def make_not_found_response(message: str = ""):
+    body = json.dumps({
+            "message": message
+        })
+    return Response(body, status=404)
+
+
+
+def make_internal_error_response():
+    return Response(status=500)
+
+def make_ok_response(body=None, headers: dict = None, auth: dict = None):
+    if body != None:
+        body = json.dumps(body)
+
+    return Response(str(body), status=200)
+
 
 def execute_data_request(http: urllib3.PoolManager, path, method, body):
     headers = {
         "X-Api-Key": DATA_API_KEY,
     }
-    result =  http.request(method, f"http://{DATA_URL}{path}", body=body, headers=headers)
-    #response.data ##gives us something
-    return json.loads(result.data.decode('utf-8'))
+    return http.request(method, f"http://{DATA_URL}{path}", body=body, headers=headers)
+
+
+def getUserRecInfo(userId):
+    return execute_data_request(http, path=f"/get_user_recommendation_info?userId={userId}", method="GET",  body=None)
 
 
 def getSearchHistory(userid):
-    search_history = execute_data_request(http, path=f"/get_search_history?userId={userid}", method="GET",  body=None)
-    
-    #search_history = [{"search_date":"2024-01-01T00:00:00","search_text":"bike"}]
+    result = execute_data_request(http, path=f"/get_search_history?userId={userid}", method="GET",  body=None)
+    search_history = json.loads(result.data.decode('utf-8'))
     return search_history
+
+# Helper functions for local testing
+def loadListings():
+    # listings =  execute_data_request(http, path='/get_all_listings', method="GET", body=None)
+    
+    # for now use static test data
+    file = open('test_listings2.json')
+    listings = json.load(file)
+    file.close
+
+    update.loadElastic(elastic_client, 'listing', 'listing_id', listings)
+
+def loadUsers():
+    # users  = execute_data_request(http, path='/get_all_users', method="GET", body=None)
+
+    # until backend hooked up
+    file = open('test_users.json')
+    users = json.load(file)
+    file.close
+
+    update.loadElastic(elastic_client,'user', 'user_id', users)
+
+
 
 # search path
 # sample call: "localhost:4500/search?q=here+are+some+terms&type=user"
@@ -64,16 +114,11 @@ def route_search():
 
     query = request.args.get('q')
     if query == None:
-        return []
+        return make_invalid_request_response()
 
     user_results = searchVikeandSell(elastic_client, "user", query)
     listing_results =  searchVikeandSell(elastic_client, "listing", query)
-    results = {
-        'users' : user_results,
-        'listings' : listing_results
-    }
-    # return results in JSON format
-    return jsonify(results)
+    return make_ok_response(body={"listings": listing_results, "users": user_results})
 
 # get recommendations call
 # samplecall:  "localhost:4500/recommendations?userId=123"
@@ -82,41 +127,21 @@ def route_recommendations():
     userId = request.args.get('userId')
 
     if userId == None:
-        return "Error: userId required"
+        return make_invalid_request_response("userId required")
 
-    search_history = getSearchHistory(userId)
-    results = recommend.recommend_algo(elastic_client, search_history)
-    # return results in JSON format
-    return results
+    response =  getUserRecInfo(userId)
+    if response.status == 200:
+        info = json.loads(response.data.decode('utf-8'))
 
+        search_history = info["searches"]
+        ignored = info["ignored"]
+        results = recommend.recommend_algo(elastic_client, userId, search_history, ignored)
+        return make_ok_response(body=results)
 
-# PATH: POST /recommendations/1/ignore?userId=1
-# sample call: curl -X POST "http://localhost:4500/recommendations/5/ignore?userId=1"
-@app.route('/recommendations/<listingId>/ignore', methods=['POST'])
-def route_ignore_rec(listingId):
-
-    userId = request.args.get('userId')
-    #insert error message if none found
-    if userId == None:
-        return "Error: userId required"
-
-    # add listing to "ignore" field for user in db
-    # addIgnoredListing(userId, listingId)
-    # update local copy
-    result = recommend.ignore(elastic_client, userId, listingId)
-    # make new set of recommendations, send to front end?
-
-    return result
-
-
-@app.route('/recommendations/ignore_charity', methods=['POST'])
-def route_ignore_charity_rec():
-    userId = request.args.get('userId')
-
-    #TODO: 
-
-    return "Not implemented"
-
+    elif response.status == 404:
+        return make_not_found_response()
+    else:
+        return make_internal_error_response()
 
 
 ##  Basic test paths -------------------------------------------------

@@ -6,26 +6,28 @@ import json
 
 from update import *
 
+SEARCH_SIZE = 10000
+# This is the maximum size allowed by elastic search
+
 ## Search function called by app.py on search request.
 # returns a list of listings in JSON format
 def searchVikeandSell(elastic_client, search_type, search_terms):
     results = []
-    for each in search_terms:
-        each = each + '*'
 
 #SEARCH USERS
     if search_type == 'user':
     #User Search Query
+        search_terms = '*' + search_terms + '*'
         query = { 
-	        "query": {
-                "bool": {
-                    "must": [
-                        {   
-                        "match": {"username": search_terms}
-                        }
-                    ]
-                } 
-	        }
+            "size" : SEARCH_SIZE,
+            "query": {
+                "wildcard": {
+                    "username": {
+                        "value": search_terms,
+                        "case_insensitive": True
+                    }
+                }
+            }
         }
 
         #Search for documents
@@ -37,12 +39,16 @@ def searchVikeandSell(elastic_client, search_type, search_terms):
             #Ensures no duplicates are added
             if hit not in results:
                 user_hit = hit["_source"]
-                results.append(user_hit.get('user_id'))
+                name = user_hit.get('username')
+                id = user_hit.get('user_id')
+                body={"username": name, "user_id": id }
+                results.append(body)
 
 #SEARCH LISTINGS
     else:
     #Listing Search Query
         query = { 
+            "size" : SEARCH_SIZE,
 	        "query": {
                 "bool": {
                     "must": [

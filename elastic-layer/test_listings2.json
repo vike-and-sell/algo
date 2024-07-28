@@ -8,7 +8,8 @@
       "address": "123 Bicycle Lane, Victoria, BC",
       "status": "AVAILABLE",
       "listed_at": "2024-01-10T08:30:00",
-      "last_updated_at": "2024-01-10T08:30:00"
+      "last_updated_at": "2024-01-10T08:30:00", 
+      "charity": true
     },
     {
       "listing_id": 2,
@@ -19,7 +20,8 @@
       "address": "456 Tech Street, Victoria, BC",
       "status": "SOLD",
       "listed_at": "2024-02-15T09:00:00",
-      "last_updated_at": "2024-03-01T10:00:00"
+      "last_updated_at": "2024-03-01T10:00:00",
+      "charity": true
     },
     {
       "listing_id": 3,
@@ -30,7 +32,8 @@
       "address": "789 Music Avenue, Victoria, BC",
       "status": "AVAILABLE",
       "listed_at": "2024-03-20T11:00:00",
-      "last_updated_at": "2024-03-20T11:00:00"
+      "last_updated_at": "2024-03-20T11:00:00",
+      "charity": true
     },
     {
       "listing_id": 4,
@@ -41,7 +44,8 @@
       "address": "321 Furniture Lane, Victoria, BC",
       "status": "REMOVED",
       "listed_at": "2024-04-25T12:00:00",
-      "last_updated_at": "2024-05-05T13:00:00"
+      "last_updated_at": "2024-05-05T13:00:00",
+      "charity": true
     },
     {
       "listing_id": 5,
@@ -52,7 +56,8 @@
       "address": "654 Gadget Road, Victoria, BC",
       "status": "AVAILABLE",
       "listed_at": "2024-05-30T14:00:00",
-      "last_updated_at": "2024-05-30T14:00:00"
+      "last_updated_at": "2024-05-30T14:00:00",
+      "charity": true
     },
     {
       "listing_id": 6,
@@ -63,7 +68,8 @@
       "address": "987 Office Park, Victoria, BC",
       "status": "SOLD",
       "listed_at": "2024-06-05T15:00:00",
-      "last_updated_at": "2024-06-10T16:00:00"
+      "last_updated_at": "2024-06-10T16:00:00",
+      "charity": true
     },
     {
       "listing_id": 7,
@@ -74,7 +80,8 @@
       "address": "123 Bike Trail, Victoria, BC",
       "status": "AVAILABLE",
       "listed_at": "2024-07-15T17:00:00",
-      "last_updated_at": "2024-07-15T17:00:00"
+      "last_updated_at": "2024-07-15T17:00:00",
+      "charity": false
     },
     {
       "listing_id": 8,
@@ -85,7 +92,8 @@
       "address": "456 Fashion Street, Victoria, BC",
       "status": "AVAILABLE",
       "listed_at": "2024-08-20T18:00:00",
-      "last_updated_at": "2024-08-20T18:00:00"
+      "last_updated_at": "2024-08-20T18:00:00",
+      "charity": true
     },
     {
       "listing_id": 9,
@@ -96,7 +104,8 @@
       "address": "789 Gamer Lane, Victoria, BC",
       "status": "AVAILABLE",
       "listed_at": "2024-09-25T19:00:00",
-      "last_updated_at": "2024-09-25T19:00:00"
+      "last_updated_at": "2024-09-25T19:00:00",
+      "charity": true
     },
     {
         "listing_id": 10,
@@ -107,7 +116,8 @@
         "address": "123 Bike Lane, Victoria, BC",
         "status": "AVAILABLE",
         "listed_at": "2024-01-01T08:00:00",
-        "last_updated_at": "2024-01-01T08:00:00"
+        "last_updated_at": "2024-01-01T08:00:00",
+        "charity": true
     },
     {
         "listing_id": 11,
@@ -118,7 +128,8 @@
         "address": "456 Cycle Street, Victoria, BC",
         "status": "AVAILABLE",
         "listed_at": "2024-01-01T08:00:00",
-        "last_updated_at": "2024-01-01T08:00:00"
+        "last_updated_at": "2024-01-01T08:00:00",
+        "charity": true
     },
     {
         "listing_id": 12,
@@ -129,7 +140,8 @@
         "address": "789 Pedal Avenue, Victoria, BC",
         "status": "AVAILABLE",
         "listed_at": "2024-01-01T08:00:00",
-        "last_updated_at": "2024-01-01T08:00:00"
+        "last_updated_at": "2024-01-01T08:00:00",
+        "charity": true
     },
     {
         "listing_id": 13,
@@ -140,7 +152,8 @@
         "address": "321 Gear Road, Victoria, BC",
         "status": "AVAILABLE",
         "listed_at": "2024-01-01T08:00:00",
-        "last_updated_at": "2024-01-01T08:00:00"
+        "last_updated_at": "2024-01-01T08:00:00",
+        "charity": true
     },
     {
         "listing_id": 14,
@@ -151,7 +164,8 @@
         "address": "654 Light Street, Victoria, BC",
         "status": "AVAILABLE",
         "listed_at": "2024-01-01T08:00:00",
-        "last_updated_at": "2024-01-01T08:00:00"
+        "last_updated_at": "2024-01-01T08:00:00",
+        "charity": true
     },
     {
         "listing_id": 15,
@@ -162,9 +176,333 @@
         "address": "987 Shine Avenue, Victoria, BC",
         "status": "AVAILABLE",
         "listed_at": "2024-01-01T08:00:00",
-        "last_updated_at": "2024-01-01T08:00:00"
-    }
+        "last_updated_at": "2024-01-01T08:00:00",
+        "charity": true
+    },
+    {
+      "listing_id": 16,
+      "seller_id": 6,
+      "title": "Coffee Table",
+      "price": 20.00,
+      "location": { "latitude": 48.46, "longitude": -123.31 },
+      "address": "987 Shine Avenue, Victoria, BC",
+      "status": "AVAILABLE",
+      "listed_at": "2024-01-01T08:00:00",
+      "last_updated_at": "2024-01-01T08:00:00",
+      "charity": true
+    },
+    {
+      "listing_id": 17,
+      "seller_id": 6,
+      "title": "Dinning Table",
+      "price": 20.00,
+      "location": { "latitude": 48.46, "longitude": -123.31 },
+      "address": "987 Shine Avenue, Victoria, BC",
+      "status": "AVAILABLE",
+      "listed_at": "2024-01-01T08:00:00",
+      "last_updated_at": "2024-01-01T08:00:00",
+      "charity": false
+    },
 
-    
+    {
+      "listing_id": 18,
+      "seller_id": 6,
+      "title": "Outside Table",
+      "price": 20.00,
+      "location": { "latitude": 48.46, "longitude": -123.31 },
+      "address": "987 Shine Avenue, Victoria, BC",
+      "status": "AVAILABLE",
+      "listed_at": "2024-01-01T08:00:00",
+      "last_updated_at": "2024-01-01T08:00:00",
+      "charity": false
+    },
+    {
+      "listing_id": 19,
+      "seller_id": 6,
+      "title": "Side Table",
+      "price": 20.00,
+      "location": { "latitude": 48.46, "longitude": -123.31 },
+      "address": "987 Shine Avenue, Victoria, BC",
+      "status": "AVAILABLE",
+      "listed_at": "2024-01-01T08:00:00",
+      "last_updated_at": "2024-01-01T08:00:00",
+      "charity": false
+    },
+    {
+      "listing_id": 20,
+      "seller_id": 6,
+      "title": "Work Bench",
+      "price": 20.00,
+      "location": { "latitude": 48.46, "longitude": -123.31 },
+      "address": "987 Shine Avenue, Victoria, BC",
+      "status": "AVAILABLE",
+      "listed_at": "2024-01-01T08:00:00",
+      "last_updated_at": "2024-01-01T08:00:00",
+      "charity": true
+    },
+    {
+      "listing_id": 21,
+      "seller_id": 6,
+      "title": "Blender",
+      "price": 20.00,
+      "location": { "latitude": 48.46, "longitude": -123.31 },
+      "address": "987 Shine Avenue, Victoria, BC",
+      "status": "AVAILABLE",
+      "listed_at": "2024-01-01T08:00:00",
+      "last_updated_at": "2024-01-01T08:00:00",
+      "charity": true
+    },
+    {
+      "listing_id": 22,
+      "seller_id": 6,
+      "title": "Womens Clothing",
+      "price": 20.00,
+      "location": { "latitude": 48.46, "longitude": -123.31 },
+      "address": "987 Shine Avenue, Victoria, BC",
+      "status": "AVAILABLE",
+      "listed_at": "2024-01-01T08:00:00",
+      "last_updated_at": "2024-01-01T08:00:00",
+      "charity": false
+    },
+    {
+      "listing_id": 23,
+      "seller_id": 6,
+      "title": "Womens Shoes",
+      "price": 20.00,
+      "location": { "latitude": 48.46, "longitude": -123.31 },
+      "address": "987 Shine Avenue, Victoria, BC",
+      "status": "AVAILABLE",
+      "listed_at": "2024-01-01T08:00:00",
+      "last_updated_at": "2024-01-01T08:00:00",
+      "charity": true
+    },
+    {
+      "listing_id": 24,
+      "seller_id": 6,
+      "title": "Gardening tools",
+      "price": 20.00,
+      "location": { "latitude": 48.46, "longitude": -123.31 },
+      "address": "987 Shine Avenue, Victoria, BC",
+      "status": "AVAILABLE",
+      "listed_at": "2024-01-01T08:00:00",
+      "last_updated_at": "2024-01-01T08:00:00",
+      "charity": true
+    },
+    {
+      "listing_id": 25,
+      "seller_id": 6,
+      "title": "Tools",
+      "price": 20.00,
+      "location": { "latitude": 48.46, "longitude": -123.31 },
+      "address": "987 Shine Avenue, Victoria, BC",
+      "status": "AVAILABLE",
+      "listed_at": "2024-01-01T08:00:00",
+      "last_updated_at": "2024-01-01T08:00:00",
+      "charity": true
+    },
+    {
+      "listing_id": 26,
+      "seller_id": 6,
+      "title": "TV",
+      "price": 20.00,
+      "location": { "latitude": 48.46, "longitude": -123.31 },
+      "address": "987 Shine Avenue, Victoria, BC",
+      "status": "AVAILABLE",
+      "listed_at": "2024-01-01T08:00:00",
+      "last_updated_at": "2024-01-01T08:00:00",
+      "charity": true
+    },
+    {
+      "listing_id": 27,
+      "seller_id": 6,
+      "title": "TV stand",
+      "price": 20.00,
+      "location": { "latitude": 48.46, "longitude": -123.31 },
+      "address": "987 Shine Avenue, Victoria, BC",
+      "status": "AVAILABLE",
+      "listed_at": "2024-01-01T08:00:00",
+      "last_updated_at": "2024-01-01T08:00:00",
+      "charity": true
+    },
+    {
+      "listing_id": 42,
+      "seller_id": 6,
+      "title": "Plants",
+      "price": 20.00,
+      "location": { "latitude": 48.46, "longitude": -123.31 },
+      "address": "987 Shine Avenue, Victoria, BC",
+      "status": "AVAILABLE",
+      "listed_at": "2024-01-01T08:00:00",
+      "last_updated_at": "2024-01-01T08:00:00",
+      "charity": true
+    },
+    {
+      "listing_id": 28,
+      "seller_id": 6,
+      "title": "Plant Pots",
+      "price": 20.00,
+      "location": { "latitude": 48.46, "longitude": -123.31 },
+      "address": "987 Shine Avenue, Victoria, BC",
+      "status": "AVAILABLE",
+      "listed_at": "2024-01-01T08:00:00",
+      "last_updated_at": "2024-01-01T08:00:00",
+      "charity": true
+    },
+    {
+      "listing_id": 29,
+      "seller_id": 6,
+      "title": "Cookbooks",
+      "price": 20.00,
+      "location": { "latitude": 48.46, "longitude": -123.31 },
+      "address": "987 Shine Avenue, Victoria, BC",
+      "status": "AVAILABLE",
+      "listed_at": "2024-01-01T08:00:00",
+      "last_updated_at": "2024-01-01T08:00:00",
+      "charity": true
+    },
+    {
+      "listing_id": 30,
+      "seller_id": 6,
+      "title": "Fiction Books",
+      "price": 20.00,
+      "location": { "latitude": 48.46, "longitude": -123.31 },
+      "address": "987 Shine Avenue, Victoria, BC",
+      "status": "AVAILABLE",
+      "listed_at": "2024-01-01T08:00:00",
+      "last_updated_at": "2024-01-01T08:00:00",
+      "charity": true
+    },
+    {
+      "listing_id": 31,
+      "seller_id": 6,
+      "title": "Fiction Books",
+      "price": 20.00,
+      "location": { "latitude": 48.46, "longitude": -123.31 },
+      "address": "987 Shine Avenue, Victoria, BC",
+      "status": "AVAILABLE",
+      "listed_at": "2024-01-01T08:00:00",
+      "last_updated_at": "2024-01-01T08:00:00",
+      "charity": true
+    },
+    {
+      "listing_id": 32,
+      "seller_id": 6,
+      "title": "Kids Clothes",
+      "price": 20.00,
+      "location": { "latitude": 48.46, "longitude": -123.31 },
+      "address": "987 Shine Avenue, Victoria, BC",
+      "status": "AVAILABLE",
+      "listed_at": "2024-01-01T08:00:00",
+      "last_updated_at": "2024-01-01T08:00:00",
+      "charity": true
+    },
+    {
+      "listing_id": 33,
+      "seller_id": 6,
+      "title": "Mens Clothes",
+      "price": 20.00,
+      "location": { "latitude": 48.46, "longitude": -123.31 },
+      "address": "987 Shine Avenue, Victoria, BC",
+      "status": "AVAILABLE",
+      "listed_at": "2024-01-01T08:00:00",
+      "last_updated_at": "2024-01-01T08:00:00",
+      "charity": true
+    },
+    {
+      "listing_id": 34,
+      "seller_id": 6,
+      "title": "Excersie Weights",
+      "price": 20.00,
+      "location": { "latitude": 48.46, "longitude": -123.31 },
+      "address": "987 Shine Avenue, Victoria, BC",
+      "status": "AVAILABLE",
+      "listed_at": "2024-01-01T08:00:00",
+      "last_updated_at": "2024-01-01T08:00:00",
+      "charity": true
+    },
+    {
+      "listing_id": 35,
+      "seller_id": 6,
+      "title": "Computer Monitor",
+      "price": 20.00,
+      "location": { "latitude": 48.46, "longitude": -123.31 },
+      "address": "987 Shine Avenue, Victoria, BC",
+      "status": "AVAILABLE",
+      "listed_at": "2024-01-01T08:00:00",
+      "last_updated_at": "2024-01-01T08:00:00",
+      "charity": true
+    }, 
+    {
+      "listing_id": 36,
+      "seller_id": 6,
+      "title": "Electric Bike",
+      "price": 20.00,
+      "location": { "latitude": 48.46, "longitude": -123.31 },
+      "address": "987 Shine Avenue, Victoria, BC",
+      "status": "AVAILABLE",
+      "listed_at": "2024-01-01T08:00:00",
+      "last_updated_at": "2024-01-01T08:00:00",
+      "charity": true
+    },
+    {
+      "listing_id": 37,
+      "seller_id": 6,
+      "title": "Road Bike",
+      "price": 20.00,
+      "location": { "latitude": 48.46, "longitude": -123.31 },
+      "address": "987 Shine Avenue, Victoria, BC",
+      "status": "AVAILABLE",
+      "listed_at": "2024-01-01T08:00:00",
+      "last_updated_at": "2024-01-01T08:00:00",
+      "charity": true
+    },
+    {
+      "listing_id": 38,
+      "seller_id": 6,
+      "title": "Gravel Bike",
+      "price": 20.00,
+      "location": { "latitude": 48.46, "longitude": -123.31 },
+      "address": "987 Shine Avenue, Victoria, BC",
+      "status": "AVAILABLE",
+      "listed_at": "2024-01-01T08:00:00",
+      "last_updated_at": "2024-01-01T08:00:00",
+      "charity": true
+    },
+    {
+      "listing_id": 39,
+      "seller_id": 6,
+      "title": "Green Lamp",
+      "price": 20.00,
+      "location": { "latitude": 48.46, "longitude": -123.31 },
+      "address": "987 Shine Avenue, Victoria, BC",
+      "status": "AVAILABLE",
+      "listed_at": "2024-01-01T08:00:00",
+      "last_updated_at": "2024-01-01T08:00:00",
+      "charity": true
+    },
+    {
+      "listing_id": 40,
+      "seller_id": 6,
+      "title": "Side Lamp",
+      "price": 20.00,
+      "location": { "latitude": 48.46, "longitude": -123.31 },
+      "address": "987 Shine Avenue, Victoria, BC",
+      "status": "AVAILABLE",
+      "listed_at": "2024-01-01T08:00:00",
+      "last_updated_at": "2024-01-01T08:00:00",
+      "charity": true
+    },
+    {
+      "listing_id": 41,
+      "seller_id": 6,
+      "title": "Purple Lamp",
+      "price": 20.00,
+      "location": { "latitude": 48.46, "longitude": -123.31 },
+      "address": "987 Shine Avenue, Victoria, BC",
+      "status": "AVAILABLE",
+      "listed_at": "2024-01-01T08:00:00",
+      "last_updated_at": "2024-01-01T08:00:00",
+      "charity": true
+    }
   ]
   
