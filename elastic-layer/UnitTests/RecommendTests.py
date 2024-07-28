@@ -14,7 +14,7 @@ sys.path.insert(0, parentdir)
 import update
 import recommend
 
-'''# Helper functions'''
+''' Helper functions'''
 # just define a global variable
 username = 'elastic'
 password = 'ElasticUser123'

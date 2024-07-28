@@ -1,56 +1,126 @@
 # This file will contain the unit tests that will test the search.py functionality
+import pytest
+import json
+import os
+import sys
+import inspect
+from elasticsearch import Elasticsearch
 
-def listingInDatabaseSearch():
+# This is needed so that we can import files from the parent directory
+currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+parentdir = os.path.dirname(currentdir)
+sys.path.insert(0, parentdir) 
+
+import update
+import search
+
+''' Helper functions'''
+# just define a global variable
+username = 'elastic'
+password = 'ElasticUser123'
+
+elastic_client = Elasticsearch(
+    "http://elasticsearch-master:9200",
+    basic_auth=(username, password)
+)
+def loadListings():
+    # listings =  execute_data_request(http, path='/get_all_listings', method="GET", body=None)
+    
+    # for now use static test data
+    file = open(os.path.dirname(__file__) + '\\..\\test_listings2.json')
+    listings = json.load(file)
+    file.close
+
+    update.loadElastic(elastic_client, 'listing', 'listing_id', listings)
+
+def loadUsers():
+    file = open('..\\test_users.json')
+    users = json.load(file)
+    file.close
+
+    update.loadElastic(elastic_client,'user', 'user_id', users)
+
+'''Test Functions'''
+def test_listingInDatabaseSearch():
+    loadListings()
+    loadUsers()
     # using testing data loaded into the elastic database,
     # Preform a search for a specific item ie. "Bike"
-    # and Assert that the listing returns the listing that is ensured to be in the database
-    return False
+    search_results = search.searchVikeandSell(elastic_client, "Listing", "Bike")
+    # Remove the test data to ensure test is self contained
+    elastic_client.delete()
 
-def listingNotInDatabaseSearch():
+    # and Assert that the listing returns the listing that is ensured to be in the database
+    test_passing = 1
+    expected_results = [] # TODO Fill this in with the result objects we are expecting
+    for result in search_results:
+        if result in expected_results:
+            #we know the test should keep passing so do nothing
+            continue
+        else:
+            test_passing = 0
+    
+    if test_passing is 0:
+        assert False
+    else:
+        assert True
+
+def test_listingNotInDatabaseSearch():
+    loadListings()
+    loadUsers()
     # knowing what testing data is loaded into the elastic database
     # Preform a search for a specific item ie. "Plane"
-    # and Assert that no listings are returned
-    return False
+    search_results = search.searchVikeandSell(elastic_client, "Listing", "Plane")
+    # Remove the test data to ensure test is self contained
+    elastic_client.delete()
 
-def addListingToDatabase():
-    # Try adding a listing to the elastic database using the helper functions in app.py
+    expected_results = [] 
+    if search_results is expected_results:
+        assert True
+    else:
+        assert False
 
-    # at the end of this test remove the listing from the database so that the test remains self contianed
-    return False
-
-def modifyListingDetails():
-    # Add a listing to the database 
-    # Assert that it has been sucsessfully added to the data base
-
-    # Attempt to modify the listing in the database
-
-    # Remove the listing from the database to ensure the test remains self contained
-    return False
-
-def userInDatabaseSearch():
+def test_userInDatabaseSearch():
+    loadListings()
+    loadUsers()
     # Given a user name contained in the testing data
     # Preform a search for that user
+    search_results = search.searchVikeandSell(elastic_client, "User", "alice_wonder")
+    # Remove the test data to ensure test is self contained
+    elastic_client.delete()
     # Assert that the userId returned matches that of the corresponding user name in the testing data
-    return False
+    expected_result = {
+      "user_id": 1,
+      "username": "alice_wonder",
+      "email": "alice@uvic.ca",
+      "password": "Wonder123!",
+      "location": { "latitude": 48.4284, "longitude": -123.3656 },
+      "address": "1000 Wonderland Avenue, Victoria, BC",
+      "joining_date": "2024-01-15",
+      "items_sold": [101, 102],
+      "items_purchased": [201, 202],
+      "charity": True
+    }
 
-def userNotInDatabaseSearch():
+    if search_results is expected_result:
+        assert True
+    else:
+        assert False
+
+def test_userNotInDatabaseSearch():
+    
+    loadListings()
+    loadUsers()
     # Given a user name not contained in the testing data
     # preform a search for that user
+    search_results = search.searchVikeandSell(elastic_client, "User", "alice_wonder")
+    # Remove the test data to ensure test is self contained
+    elastic_client.delete()
     # Assert that no user is returned
-    return False
+    expected_result = []
 
-def addAndRemoveUserElasticDB():
-    # Using the helper functions in app.py
-    # add a user to the database
-    # preform a search for that user and ensure that they have sucsessfuly been added
-    # Remove that user from the database to ensure the test remains self contained
-    # preform a search for 
-    return False
-
-def modifyUserDetails():
-    # add a user to the elastic db
-    # preform a search for the user and ensure that the object returned is the same as the one added
-    # Modify the user using the helper functions in app.py
-    # preform a search for the user and ensure that the object returned is not the same as the one added
-    # Remove the user from the database to ensure the test remains self contained
+    if search_results is expected_result:
+        assert True
+    else:
+        assert False
     return False
