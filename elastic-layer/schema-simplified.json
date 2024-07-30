@@ -12,7 +12,8 @@
                 "address",
                 "status",
                 "created_on",
-                "last_updated_at"
+                "last_updated_at",
+                "charity"
             ]
         }
     }
@@ -28,7 +29,8 @@
                 "email",
                 "password",
                 "address",
-                "joining_date"
+                "joining_date",
+                "charity"
             ]
         }
     }
