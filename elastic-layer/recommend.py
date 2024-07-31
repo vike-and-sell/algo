@@ -6,9 +6,9 @@ import json
 from search import *
 from update import *
 
-NUM_HISTORY_RECS = 30
+NUM_HISTORY_RECS = 10
 TOTAL_REC_RETURN = 200
-NUM_SIMILAR_RECS = 20
+NUM_SIMILAR_RECS = 5
 
 
 ## Recommend function called by app.py on reccomend request.
@@ -27,6 +27,9 @@ def recommend_algo(elastic_client, userId, search_history, do_not_rec):
     if len(search_history) == 0:
          return cold_start(elastic_client, userId, return_data, see_charity, do_not_show)
     
+    #Make newest search history the most relevant
+    search_history.reverse()
+
     #Recommender logic
     for s in search_history:
         response = rec_search(elastic_client, 'listing', s, see_charity)
@@ -205,7 +208,7 @@ def do_not_recommend_type(elastic_client, do_not_rec):
     #Based on the title, get the top rec similar to this listing and add to do not recommend
     for t in titles:
         query = { 
-            "size" : TOTAL_REC_RETURN,
+            "size" : NUM_SIMILAR_RECS,
             "query": {
                 "bool": {
                     "must": [
