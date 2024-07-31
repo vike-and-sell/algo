@@ -15,7 +15,7 @@ services:
       # RDS_DB_NAME: ${POSTGRES_DB}
       ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}
       DATA_URL: "serber.ddns.net:30000"
-      DATA_API_KEY: "P7xD+OvKr+QxURCgpfiadhyhjappbSuiFs505SljASA="
+      DATA_API_KEY: ${DATA_API_KEY}
     depends_on:
       # v_s_db-e:
       #   condition: service_healthy
