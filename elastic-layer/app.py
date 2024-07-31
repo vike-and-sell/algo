@@ -27,7 +27,7 @@ elastic_client = Elasticsearch(
 try:
     ## Create index for listing 
     elastic_client.indices.create(index ="listing")
-    ## Create index for users 
+    ## Create index for listings 
     elastic_client.indices.create(index="user")
 
 except:
