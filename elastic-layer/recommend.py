@@ -27,6 +27,8 @@ def recommend_algo(elastic_client, userId, search_history, do_not_rec):
     if len(search_history) == 0:
          return cold_start(elastic_client, userId, return_data, see_charity, do_not_show)
     
+    search_history.reverse()
+
     #Recommender logic
     for s in search_history:
         response = rec_search(elastic_client, 'listing', s, see_charity)

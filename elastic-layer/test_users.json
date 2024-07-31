@@ -370,5 +370,17 @@
       "items_sold": [120],
       "items_purchased": [237, 238],
       "charity": true
+    },
+    {
+      "user_id": 25125,
+      "username": "h_rutten",
+      "email": "hrutten@uvic.ca",
+      "password": "SecurePass20!",
+      "location": { "latitude": 48.4484, "longitude": -123.3407 },
+      "address": "4445 Elm Circle, Victoria, BC",
+      "joining_date": "2024-08-20",
+      "items_sold": [120],
+      "items_purchased": [237, 238],
+      "charity": true
     }
 ]
